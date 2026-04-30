@@ -1,0 +1,35 @@
+from sqlmodel import SQLModel, Field
+from typing import Optional
+
+HOSTELS = [
+    # Female
+    "Felicia Adebisi Dada Hall (FAD)",
+    "Queen Esther Hall",
+    "Platinum Hall",
+    "Ameyo Adadevoh Hall",
+    "Sapphire Hall",
+    "Diamond Hall",
+    "Havilah Gold Hall",
+    "Crystal Hall",
+    "White Hall",
+    "Nyberg Hall",
+    "Ogden Hall",
+    # Male
+    "Gideon Troopers",
+    "Winslow",
+    "Bethel Splendor",
+    "Samuel Akande",
+    "Neal Wilson",
+    "Nelson Mandela",
+    "Welch Hall",
+    "Emerald Hall",
+    "Topaz",
+]
+
+class Delivery(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    order_id: int = Field(foreign_key="order.id")
+    hostel_name: str
+    room_number: str
+    delivery_fee: float = 200.0
+    is_delivered: bool = False
