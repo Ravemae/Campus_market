@@ -214,7 +214,7 @@ const CheckoutPage: React.FC = () => {
             <ul className="space-y-4 mb-8">
               {items.map((item) => (
                 <li key={item.productId} className="flex items-center gap-4 group">
-                   <div className="w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-800 overflow-hidden flex-shrink-0">
+                   <div className="w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-800 overflow-hidden shrink-0">
                     <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">

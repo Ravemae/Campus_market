@@ -3,15 +3,13 @@ import { getAllVendorsAdmin, approveVendor, getAdminDashboard } from '../api/end
 import type { Vendor } from '../types';
 import { 
   CheckCircleIcon, 
-  ClockIcon, 
   UsersIcon, 
   BuildingStorefrontIcon, 
   CurrencyDollarIcon,
-  ShoppingCartIcon
+  ShoppingCartIcon,
+  ShoppingBagIcon
 } from '@heroicons/react/24/outline';
 import { 
-  BarChart, 
-  Bar, 
   XAxis, 
   YAxis, 
   CartesianGrid, 
@@ -82,7 +80,7 @@ const AdminDashboardPage: React.FC = () => {
       </div>
 
       {error && (
-        <div className="mb-8 p-6 bg-rose-50 dark:bg-rose-900/10 text-rose-600 dark:text-rose-400 rounded-[2rem] border border-rose-100 dark:border-rose-900/20 font-bold flex items-center gap-3">
+        <div className="mb-8 p-6 bg-rose-50 dark:bg-rose-900/10 text-rose-600 dark:text-rose-400 rounded-4xl border border-rose-100 dark:border-rose-900/20 font-bold flex items-center gap-3">
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
           {error}
         </div>
@@ -176,9 +174,10 @@ const AdminDashboardPage: React.FC = () => {
                   paddingAngle={8}
                   dataKey="value"
                   stroke="none"
+                  cornerRadius={10}
                 >
                   {dashboardData?.category_breakdown.map((_entry: any, index: number) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} cornerRadius={10} />
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
                 <Tooltip />
@@ -210,7 +209,7 @@ const AdminDashboardPage: React.FC = () => {
           </div>
           
           {pendingVendors.length === 0 ? (
-            <div className="text-center py-20 bg-slate-50 dark:bg-slate-950/50 rounded-[3rem] border border-slate-100 dark:border-slate-900">
+            <div className="text-center py-20 bg-slate-50 dark:bg-slate-950/50 rounded-4xl border border-slate-100 dark:border-slate-900">
               <div className="w-20 h-20 mx-auto mb-6 rounded-[2rem] bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center text-emerald-500">
                 <CheckCircleIcon className="h-10 w-10" strokeWidth={2} />
               </div>

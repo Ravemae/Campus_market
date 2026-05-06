@@ -61,7 +61,7 @@ const CartPage: React.FC = () => {
             <ul className="divide-y divide-slate-100 dark:divide-slate-800">
               {items.map((item) => (
                 <li key={item.productId} className="flex p-8 sm:p-10 hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-                  <div className="flex-shrink-0">
+                  <div className="shrink-0">
                     <img
                       src={item.imageUrl || 'https://via.placeholder.com/150'}
                       alt={item.name}
@@ -98,7 +98,7 @@ const CartPage: React.FC = () => {
                         >
                           <MinusIcon className="h-5 w-5" strokeWidth={3} />
                         </button>
-                        <span className="px-6 py-2 text-slate-900 dark:text-white font-black min-w-[3rem] text-center">
+                        <span className="px-6 py-2 text-slate-900 dark:text-white font-black min-w-12 text-center">
                           {item.quantity}
                         </span>
                         <button

@@ -13,7 +13,7 @@ function VendorCard({ vendor }: { vendor: Vendor }) {
       className="group card-hover bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 overflow-hidden shadow-sm"
     >
       {/* Image Wrapper */}
-      <div className="aspect-[4/3] relative overflow-hidden">
+      <div className="aspect-4/3 relative overflow-hidden">
         {vendor.image_url ? (
           <img
             src={vendor.image_url}
@@ -21,7 +21,7 @@ function VendorCard({ vendor }: { vendor: Vendor }) {
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-900/40 dark:to-blue-900/40">
+          <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-indigo-100 to-blue-100 dark:from-indigo-900/40 dark:to-blue-900/40">
             <svg className="w-16 h-16 text-indigo-300 dark:text-indigo-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.5 21v-16.5L21 12l-7.5 9z" />
             </svg>
@@ -40,7 +40,7 @@ function VendorCard({ vendor }: { vendor: Vendor }) {
         <h3 className="text-xl font-black text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-2">
           {vendor.shop_name}
         </h3>
-        <p className="text-sm text-slate-500 dark:text-slate-400 font-medium line-clamp-2 mb-6 min-h-[2.5rem]">
+        <p className="text-sm text-slate-500 dark:text-slate-400 font-medium line-clamp-2 mb-6 min-h-10">
           {vendor.description}
         </p>
         
@@ -82,8 +82,8 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative py-24 px-8 overflow-hidden rounded-[3rem] bg-indigo-600 mb-16 shadow-2xl shadow-indigo-500/20">
         {/* Background Decor */}
-        <div className="absolute top-0 right-0 -mt-24 -mr-24 w-[30rem] h-[30rem] bg-blue-400/20 rounded-full blur-[100px] animate-pulse"></div>
-        <div className="absolute bottom-0 left-0 -mb-24 -ml-24 w-[25rem] h-[25rem] bg-indigo-900/30 rounded-full blur-[100px]"></div>
+        <div className="absolute top-0 right-0 -mt-24 -mr-24 w-120 h-120 bg-blue-400/20 rounded-full blur-[100px] animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 -mb-24 -ml-24 w-100 h-100 bg-indigo-900/30 rounded-full blur-[100px]"></div>
         
         <div className="relative z-10 max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-white/10 text-indigo-50 text-[10px] font-black uppercase tracking-[0.3em] backdrop-blur-md border border-white/10">
@@ -100,7 +100,7 @@ export default function HomePage() {
 
           {/* Search Bar */}
           <div className="max-w-2xl mx-auto relative group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 via-indigo-400 to-blue-400 rounded-[2rem] blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200"></div>
+            <div className="absolute -inset-1 bg-linear-to-r from-blue-400 via-indigo-400 to-blue-400 rounded-4xl blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200"></div>
             <div className="relative flex items-center bg-white dark:bg-slate-900 rounded-[1.8rem] p-2 shadow-2xl shadow-black/10">
               <div className="flex items-center flex-1 px-5">
                 <svg className="w-6 h-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -165,7 +165,7 @@ export default function HomePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {[...Array(6)].map((_, i) => (
             <div key={i} className="rounded-[2.5rem] bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 animate-pulse overflow-hidden">
-              <div className="aspect-[4/3] bg-slate-100 dark:bg-slate-800" />
+              <div className="aspect-4/3 bg-slate-100 dark:bg-slate-800" />
               <div className="p-8 space-y-5">
                 <div className="h-8 bg-slate-100 dark:bg-slate-800 rounded-xl w-3/4" />
                 <div className="h-4 bg-slate-100 dark:bg-slate-800 rounded-xl w-full" />

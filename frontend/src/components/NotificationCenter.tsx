@@ -12,8 +12,10 @@ const NotificationCenter: React.FC = () => {
   const fetchNotifications = async () => {
     try {
       const res = await getNotifications();
-      setNotifications(res.data);
-      setUnreadCount(res.data.filter(n => !n.is_read).length);
+      if (res.data) {
+        setNotifications(res.data);
+        setUnreadCount(res.data.filter(n => !n.is_read).length);
+      }
     } catch (err) {
       console.error("Failed to fetch notifications", err);
     }
@@ -66,7 +68,7 @@ const NotificationCenter: React.FC = () => {
       {isOpen && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)}></div>
-          <div className="absolute right-0 mt-4 w-96 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-[2rem] shadow-2xl ring-1 ring-black/5 dark:ring-white/10 z-50 overflow-hidden border border-slate-100 dark:border-slate-800 animate-in fade-in zoom-in-95 duration-300">
+          <div className="absolute right-0 mt-4 w-96 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-4xl shadow-2xl ring-1 ring-black/5 dark:ring-white/10 z-50 overflow-hidden border border-slate-100 dark:border-slate-800 animate-in fade-in zoom-in-95 duration-300">
             <div className="px-8 py-6 bg-slate-50/50 dark:bg-slate-950/50 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
               <div>
                 <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">Updates</h3>
@@ -82,7 +84,7 @@ const NotificationCenter: React.FC = () => {
               )}
             </div>
             
-            <div className="max-h-[32rem] overflow-y-auto scrollbar-hide">
+            <div className="max-h-128 overflow-y-auto scrollbar-hide">
               {notifications.length === 0 ? (
                 <div className="py-20 px-8 text-center">
                   <div className="w-20 h-20 mx-auto mb-6 rounded-3xl bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center">
@@ -99,7 +101,7 @@ const NotificationCenter: React.FC = () => {
                       className={`px-8 py-6 transition-all group relative ${!n.is_read ? 'bg-indigo-50/20 dark:bg-indigo-900/10' : 'hover:bg-slate-50 dark:hover:bg-slate-800/30'}`}
                     >
                       <div className="flex gap-4">
-                        <div className="mt-1.5 flex-shrink-0">
+                        <div className="mt-1.5 shrink-0">
                           <div className={`h-2.5 w-2.5 rounded-full ring-4 ${!n.is_read ? 'bg-indigo-600 ring-indigo-600/10' : 'bg-slate-200 dark:bg-slate-700 ring-transparent'}`}></div>
                         </div>
                         <div className="flex-1 min-w-0">

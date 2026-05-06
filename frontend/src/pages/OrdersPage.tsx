@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getUserOrders } from '../api/endpoints';
 import { useAuthStore } from '../stores/authStore';
 import type { Order } from '../types';
-import { ShoppingBagIcon, ChevronRightIcon, ClockIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
+import { ShoppingBagIcon, ClockIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 
 const OrdersPage: React.FC = () => {
   const user = useAuthStore(state => state.user);
@@ -32,6 +32,17 @@ const OrdersPage: React.FC = () => {
       case 'delivered': return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400';
       case 'cancelled': return 'bg-rose-100 text-rose-700 dark:bg-rose-900/20 dark:text-rose-400';
       default: return 'bg-slate-100 text-slate-700 dark:bg-slate-900/20 dark:text-slate-400';
+    }
+  };
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'pending': return <ClockIcon className="h-3 w-3" />;
+      case 'confirmed': return <CheckCircleIcon className="h-3 w-3" />;
+      case 'ready': return <ShoppingBagIcon className="h-3 w-3" />;
+      case 'delivered': return <CheckCircleIcon className="h-3 w-3" />;
+      case 'cancelled': return <XCircleIcon className="h-3 w-3" />;
+      default: return null;
     }
   };
 

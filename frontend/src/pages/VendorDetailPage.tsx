@@ -62,7 +62,7 @@ export default function VendorDetailPage() {
       {/* Vendor Header */}
       <div className="relative rounded-[3rem] overflow-hidden mb-16 bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-900 shadow-2xl shadow-indigo-500/5">
         <div className="h-64 md:h-80 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/90 to-blue-600/90 z-10" />
+          <div className="absolute inset-0 bg-linear-to-r from-indigo-600/90 to-blue-600/90 z-10" />
           {vendor.image_url ? (
             <img src={vendor.image_url} alt={vendor.shop_name} className="w-full h-full object-cover scale-110 blur-sm opacity-50" />
           ) : (
@@ -76,11 +76,11 @@ export default function VendorDetailPage() {
 
         <div className="px-10 pb-10 relative z-30 -mt-24 md:-mt-32">
           <div className="flex flex-col md:flex-row md:items-end gap-8">
-            <div className="w-40 h-40 md:w-52 md:h-52 rounded-[2.5rem] border-[8px] border-white dark:border-slate-950 bg-white dark:bg-slate-900 overflow-hidden shadow-2xl flex-shrink-0">
+            <div className="w-40 h-40 md:w-52 md:h-52 rounded-[2.5rem] border-8 border-white dark:border-slate-950 bg-white dark:bg-slate-900 overflow-hidden shadow-2xl shrink-0">
               {vendor.image_url ? (
                 <img src={vendor.image_url} alt={vendor.shop_name} className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/40 dark:to-blue-900/40 text-indigo-600 dark:text-indigo-400">
+                <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/40 dark:to-blue-900/40 text-indigo-600 dark:text-indigo-400">
                   <span className="text-6xl font-black">{vendor.shop_name.charAt(0)}</span>
                 </div>
               )}

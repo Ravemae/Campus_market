@@ -3,7 +3,7 @@ import { useAuthStore } from '../stores/authStore';
 import { getMyVendor, getVendorOrders, getVendorProducts, updateOrderStatus, deleteProduct } from '../api/endpoints';
 import type { Vendor, Order, Product } from '../types';
 import ProductModal from '../components/ProductModal';
-import { PencilSquareIcon, TrashIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { PencilSquareIcon, TrashIcon, PlusIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
 
 const VendorDashboardPage: React.FC = () => {
   const user = useAuthStore(state => state.user);
@@ -90,8 +90,8 @@ const VendorDashboardPage: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {!vendor.is_approved && (
-        <div className="mb-10 bg-amber-50 dark:bg-amber-900/10 border-2 border-amber-200 dark:border-amber-900/20 p-6 rounded-[2rem] flex items-center gap-6 animate-in fade-in slide-in-from-top-4 duration-500">
-          <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center flex-shrink-0 text-amber-600 dark:text-amber-400">
+        <div className="mb-10 bg-amber-50 dark:bg-amber-900/10 border-2 border-amber-200 dark:border-amber-900/20 p-6 rounded-4xl flex items-center gap-6 animate-in fade-in slide-in-from-top-4 duration-500">
+          <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center shrink-0 text-amber-600 dark:text-amber-400">
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
@@ -142,7 +142,7 @@ const VendorDashboardPage: React.FC = () => {
             ) : (
               <div className="space-y-4">
                 {orders.map(order => (
-                  <div key={order.id} className="p-6 rounded-[2rem] bg-slate-50/50 dark:bg-slate-950/50 border border-slate-100 dark:border-slate-900 group hover:border-indigo-100 dark:hover:border-indigo-900/50 transition-all">
+                  <div key={order.id} className="p-6 rounded-4xl bg-slate-50/50 dark:bg-slate-950/50 border border-slate-100 dark:border-slate-900 group hover:border-indigo-100 dark:hover:border-indigo-900/50 transition-all">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-3 mb-2">
@@ -160,7 +160,7 @@ const VendorDashboardPage: React.FC = () => {
                           </p>
                         </div>
                       </div>
-                      <div className="flex-shrink-0">
+                      <div className="shrink-0">
                         <select
                           value={order.status}
                           onChange={(e) => handleStatusChange(order.id, e.target.value)}
@@ -205,9 +205,9 @@ const VendorDashboardPage: React.FC = () => {
             ) : (
               <div className="space-y-4">
                 {products.map(product => (
-                  <div key={product.id} className="p-5 rounded-[2rem] bg-slate-50/50 dark:bg-slate-950/50 border border-slate-100 dark:border-slate-900 group hover:border-indigo-100 dark:hover:border-indigo-900/50 transition-all">
+                  <div key={product.id} className="p-5 rounded-4xl bg-slate-50/50 dark:bg-slate-950/50 border border-slate-100 dark:border-slate-900 group hover:border-indigo-100 dark:hover:border-indigo-900/50 transition-all">
                     <div className="flex items-center gap-5">
-                      <div className="h-16 w-16 flex-shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm">
+                      <div className="h-16 w-16 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm">
                         {product.image_url ? (
                           <img className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500" src={product.image_url} alt="" />
                         ) : (

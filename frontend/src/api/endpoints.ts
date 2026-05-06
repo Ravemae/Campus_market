@@ -7,6 +7,7 @@ import type {
   CartItem,
   VendorReviews,
   OrderItemCreate,
+  Notification,
 } from '../types';
 
 /* ─── Auth ─── */
