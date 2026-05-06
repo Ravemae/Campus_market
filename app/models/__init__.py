@@ -3,3 +3,7 @@ from .vendor import Vendor
 from .product import Product
 from .order import Order
 from .delivery import Delivery
+from .order_item import OrderItem
+from .cart import CartItem
+from .review import Review
+from .notification import Notification

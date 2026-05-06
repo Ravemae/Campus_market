@@ -15,4 +15,6 @@ class User(SQLModel, table=True):
     password_hash: str
     role: UserRole = UserRole.user
     is_active: bool = True
+    avatar_url: Optional[str] = None
     created_at: str = Field(default="")
+    updated_at: Optional[str] = None

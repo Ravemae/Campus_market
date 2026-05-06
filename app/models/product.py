@@ -10,3 +10,5 @@ class Product(SQLModel, table=True):
     image_url: Optional[str] = None
     category: str
     is_available: bool = True
+    stock_quantity: int = 0
+    updated_at: Optional[str] = None

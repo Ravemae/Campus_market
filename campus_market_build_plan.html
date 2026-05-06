@@ -1,0 +1,361 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.container { padding: 1rem 0; }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.tab { padding: 6px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); font-size: 13px; cursor: pointer; background: var(--color-background-primary); color: var(--color-text-secondary); transition: all .15s; }
+.tab.active { background: var(--color-background-secondary); color: var(--color-text-primary); border-color: var(--color-border-primary); font-weight: 500; }
+.section { display: none; }
+.section.active { display: block; }
+.card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 12px; }
+.card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.badge { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 20px; }
+.badge-green { background: var(--color-background-success); color: var(--color-text-success); }
+.badge-amber { background: var(--color-background-warning); color: var(--color-text-warning); }
+.badge-red { background: var(--color-background-danger); color: var(--color-text-danger); }
+.badge-blue { background: var(--color-background-info); color: var(--color-text-info); }
+.badge-gray { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+h3 { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+h4 { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 6px; }
+p, li { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+ul { padding-left: 16px; }
+li { margin-bottom: 3px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.phase-block { border-left: 3px solid; padding: 10px 14px; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; margin-bottom: 10px; background: var(--color-background-secondary); }
+.phase-block.p1 { border-color: #1D9E75; }
+.phase-block.p2 { border-color: #185FA5; }
+.phase-block.p3 { border-color: #BA7517; }
+.phase-block.p4 { border-color: #534AB7; }
+.phase-block.p5 { border-color: #D85A30; }
+.phase-block.p6 { border-color: #D4537E; }
+.phase-num { font-size: 11px; font-weight: 500; margin-bottom: 4px; }
+.p1 .phase-num { color: #1D9E75; }
+.p2 .phase-num { color: #185FA5; }
+.p3 .phase-num { color: #BA7517; }
+.p4 .phase-num { color: #534AB7; }
+.p5 .phase-num { color: #D85A30; }
+.p6 .phase-num { color: #D4537E; }
+.prompt-box { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 12px; margin: 8px 0; font-size: 12px; color: var(--color-text-primary); line-height: 1.6; font-family: var(--font-mono); white-space: pre-wrap; }
+.copy-btn { font-size: 11px; color: var(--color-text-info); border: none; background: none; cursor: pointer; padding: 0; }
+.copy-btn:hover { text-decoration: underline; }
+.stack-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.stack-item:last-child { border-bottom: none; }
+.stack-label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); min-width: 90px; }
+.stack-val { font-size: 13px; color: var(--color-text-primary); }
+.stack-note { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+.missing-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.missing-item:last-child { border-bottom: none; }
+.dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.dot-red { background: #E24B4A; }
+.dot-amber { background: #EF9F27; }
+.dot-green { background: #639922; }
+.muted { color: var(--color-text-secondary); }
+.tag { font-size: 11px; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); padding: 2px 7px; border-radius: 20px; color: var(--color-text-secondary); display: inline-block; margin: 2px 2px 2px 0; }
+.divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 12px 0; }
+.algo-step { display: flex; gap: 10px; margin-bottom: 10px; }
+.step-num { width: 22px; height: 22px; border-radius: 50%; background: var(--color-background-info); color: var(--color-text-info); font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+</style>
+
+<div class="container">
+<div class="tabs">
+  <div class="tab active" onclick="show('audit')">Audit</div>
+  <div class="tab" onclick="show('stack')">Tech stack</div>
+  <div class="tab" onclick="show('phases')">Phase plan</div>
+  <div class="tab" onclick="show('prompts')">Agent prompts</div>
+  <div class="tab" onclick="show('algo')">Algorithm</div>
+</div>
+
+<!-- AUDIT -->
+<div id="audit" class="section active">
+  <div class="card">
+    <div class="card-header"><h3>What your teammate built</h3><span class="badge badge-green">Solid foundation</span></div>
+    <p style="margin-bottom:10px">FastAPI + SQLModel + SQLite. Auth, vendors, products, orders, delivery, payment routes are all wired up. Password validation, JWT tokens, hostel list, delivery fee logic — good work.</p>
+    <div class="grid2">
+      <div>
+        <h4>What works</h4>
+        <div class="missing-item"><div class="dot dot-green"></div><p>User + vendor registration/login</p></div>
+        <div class="missing-item"><div class="dot dot-green"></div><p>JWT auth with roles</p></div>
+        <div class="missing-item"><div class="dot dot-green"></div><p>Product CRUD per vendor</p></div>
+        <div class="missing-item"><div class="dot dot-green"></div><p>Order create with delivery type</p></div>
+        <div class="missing-item"><div class="dot dot-green"></div><p>Hostel list + delivery fee (₦200)</p></div>
+        <div class="missing-item"><div class="dot dot-green"></div><p>Admin + vendor approval flow</p></div>
+      </div>
+      <div>
+        <h4>Critical gaps</h4>
+        <div class="missing-item"><div class="dot dot-red"></div><p><strong>No OrderItem model</strong> — orders have no line items at all</p></div>
+        <div class="missing-item"><div class="dot dot-red"></div><p><strong>No Cart model</strong> — can't add items before checkout</p></div>
+        <div class="missing-item"><div class="dot dot-red"></div><p><strong>SQLite</strong> — won't survive concurrent users</p></div>
+        <div class="missing-item"><div class="dot dot-red"></div><p><strong>Routes unprotected</strong> — anyone can create/delete products</p></div>
+        <div class="missing-item"><div class="dot dot-amber"></div><p>No image upload (only URL stored)</p></div>
+        <div class="missing-item"><div class="dot dot-amber"></div><p>No search or filter on products</p></div>
+        <div class="missing-item"><div class="dot dot-amber"></div><p>No real-time order tracking</p></div>
+        <div class="missing-item"><div class="dot dot-amber"></div><p>No reviews or ratings</p></div>
+        <div class="missing-item"><div class="dot dot-amber"></div><p>Payment route exists but unimplemented</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h4 style="margin-bottom:8px">Additions needed to the DB schema</h4>
+    <div class="missing-item"><div class="dot dot-red"></div><p><strong>OrderItem</strong> — (id, order_id FK, product_id FK, quantity, unit_price, subtotal)</p></div>
+    <div class="missing-item"><div class="dot dot-red"></div><p><strong>CartItem</strong> — (id, user_id FK, product_id FK, quantity, added_at)</p></div>
+    <div class="missing-item"><div class="dot dot-amber"></div><p><strong>Review</strong> — (id, user_id FK, vendor_id FK, order_id FK, rating 1-5, comment, created_at)</p></div>
+    <div class="missing-item"><div class="dot dot-amber"></div><p><strong>Notification</strong> — (id, user_id FK, message, type, is_read, created_at)</p></div>
+    <div class="missing-item"><div class="dot dot-amber"></div><p><strong>Product</strong> — add stock_quantity, updated_at columns</p></div>
+    <div class="missing-item"><div class="dot dot-amber"></div><p><strong>User</strong> — add avatar_url, updated_at columns</p></div>
+  </div>
+</div>
+
+<!-- STACK -->
+<div id="stack" class="section">
+  <div class="card">
+    <div class="card-header"><h3>Recommended tech stack</h3><span class="badge badge-blue">Keeps your teammate's work</span></div>
+    <p style="margin-bottom:12px">Keep the FastAPI Python backend untouched. Use Supabase only as a managed Postgres DB + file storage. Your teammate won't need to change anything — just swap the connection string from SQLite to Supabase Postgres.</p>
+    <div class="stack-item">
+      <div class="stack-label">Backend</div>
+      <div><div class="stack-val">FastAPI (Python) — keep exactly as is</div><div class="stack-note">Just change DATABASE_URL from sqlite:///app.db → Supabase Postgres URL</div></div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-label">Database</div>
+      <div><div class="stack-val">Supabase Postgres (free tier)</div><div class="stack-note">Managed PostgreSQL, no server setup, scales to production. SQLModel works with it out of the box.</div></div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-label">File storage</div>
+      <div><div class="stack-val">Supabase Storage</div><div class="stack-note">Upload images from FastAPI, store URLs. Free 1GB tier. No Cloudinary needed.</div></div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-label">Real-time</div>
+      <div><div class="stack-val">Supabase Realtime channels</div><div class="stack-note">Frontend subscribes to order status changes. No WebSocket server needed on Python side.</div></div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-label">Frontend</div>
+      <div><div class="stack-val">React + Vite + TypeScript</div><div class="stack-note">Fast setup, good ecosystem. Tailwind CSS for styling.</div></div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-label">State / data</div>
+      <div><div class="stack-val">TanStack Query (React Query) + Zustand</div><div class="stack-note">Query for server state (products, orders), Zustand for cart + auth state.</div></div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-label">Payment</div>
+      <div><div class="stack-val">Paystack</div><div class="stack-note">Nigerian market, easy integration, webhook support. The existing payment route is a good stub.</div></div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-label">Deploy backend</div>
+      <div><div class="stack-val">Railway or Render (free tier)</div><div class="stack-note">Push to GitHub → auto-deploy. Works with FastAPI + uvicorn out of the box.</div></div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-label">Deploy frontend</div>
+      <div><div class="stack-val">Vercel</div><div class="stack-note">Free, instant deploys from GitHub, automatic HTTPS.</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <h4 style="margin-bottom:8px">The one-line change for your teammate</h4>
+    <div class="prompt-box"># In .env — that's the only migration needed
+DATABASE_URL=postgresql://postgres:[password]@db.[ref].supabase.co:5432/postgres</div>
+    <p>SQLModel's <span class="tag">create_engine()</span> call in database.py accepts this directly. No other code changes needed.</p>
+  </div>
+</div>
+
+<!-- PHASES -->
+<div id="phases" class="section">
+  <div class="phase-block p1">
+    <div class="phase-num">PHASE 1 — Week 1 · Backend hardening (your teammate's job)</div>
+    <h4>Fix the foundation</h4>
+    <ul>
+      <li>Add <strong>OrderItem</strong> model and update the orders route to accept line items</li>
+      <li>Add <strong>CartItem</strong> model + cart routes (add, remove, get, clear)</li>
+      <li>Migrate SQLite → Supabase Postgres (one line change in .env)</li>
+      <li>Add auth middleware to protect product/order/cart routes</li>
+      <li>Wire Paystack webhook in the payment route</li>
+      <li>Add image upload endpoint using Supabase Storage SDK</li>
+    </ul>
+    <div style="margin-top:8px"><span class="tag">FastAPI</span><span class="tag">SQLModel</span><span class="tag">Supabase Postgres</span><span class="tag">Paystack</span></div>
+  </div>
+
+  <div class="phase-block p2">
+    <div class="phase-num">PHASE 2 — Week 2 · Frontend scaffold (your job)</div>
+    <h4>Set up React + core screens</h4>
+    <ul>
+      <li>Vite + React + TypeScript + Tailwind setup</li>
+      <li>Routing: React Router with protected routes for each role</li>
+      <li>Auth pages — login, signup (customer), signup (vendor)</li>
+      <li>Home page — vendor grid with category filter</li>
+      <li>Vendor detail page — shop info + product listing</li>
+      <li>Product detail page with "Add to cart" button</li>
+    </ul>
+    <div style="margin-top:8px"><span class="tag">React</span><span class="tag">Vite</span><span class="tag">Tailwind</span><span class="tag">React Router</span><span class="tag">TanStack Query</span></div>
+  </div>
+
+  <div class="phase-block p3">
+    <div class="phase-num">PHASE 3 — Week 2-3 · Core purchase flow</div>
+    <h4>Cart → Checkout → Payment → Confirmation</h4>
+    <ul>
+      <li>Cart page with quantity controls and total</li>
+      <li>Checkout page — pickup vs delivery toggle, hostel dropdown, room number</li>
+      <li>Paystack inline payment widget</li>
+      <li>Order confirmation page with order ID</li>
+      <li>Order history page for customers</li>
+    </ul>
+    <div style="margin-top:8px"><span class="tag">Zustand cart store</span><span class="tag">Paystack JS</span><span class="tag">TanStack Query mutations</span></div>
+  </div>
+
+  <div class="phase-block p4">
+    <div class="phase-num">PHASE 4 — Week 3 · Vendor dashboard</div>
+    <h4>Everything a vendor needs</h4>
+    <ul>
+      <li>Vendor dashboard — today's orders, revenue summary</li>
+      <li>Product management — add/edit/delete products, toggle availability</li>
+      <li>Image upload to Supabase Storage</li>
+      <li>Incoming orders list with status update buttons</li>
+      <li>Order detail view with customer info</li>
+    </ul>
+    <div style="margin-top:8px"><span class="tag">Vendor-only routes</span><span class="tag">Supabase Storage</span><span class="tag">File upload</span></div>
+  </div>
+
+  <div class="phase-block p5">
+    <div class="phase-num">PHASE 5 — Week 4 · Real-time + notifications</div>
+    <h4>Live order tracking</h4>
+    <ul>
+      <li>Supabase Realtime — customer sees order status update live</li>
+      <li>Vendor gets new order notification instantly</li>
+      <li>In-app notification bell with unread count</li>
+      <li>Order status timeline (pending → confirmed → ready → delivered)</li>
+    </ul>
+    <div style="margin-top:8px"><span class="tag">Supabase Realtime</span><span class="tag">postgres_changes channel</span></div>
+  </div>
+
+  <div class="phase-block p6">
+    <div class="phase-num">PHASE 6 — Week 4-5 · Polish + launch</div>
+    <h4>Make it real</h4>
+    <ul>
+      <li>Search bar with debounced API call to /products?q=keyword</li>
+      <li>Category filter on home page</li>
+      <li>Reviews + ratings after order delivered</li>
+      <li>Admin dashboard — approve vendors, view all orders</li>
+      <li>PWA manifest for mobile install</li>
+      <li>Deploy: Railway (backend) + Vercel (frontend)</li>
+    </ul>
+    <div style="margin-top:8px"><span class="tag">PWA</span><span class="tag">Railway</span><span class="tag">Vercel</span></div>
+  </div>
+</div>
+
+<!-- PROMPTS -->
+<div id="prompts" class="section">
+  <div class="card">
+    <div class="card-header"><h3>Phase 1 — AI agent prompt</h3><span class="badge badge-green">Give to backend AI agent</span></div>
+    <div class="prompt-box">You are working on a FastAPI + SQLModel campus marketplace backend. The existing code uses SQLite but we are migrating to PostgreSQL (Supabase).
+
+TASK 1 — Add OrderItem model:
+Create app/models/order_item.py with fields: id (PK), order_id (FK→order.id), product_id (FK→product.id), quantity (int), unit_price (float), subtotal (float). Update the orders POST route to accept a list of OrderItemCreate schemas and create OrderItem records in the same transaction.
+
+TASK 2 — Add CartItem model:
+Create app/models/cart.py with fields: id (PK), user_id (FK→user.id), product_id (FK→product.id), quantity (int), added_at (datetime). Create app/routes/cart.py with routes: POST /cart (add item), GET /cart/{user_id} (get cart with product details joined), PATCH /cart/{item_id} (update quantity), DELETE /cart/{item_id} (remove item), DELETE /cart/clear/{user_id} (clear cart). All routes must require JWT auth.
+
+TASK 3 — Protect existing routes:
+Add get_current_user dependency to all product create/update/delete routes and all order routes. Vendors can only modify their own products (check vendor.owner_id == current_user.id).
+
+TASK 4 — Image upload:
+Add POST /upload endpoint that accepts multipart/form-data, uploads to Supabase Storage bucket "products", and returns the public URL. Use supabase-py SDK.
+
+Do not change the existing auth routes, database.py, or config.py. Keep all changes backward-compatible.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3>Phase 2 — AI agent prompt</h3><span class="badge badge-blue">Give to frontend AI agent</span></div>
+    <div class="prompt-box">You are building a React + Vite + TypeScript + Tailwind CSS frontend for a campus marketplace app called Campus Market. The FastAPI backend runs at VITE_API_URL (env variable).
+
+TASK — Set up the project scaffold:
+1. Configure React Router v6 with these routes: / (Home), /login, /signup, /signup/vendor, /vendor/:vendorId, /product/:productId, /cart, /checkout, /orders, /vendor-dashboard (protected, vendor only), /admin (protected, admin only).
+2. Create an auth store using Zustand that holds: user object, accessToken, setAuth(user, token), logout(). Persist to localStorage.
+3. Create a cart store using Zustand that holds: items array [{productId, vendorId, name, price, quantity, imageUrl}], addItem, removeItem, updateQty, clearCart, total (computed).
+4. Create an apiClient using axios with a base URL from env and a request interceptor that injects the Bearer token from Zustand auth store.
+5. Build the Home page: fetch GET /vendors (all approved vendors), display as a responsive grid of cards showing shop_name, category, location, image. Add a category filter bar at the top.
+6. Build the Vendor detail page: fetch GET /vendors/:id and GET /products/vendor/:id, show shop header and product grid. Each product card has an "Add to cart" button.
+
+Use TanStack Query for all API calls. Use Tailwind utility classes only — no custom CSS files.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3>Phase 3 — AI agent prompt</h3><span class="badge badge-amber">Cart + Checkout + Payment</span></div>
+    <div class="prompt-box">Continue building the Campus Market React frontend. Auth and cart Zustand stores already exist.
+
+TASK — Build the purchase flow:
+1. Cart page: read from Zustand cart store, show items with quantity +/- controls, subtotal per item, cart total. Show delivery fee (₦200) if delivery selected. "Proceed to checkout" button.
+2. Checkout page: form with two tabs — "Pickup" and "Delivery". Delivery tab shows a select dropdown of hostels (fetch GET /orders/hostels) and a room number input. On submit: POST /orders with {user_id, vendor_id, items: [...], total_amount, delivery_type, hostel_name?, room_number?}. On success, initialize Paystack inline with the order total and the user's email. On Paystack callback success, POST /payment/verify with {reference, order_id}. On verified, redirect to /orders.
+3. Order history page: fetch GET /orders/user/:userId, display as a list of order cards showing order ID, date, status badge (color-coded), total, and vendor name. Clicking a card expands to show OrderItems.
+4. Real-time order status: on the order detail view, subscribe to Supabase Realtime channel "orders" filtering on order_id and update the status badge live.
+
+Use TanStack Query mutations for POST calls. Use Zustand clearCart() after successful payment.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3>Phase 4 — AI agent prompt</h3><span class="badge badge-gray">Vendor dashboard</span></div>
+    <div class="prompt-box">Build the vendor dashboard for Campus Market. This page is protected — only users with role="vendor" can access it.
+
+TASK:
+1. Dashboard home: show today's order count, today's revenue (sum of total_amount where created_at = today), and pending order count. Fetch from GET /orders/vendor/:vendorId.
+2. Product manager: list all vendor's products (GET /products/vendor/:vendorId). Each row has edit button, delete button, and an availability toggle (PATCH /products/:id with {is_available}). "Add product" opens a modal with fields: name, description, price, category, image upload. Image upload: POST /upload (multipart), get back URL, then include in product create payload.
+3. Incoming orders: list of orders where status is "pending" or "confirmed". Each order card shows customer name, items ordered (OrderItems), delivery type, and action buttons: "Confirm" (→ confirmed), "Mark Ready" (→ ready), "Mark Delivered" (→ delivered). Each button calls PATCH /orders/:id/status.
+4. Use TanStack Query with invalidation on mutation so lists refresh automatically after any update.</div>
+  </div>
+</div>
+
+<!-- ALGORITHM -->
+<div id="algo" class="section">
+  <div class="card">
+    <div class="card-header"><h3>Order flow algorithm</h3><span class="badge badge-blue">Full lifecycle</span></div>
+    <div class="algo-step">
+      <div class="step-num">1</div>
+      <div><h4>Browse + add to cart</h4><p>User browses vendors → opens vendor page → adds products to Zustand cart store. Validate: all items must be from the same vendor (show warning if switching vendors). Cart persists in localStorage.</p></div>
+    </div>
+    <div class="algo-step">
+      <div class="step-num">2</div>
+      <div><h4>Checkout + order creation</h4><p>User selects pickup or delivery. If delivery: validate hostel name is in the HOSTELS list, room number is non-empty. POST /orders sends full cart as OrderItems. Backend creates Order + OrderItem records atomically. If delivery: creates Delivery record and adds ₦200 to total.</p></div>
+    </div>
+    <div class="algo-step">
+      <div class="step-num">3</div>
+      <div><h4>Payment</h4><p>Frontend receives order_id. Initialize Paystack with amount (in kobo = total × 100), email, metadata: {order_id}. On Paystack callback: POST /payment/verify with reference. Backend calls Paystack verify API, checks amount matches order total, sets is_paid=true on order, triggers notification to vendor.</p></div>
+    </div>
+    <div class="algo-step">
+      <div class="step-num">4</div>
+      <div><h4>Vendor receives + processes</h4><p>Vendor dashboard polls or receives Supabase Realtime event on new paid order. Vendor confirms → marks ready → marks delivered. Each status change: PATCH /orders/:id/status + creates Notification record for customer.</p></div>
+    </div>
+    <div class="algo-step">
+      <div class="step-num">5</div>
+      <div><h4>Real-time status updates</h4><p>Customer's order page subscribes to Supabase Realtime postgres_changes on the orders table filtered by id=order_id. Status badge updates live without page refresh.</p></div>
+    </div>
+    <div class="algo-step">
+      <div class="step-num">6</div>
+      <div><h4>Post-delivery review</h4><p>When order reaches "delivered" status, show "Leave a review" prompt. POST /reviews with {order_id, vendor_id, rating, comment}. Reviews are averaged per vendor and shown on vendor cards.</p></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><h3>Cart conflict algorithm</h3><span class="badge badge-amber">Multi-vendor guard</span></div>
+    <p style="margin-bottom:10px">Since your DB has orders linked to a single vendor_id, a cart can only contain items from one vendor at a time.</p>
+    <div class="prompt-box">function addToCart(product, vendorId) {
+  const currentVendorId = cartStore.items[0]?.vendorId
+  if (currentVendorId && currentVendorId !== vendorId) {
+    // Prompt user: "Your cart has items from [ShopA].
+    // Clear cart and add from [ShopB]?"
+    if (userConfirms) {
+      cartStore.clearCart()
+      cartStore.addItem(product, vendorId)
+    }
+  } else {
+    cartStore.addItem(product, vendorId)
+  }
+}</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
