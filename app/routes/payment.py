@@ -26,13 +26,8 @@ async def initialize_payment(order_id: str, session: Session = Depends(get_sessi
     payload = {
         "amount": int(order.total_amount * 100),
         "email": user.email,
-<<<<<<< HEAD
         "reference": f"order_{order_id}",
         "callback_url": "http://localhost:5173/checkout/verify"
-=======
-        "reference": f"order_{order_id[:8]}",
-        "callback_url": "http://localhost:8000/payment/verify"
->>>>>>> 64fb116 (payment working, UUID IDs, OTP email, full backend complete)
     }
     async with httpx.AsyncClient() as client:
         res = await client.post(

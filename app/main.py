@@ -6,13 +6,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from app.database import create_db
-<<<<<<< HEAD
-from app.routes import auth, vendors, products, orders, payment, delivery, admin, cart, reviews, upload, helpdesk, notifications
-=======
-from app.routes import auth, vendors, products, orders, payment, delivery, admin, helpdesk
+from app.routes import auth, vendors, products, orders, payment, delivery, admin, helpdesk, cart, reviews, upload, notifications
 from app.core.otp import OTPStore
 from fastapi.security import HTTPBearer
->>>>>>> 64fb116 (payment working, UUID IDs, OTP email, full backend complete)
 import traceback
 import os
 
@@ -26,15 +22,20 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-
-
-
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    error_detail = traceback.format_exc()
+    print(f"ERROR: {error_detail}")
+    return JSONResponse(
+        status_code=500,
+        content={"detail": str(exc)}
+    )
 
 @app.on_event("startup")
 def on_startup():

@@ -81,61 +81,6 @@ def signup_user(data: UserSignupRequest, session: Session = Depends(get_session)
 }
 @router.post("/signup/vendor", summary="Register as a Shop Owner")
 def signup_vendor(data: VendorSignupRequest, session: Session = Depends(get_session)):
-<<<<<<< HEAD
-    try:
-        validate_password(data.password)
-        existing = session.exec(select(User).where(User.email == data.email)).first()
-        if existing:
-            raise HTTPException(status_code=400, detail="Email already registered")
-        user = User(
-            full_name=data.full_name,
-            email=data.email,
-            phone=data.phone,
-            password_hash=hash_password(data.password),
-            role=UserRole.vendor,
-            created_at=str(__import__('datetime').datetime.utcnow())
-        )
-        session.add(user)
-        session.commit()
-        session.refresh(user)
-        from app.models.vendor import Vendor
-        vendor = Vendor(
-            owner_id=user.id,
-            shop_name=data.shop_name,
-            description=data.shop_description,
-            location=data.shop_location,
-            category=data.shop_category,
-            is_approved=False
-        )
-        session.add(vendor)
-        session.commit()
-        session.refresh(vendor)
-        token = create_access_token({"sub": str(user.id), "role": user.role})
-        return {
-        "access_token": token,
-        "token_type": "bearer",
-        "user": {
-            "id": user.id,
-            "full_name": user.full_name,
-            "email": user.email,
-            "phone": user.phone,
-            "role": user.role,
-            "created_at": user.created_at
-        },
-        "vendor": {
-            "id": vendor.id,
-            "shop_name": vendor.shop_name,
-            "location": vendor.location,
-            "category": vendor.category,
-            "is_approved": vendor.is_approved
-        },
-        "message": "Shop registered successfully. Awaiting admin approval."
-    }
-    except Exception as e:
-        import traceback
-        traceback.print_exc()
-        raise e
-=======
     validate_password(data.password)
     existing = session.exec(select(User).where(User.email == data.email)).first()
     if existing:
@@ -189,7 +134,7 @@ def signup_vendor(data: VendorSignupRequest, session: Session = Depends(get_sess
     "message": "Shop registered successfully. Awaiting admin approval."
 }
 
->>>>>>> 64fb116 (payment working, UUID IDs, OTP email, full backend complete)
+
 @router.post("/login", summary="Login")
 def login(data: LoginRequest, session: Session = Depends(get_session)):
     user = session.exec(select(User).where(User.email == data.email)).first()
@@ -242,10 +187,8 @@ def verify_otp_endpoint(otp_code: str, session: Session = Depends(get_session)):
         "message": "OTP verified successfully. You can now reset your password.",
         "email": record.email
     }
-
 @router.post("/reset-password", summary="Reset Password")
 def reset_password(data: ResetPasswordRequest, session: Session = Depends(get_session)):
-<<<<<<< HEAD
     from app.core.security import decode_token
     try:
         payload = decode_token(data.token)
@@ -260,26 +203,11 @@ def reset_password(data: ResetPasswordRequest, session: Session = Depends(get_se
         return {"message": "Password reset successful"}
     except Exception:
         raise HTTPException(status_code=400, detail="Invalid or expired token")
-
-=======
-    user = session.exec(select(User).where(User.email == data.email)).first()
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-    validate_password(data.new_password)
-    user.password_hash = hash_password(data.new_password)
-    session.commit()
-    return {"message": "Password reset successful. You can now login with your new password."}
-    
->>>>>>> 64fb116 (payment working, UUID IDs, OTP email, full backend complete)
 class UpdateProfileRequest(BaseModel):
     full_name: Optional[str] = None
     phone: Optional[str] = None
     email: Optional[str] = None
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 64fb116 (payment working, UUID IDs, OTP email, full backend complete)
 @router.patch("/profile/{user_id}", summary="Update Profile")
 def update_profile(user_id: int, data: UpdateProfileRequest, session: Session = Depends(get_session)):
     user = session.get(User, user_id)
