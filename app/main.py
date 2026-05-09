@@ -40,7 +40,7 @@ async def global_exception_handler(request: Request, exc: Exception):
 @app.on_event("startup")
 def on_startup():
     create_db()
-    print("DATABASE URL:", os.getenv("DATABASE_URL"))
+    # print("DATABASE URL:", os.getenv("DATABASE_URL"))
 
 
 # Mount static files for uploaded images
