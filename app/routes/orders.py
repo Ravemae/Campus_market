@@ -18,6 +18,7 @@ class OrderCreate(BaseModel):
     delivery_type: DeliveryType
     hostel_name: Optional[str] = None
     room_number: Optional[str] = None
+    delivery_address: Optional[str] = None  # for non-hostel delivery
 
 @router.post("/")
 def create_order(
@@ -31,9 +32,12 @@ def create_order(
 
     # Add delivery fee if delivery
     if data.delivery_type == DeliveryType.delivery:
-        if not data.hostel_name or not data.room_number:
-            raise HTTPException(status_code=400, detail="Hostel name and room number required for delivery")
-        if data.hostel_name not in HOSTELS:
+        if not data.hostel_name and not data.delivery_address:
+            raise HTTPException(
+                status_code=400,
+                detail="Please provide hostel name or delivery address"
+            )
+        if data.hostel_name and data.hostel_name not in HOSTELS:
             raise HTTPException(status_code=400, detail="Invalid hostel name")
         data.total_amount += 200.0
 
