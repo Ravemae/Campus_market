@@ -5,6 +5,7 @@ from app.models.order import Order, OrderStatus, DeliveryType
 from app.models.order_item import OrderItem
 from app.models.product import Product
 from app.models.delivery import Delivery, HOSTELS
+<<<<<<< HEAD
 from app.models.notification import Notification
 from app.models.vendor import Vendor
 from app.models.user import User
@@ -18,21 +19,43 @@ router = APIRouter(prefix="/orders", tags=["Orders"])
 
 
 @router.post("/", response_model=OrderResponse)
+=======
+from app.models.user import User
+from app.core.dependencies import get_current_user
+from pydantic import BaseModel
+from typing import Optional
+
+router = APIRouter(prefix="/orders", tags=["Orders"])
+
+
+class OrderCreate(BaseModel):
+    vendor_id: str
+    total_amount: float
+    delivery_type: DeliveryType
+    hostel_name: Optional[str] = None
+    room_number: Optional[str] = None
+
+@router.post("/")
+>>>>>>> 64fb116 (payment working, UUID IDs, OTP email, full backend complete)
 def create_order(
     data: OrderCreate,
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user)
 ):
+<<<<<<< HEAD
     """Create an order with line items. Total is computed from items."""
     if not data.items:
         raise HTTPException(status_code=400, detail="Order must contain at least one item")
 
     # Validate delivery info
+=======
+>>>>>>> 64fb116 (payment working, UUID IDs, OTP email, full backend complete)
     if data.delivery_type == DeliveryType.delivery:
         if not data.hostel_name or not data.room_number:
             raise HTTPException(status_code=400, detail="Hostel name and room number required for delivery")
         if data.hostel_name not in HOSTELS:
             raise HTTPException(status_code=400, detail="Invalid hostel name")
+<<<<<<< HEAD
 
     # Calculate total from items
     total_amount = 0.0
@@ -66,6 +89,17 @@ def create_order(
         room_number=data.room_number,
         customer_name=current_user.full_name,
         created_at=str(datetime.utcnow())
+=======
+        data.total_amount += 200.0
+
+    order = Order(
+        user_id=current_user.id,
+        vendor_id=data.vendor_id,
+        total_amount=data.total_amount,
+        delivery_type=data.delivery_type,
+        hostel_name=data.hostel_name,
+        room_number=data.room_number
+>>>>>>> 64fb116 (payment working, UUID IDs, OTP email, full backend complete)
     )
     session.add(order)
     session.commit()
@@ -89,6 +123,7 @@ def create_order(
         )
         session.add(delivery)
         session.commit()
+<<<<<<< HEAD
 
     # Notify vendor
     vendor = session.get(Vendor, data.vendor_id)
@@ -132,6 +167,22 @@ def create_order(
     )
 
 
+=======
+    return {
+        "id": order.id,
+        "vendor_id": order.vendor_id,
+        "total_amount": order.total_amount,
+        "delivery_type": order.delivery_type,
+        "hostel_name": order.hostel_name,
+        "room_number": order.room_number,
+        "status": order.status,
+        "is_paid": order.is_paid,
+        "customer_phone": current_user.phone,
+        "delivery_fee": 200 if order.delivery_type == DeliveryType.delivery else 0,
+        "created_at": order.created_at
+    }
+    
+>>>>>>> 64fb116 (payment working, UUID IDs, OTP email, full backend complete)
 @router.get("/hostels")
 def get_hostels():
     """Get the list of available hostels for delivery."""
@@ -139,6 +190,7 @@ def get_hostels():
 
 
 @router.get("/user/{user_id}")
+<<<<<<< HEAD
 def get_user_orders(
     user_id: int,
     session: Session = Depends(get_session),
@@ -147,6 +199,9 @@ def get_user_orders(
     """Get orders for a specific user. Users can only see their own orders."""
     if current_user.id != user_id and current_user.role != "admin":
         raise HTTPException(status_code=403, detail="You can only view your own orders")
+=======
+def get_user_orders(user_id: str, session: Session = Depends(get_session)):
+>>>>>>> 64fb116 (payment working, UUID IDs, OTP email, full backend complete)
     orders = session.exec(select(Order).where(Order.user_id == user_id)).all()
     result = []
     for order in orders:
@@ -174,6 +229,7 @@ def get_user_orders(
 
 
 @router.get("/vendor/{vendor_id}")
+<<<<<<< HEAD
 def get_vendor_orders(
     vendor_id: int,
     session: Session = Depends(get_session),
@@ -185,6 +241,9 @@ def get_vendor_orders(
         raise HTTPException(status_code=404, detail="Vendor not found")
     if vendor.owner_id != current_user.id and current_user.role != "admin":
         raise HTTPException(status_code=403, detail="Not your vendor")
+=======
+def get_vendor_orders(vendor_id: str, session: Session = Depends(get_session)):
+>>>>>>> 64fb116 (payment working, UUID IDs, OTP email, full backend complete)
     orders = session.exec(select(Order).where(Order.vendor_id == vendor_id)).all()
     result = []
     for order in orders:
@@ -212,6 +271,7 @@ def get_vendor_orders(
 
 
 @router.patch("/{order_id}/status")
+<<<<<<< HEAD
 def update_order_status(
     order_id: int,
     status: OrderStatus,
@@ -219,6 +279,9 @@ def update_order_status(
     current_user: User = Depends(get_current_user)
 ):
     """Update order status. Only the vendor who owns the order or admin can update."""
+=======
+def update_order_status(order_id: str, status: OrderStatus, session: Session = Depends(get_session)):
+>>>>>>> 64fb116 (payment working, UUID IDs, OTP email, full backend complete)
     order = session.get(Order, order_id)
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")

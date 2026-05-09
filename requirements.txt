@@ -6,5 +6,10 @@ passlib[bcrypt]
 python-dotenv
 httpx
 python-multipart
+<<<<<<< HEAD
 aiofiles
 openai
+=======
+openai
+resend
+>>>>>>> 64fb116 (payment working, UUID IDs, OTP email, full backend complete)

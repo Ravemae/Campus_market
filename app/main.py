@@ -6,9 +6,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from app.database import create_db
+<<<<<<< HEAD
 from app.routes import auth, vendors, products, orders, payment, delivery, admin, cart, reviews, upload, helpdesk, notifications
+=======
+from app.routes import auth, vendors, products, orders, payment, delivery, admin, helpdesk
+from app.core.otp import OTPStore
+from fastapi.security import HTTPBearer
+>>>>>>> 64fb116 (payment working, UUID IDs, OTP email, full backend complete)
 import traceback
 import os
+
+security = HTTPBearer()
 
 app = FastAPI(
     title="Campus Market API",

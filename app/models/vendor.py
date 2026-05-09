@@ -1,8 +1,15 @@
 from sqlmodel import SQLModel, Field
 from typing import Optional
+import uuid
+
+def generate_uuid():
+    return str(uuid.uuid4())
 
 class Vendor(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
+    id: Optional[str] = Field(
+        default_factory=generate_uuid,
+        primary_key=True
+    )
     owner_id: int = Field(foreign_key="user.id")
     shop_name: str
     description: str

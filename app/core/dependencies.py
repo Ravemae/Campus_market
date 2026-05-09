@@ -1,19 +1,20 @@
 from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlmodel import Session, select
 from app.database import get_session
 from app.models.user import User
 from app.core.security import decode_token
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+security = HTTPBearer()
 
 def get_current_user(
-    token: str = Depends(oauth2_scheme),
+    credentials: HTTPAuthorizationCredentials = Depends(security),
     session: Session = Depends(get_session)
 ) -> User:
     try:
+        token = credentials.credentials
         payload = decode_token(token)
-        user_id = int(payload.get("sub"))
+        user_id = payload.get("sub")
         user = session.get(User, user_id)
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
