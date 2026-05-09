@@ -10,7 +10,7 @@ class Vendor(SQLModel, table=True):
         default_factory=generate_uuid,
         primary_key=True
     )
-    owner_id: int = Field(foreign_key="user.id")
+    owner_id: str = Field(foreign_key="user.id")
     shop_name: str
     description: str
     location: str
