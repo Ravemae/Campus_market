@@ -110,7 +110,7 @@ const CartPage: React.FC = () => {
                         </button>
                       </div>
                       
-                      <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">
+                      <p className="text-xs font-bold text-slate-700 uppercase tracking-widest">
                         Subtotal: <span className="text-slate-900 ml-2">₦{(item.price * item.quantity).toLocaleString()}</span>
                       </p>
                     </div>
@@ -170,7 +170,7 @@ const CartPage: React.FC = () => {
               Proceed to Checkout
             </button>
             
-            <p className="mt-6 text-center text-xs text-slate-400 font-bold uppercase tracking-widest">
+            <p className="mt-6 text-center text-xs text-slate-700 font-bold uppercase tracking-widest">
               Secure checkout with Paystack
             </p>
           </div>

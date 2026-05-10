@@ -165,7 +165,7 @@ const CheckoutPage: React.FC = () => {
             {deliveryType === 'delivery' && (
               <div className="mt-8 pt-8 border-t border-slate-50 dark:border-slate-800 grid grid-cols-1 gap-6 sm:grid-cols-2 animate-in fade-in slide-in-from-top-4 duration-500">
                 <div>
-                  <label htmlFor="hostel" className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 px-1">
+                  <label htmlFor="hostel" className="block text-xs font-black text-slate-700 uppercase tracking-widest mb-2 px-1">
                     Hostel Name
                   </label>
                   <select
@@ -181,7 +181,7 @@ const CheckoutPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="room" className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 px-1">
+                  <label htmlFor="room" className="block text-xs font-black text-slate-700 uppercase tracking-widest mb-2 px-1">
                     Room Number
                   </label>
                   <input
@@ -216,7 +216,7 @@ const CheckoutPage: React.FC = () => {
                     <p className="text-sm font-black text-slate-900 dark:text-white truncate">
                       {item.name}
                     </p>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                    <p className="text-xs font-bold text-slate-700 uppercase tracking-widest">
                       QTY: {item.quantity}
                     </p>
                   </div>
