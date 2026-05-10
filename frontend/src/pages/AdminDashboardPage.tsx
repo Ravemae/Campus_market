@@ -6,8 +6,7 @@ import {
   UsersIcon, 
   BuildingStorefrontIcon, 
   CurrencyDollarIcon,
-  ShoppingCartIcon,
-  ShoppingBagIcon
+  ShoppingCartIcon
 } from '@heroicons/react/24/outline';
 import { 
   XAxis, 
@@ -49,7 +48,7 @@ const AdminDashboardPage: React.FC = () => {
     fetchData();
   }, []);
 
-  const handleApprove = async (id: number) => {
+  const handleApprove = async (id: string) => {
     try {
       await approveVendor(id);
       setVendors(vendors.map(v => v.id === id ? { ...v, is_approved: true } : v));

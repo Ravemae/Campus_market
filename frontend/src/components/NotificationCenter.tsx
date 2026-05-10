@@ -27,7 +27,7 @@ const NotificationCenter: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleMarkAsRead = async (id: number) => {
+  const handleMarkAsRead = async (id: string) => {
     try {
       await markAsRead(id);
       setNotifications(notifications.map(n => n.id === id ? { ...n, is_read: true } : n));
@@ -54,12 +54,12 @@ const NotificationCenter: React.FC = () => {
         className={`relative p-2.5 rounded-2xl transition-all duration-300 ${
           isOpen 
             ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' 
-            : 'text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20'
+            : 'text-slate-400 hover:text-indigo-600 hover:bg-indigo-50'
         }`}
       >
         <BellIcon className={`h-6 w-6 ${isOpen ? 'animate-none' : ''}`} strokeWidth={2.5} />
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-xl bg-rose-500 text-[10px] font-black text-white ring-4 ring-white dark:ring-slate-950 animate-bounce">
+          <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-xl bg-rose-500 text-[10px] font-black text-white ring-4 ring-white animate-bounce">
             {unreadCount}
           </span>
         )}
@@ -68,16 +68,16 @@ const NotificationCenter: React.FC = () => {
       {isOpen && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)}></div>
-          <div className="absolute right-0 mt-4 w-96 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-4xl shadow-2xl ring-1 ring-black/5 dark:ring-white/10 z-50 overflow-hidden border border-slate-100 dark:border-slate-800 animate-in fade-in zoom-in-95 duration-300">
-            <div className="px-8 py-6 bg-slate-50/50 dark:bg-slate-950/50 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+          <div className="absolute right-0 mt-4 w-96 bg-white/95 backdrop-blur-xl rounded-4xl shadow-2xl ring-1 ring-black/5 z-50 overflow-hidden border border-slate-100 animate-in fade-in zoom-in-95 duration-300">
+            <div className="px-8 py-6 bg-slate-50/50 border-b border-slate-100 flex justify-between items-center">
               <div>
-                <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">Updates</h3>
+                <h3 className="text-lg font-black text-slate-900 tracking-tight">Updates</h3>
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Platform Notifications</p>
               </div>
               {unreadCount > 0 && (
                 <button 
                   onClick={handleMarkAllRead}
-                  className="px-4 py-2 rounded-xl bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 text-xs font-black uppercase tracking-wider hover:bg-indigo-100 transition-all"
+                  className="px-4 py-2 rounded-xl bg-indigo-50 text-indigo-600 text-xs font-black uppercase tracking-wider hover:bg-indigo-100 transition-all"
                 >
                   Clear All
                 </button>
@@ -87,35 +87,35 @@ const NotificationCenter: React.FC = () => {
             <div className="max-h-128 overflow-y-auto scrollbar-hide">
               {notifications.length === 0 ? (
                 <div className="py-20 px-8 text-center">
-                  <div className="w-20 h-20 mx-auto mb-6 rounded-3xl bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center">
+                  <div className="w-20 h-20 mx-auto mb-6 rounded-3xl bg-indigo-50 flex items-center justify-center">
                     <BellIcon className="h-10 w-10 text-indigo-400" />
                   </div>
-                  <h4 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">Quiet here</h4>
+                  <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">Quiet here</h4>
                   <p className="text-xs text-slate-400 mt-2 font-medium">No new notifications for now.</p>
                 </div>
               ) : (
-                <ul className="divide-y divide-slate-50 dark:divide-slate-800">
+                <ul className="divide-y divide-slate-50">
                   {notifications.map(n => (
                     <li 
                       key={n.id} 
-                      className={`px-8 py-6 transition-all group relative ${!n.is_read ? 'bg-indigo-50/20 dark:bg-indigo-900/10' : 'hover:bg-slate-50 dark:hover:bg-slate-800/30'}`}
+                      className={`px-8 py-6 transition-all group relative ${!n.is_read ? 'bg-indigo-50/20' : 'hover:bg-slate-50'}`}
                     >
                       <div className="flex gap-4">
                         <div className="mt-1.5 shrink-0">
-                          <div className={`h-2.5 w-2.5 rounded-full ring-4 ${!n.is_read ? 'bg-indigo-600 ring-indigo-600/10' : 'bg-slate-200 dark:bg-slate-700 ring-transparent'}`}></div>
+                          <div className={`h-2.5 w-2.5 rounded-full ring-4 ${!n.is_read ? 'bg-indigo-600 ring-indigo-600/10' : 'bg-slate-200 ring-transparent'}`}></div>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className={`text-sm leading-relaxed ${!n.is_read ? 'font-black text-slate-900 dark:text-white' : 'font-medium text-slate-500 dark:text-slate-400'}`}>
+                          <p className={`text-sm leading-relaxed ${!n.is_read ? 'font-black text-slate-900' : 'font-medium text-slate-500'}`}>
                             {n.message}
                           </p>
-                          <p className="text-[10px] font-black text-indigo-600/60 dark:text-indigo-400/60 uppercase tracking-widest mt-2">
+                          <p className="text-[10px] font-black text-indigo-600/60 uppercase tracking-widest mt-2">
                             {new Date(n.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • {new Date(n.created_at).toLocaleDateString([], { month: 'short', day: 'numeric' })}
                           </p>
                         </div>
                         {!n.is_read && (
                           <button 
                             onClick={() => handleMarkAsRead(n.id)}
-                            className="p-2 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 text-indigo-600 dark:text-indigo-400 opacity-0 group-hover:opacity-100 transition-all active:scale-90"
+                            className="p-2 rounded-xl bg-white shadow-sm border border-slate-100 text-indigo-600 opacity-0 group-hover:opacity-100 transition-all active:scale-90"
                             title="Mark as read"
                           >
                             <CheckIcon className="h-4 w-4" strokeWidth={3} />
@@ -128,7 +128,7 @@ const NotificationCenter: React.FC = () => {
               )}
             </div>
             
-            <div className="p-4 bg-slate-50/50 dark:bg-slate-950/50 border-t border-slate-100 dark:border-slate-800 text-center">
+            <div className="p-4 bg-slate-50/50 border-t border-slate-100 text-center">
               <Link 
                 to="/orders" 
                 onClick={() => setIsOpen(false)}

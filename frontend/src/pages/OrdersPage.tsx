@@ -13,8 +13,8 @@ const OrdersPage: React.FC = () => {
     const fetchOrders = async () => {
       if (!user) return;
       try {
-        const res = await getUserOrders(user.id);
-        setOrders(res.data.sort((a, b) => b.id - a.id));
+        const res = await getUserOrders();
+        setOrders(res.data.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()));
       } catch (err) {
         console.error("Failed to fetch orders", err);
       } finally {

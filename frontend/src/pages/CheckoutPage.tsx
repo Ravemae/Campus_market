@@ -66,7 +66,7 @@ const CheckoutPage: React.FC = () => {
 
       const orderRes = await createOrder({
         vendor_id: vendorId,
-        items: orderItems,
+        total_amount: total,
         delivery_type: deliveryType,
         hostel_name: deliveryType === 'delivery' ? hostelName : undefined,
         room_number: deliveryType === 'delivery' ? roomNumber : undefined

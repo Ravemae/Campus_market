@@ -10,7 +10,7 @@ def seed():
     vendors_data = [
         {
             "full_name": "Ayolayo Admin",
-            "email": "ayolayo@campusmarket.com",
+            "email": "ayolayo@quickmart.com",
             "phone": "08011111111",
             "shop_name": "Ayolayo Enterprises",
             "description": "Slides, shoes, make-up kits, clothes, birthday packages",
@@ -19,7 +19,7 @@ def seed():
         },
         {
             "full_name": "Lilly Foods Admin",
-            "email": "lillyfoods@campusmarket.com",
+            "email": "lillyfoods@quickmart.com",
             "phone": "08022222222",
             "shop_name": "The Lilly Foods and Bakeries",
             "description": "Foods, breads, cakes and snacks",
@@ -28,7 +28,7 @@ def seed():
         },
         {
             "full_name": "BIG Store Admin",
-            "email": "bigstore@campusmarket.com",
+            "email": "bigstore@quickmart.com",
             "phone": "08033333333",
             "shop_name": "B.I.G Store",
             "description": "Golden Morn, breads, juices, water",
@@ -37,7 +37,7 @@ def seed():
         },
         {
             "full_name": "Big Meals Admin",
-            "email": "bigmeals@campusmarket.com",
+            "email": "bigmeals@quickmart.com",
             "phone": "08044444444",
             "shop_name": "Big Meals",
             "description": "Foods, snacks and minerals",
@@ -46,7 +46,7 @@ def seed():
         },
         {
             "full_name": "Helena Admin",
-            "email": "helena@campusmarket.com",
+            "email": "helena@quickmart.com",
             "phone": "08055555555",
             "shop_name": "Helena Ventures",
             "description": "Clothes, skin care, bags, provisions",
@@ -55,7 +55,7 @@ def seed():
         },
         {
             "full_name": "Gods Favor Admin",
-            "email": "godsfavor@campusmarket.com",
+            "email": "godsfavor@quickmart.com",
             "phone": "08066666666",
             "shop_name": "God's Favor Limited",
             "description": "Rice, doughnuts, spaghetti, chin chin, moi moi, zobo",
@@ -64,7 +64,7 @@ def seed():
         },
         {
             "full_name": "WholeU Admin",
-            "email": "wholeu@campusmarket.com",
+            "email": "wholeu@quickmart.com",
             "phone": "08077777777",
             "shop_name": "WholeU",
             "description": "Organic and natural foods, healthy and beauty products",
@@ -73,7 +73,7 @@ def seed():
         },
         {
             "full_name": "Jummychi Admin",
-            "email": "jummychi2@campusmarket.com",
+            "email": "jummychi2@quickmart.com",
             "phone": "08088888888",
             "shop_name": "Jummychi Trendsetters",
             "description": "Waffles, mishia, shawarma, kunu, zobo, stir fry spaghetti and noodles",
@@ -82,7 +82,7 @@ def seed():
         },
         {
             "full_name": "Nmas Place Admin",
-            "email": "nmasplace@campusmarket.com",
+            "email": "nmasplace@quickmart.com",
             "phone": "08099999999",
             "shop_name": "Nma's Place",
             "description": "Cakes, popcorn, sausage rolls, drinks and fresh juice",
@@ -91,7 +91,7 @@ def seed():
         },
         {
             "full_name": "Big Farm Admin",
-            "email": "bigfarm@campusmarket.com",
+            "email": "bigfarm@quickmart.com",
             "phone": "08010101010",
             "shop_name": "Big Farm Shop",
             "description": "Fresh veggies and fruits, apples, mangoes, coconut and red oils",
@@ -100,7 +100,7 @@ def seed():
         },
         {
             "full_name": "BU Bookshop Admin",
-            "email": "bubookshop@campusmarket.com",
+            "email": "bubookshop@quickmart.com",
             "phone": "08012121212",
             "shop_name": "BU Bookshop",
             "description": "Textbooks, novels, newspapers, compendiums, writing materials",
@@ -109,7 +109,7 @@ def seed():
         },
         {
             "full_name": "Mima Ventures Admin",
-            "email": "mima@campusmarket.com",
+            "email": "mima@quickmart.com",
             "phone": "08013131313",
             "shop_name": "Mima Ventures",
             "description": "POS, online registration, research works, bill payments, airtime",
@@ -121,7 +121,7 @@ def seed():
     with Session(engine) as session:
         from sqlmodel import select
         # Create Admin User
-        admin_email = "admin@campusmarket.com"
+        admin_email = "admin@quickmart.com"
         existing_admin = session.exec(select(User).where(User.email == admin_email)).first()
         if not existing_admin:
             admin = User(
@@ -134,7 +134,7 @@ def seed():
             )
             session.add(admin)
             session.commit()
-            print("Created Admin: admin@campusmarket.com")
+            print("Created Admin: admin@quickmart.com")
 
         for v in vendors_data:
             # Check if vendor already exists

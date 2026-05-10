@@ -1,8 +1,70 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getVendor, getVendorProducts } from '../api/endpoints';
+import { motion } from 'framer-motion';
 import { useCartStore } from '../stores/cartStore';
 import type { Product } from '../types';
+
+const getCategoryIcon = (category: string) => {
+  const key = category.toLowerCase();
+  if (key.includes('food')) {
+    return (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M7 3v12.5a4.5 4.5 0 109 0V3m-4.5 8.5V21" />
+      </svg>
+    );
+  }
+  if (key.includes('drink')) {
+    return (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8 3h8l-1.5 10.5a2 2 0 01-2 1.5h-1a2 2 0 01-2-1.5L8 3z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M7 21h10" />
+      </svg>
+    );
+  }
+  if (key.includes('snack')) {
+    return (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M5 11h14M6 15h12M7 19h10" />
+      </svg>
+    );
+  }
+  if (key.includes('grocery')) {
+    return (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 10l1-5h10l1 5M6 10h12l1 10H5L6 10z" />
+      </svg>
+    );
+  }
+  if (key.includes('elect')) {
+    return (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8 7h8v10H8z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 17v2" />
+      </svg>
+    );
+  }
+  if (key.includes('fashion') || key.includes('style')) {
+    return (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 4l2 8h8l2-8M6 4h12" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M10 16h4" />
+      </svg>
+    );
+  }
+  if (key.includes('service')) {
+    return (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18M3 12h18" />
+      </svg>
+    );
+  }
+  return (
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m7-7H5" />
+    </svg>
+  );
+};
 
 export default function VendorDetailPage() {
   const { vendorId } = useParams<{ vendorId: string }>();
@@ -12,13 +74,13 @@ export default function VendorDetailPage() {
 
   const { data: vendor, isLoading: vendorLoading } = useQuery({
     queryKey: ['vendor', vendorId],
-    queryFn: () => getVendor(Number(vendorId)).then((r) => r.data),
+    queryFn: () => vendorId ? getVendor(vendorId).then((r) => r.data) : Promise.reject('No vendorId'),
     enabled: !!vendorId,
   });
 
   const { data: products = [], isLoading: productsLoading } = useQuery({
     queryKey: ['vendorProducts', vendorId],
-    queryFn: () => getVendorProducts(Number(vendorId)).then((r) => r.data),
+    queryFn: () => vendorId ? getVendorProducts(vendorId).then((r) => r.data) : Promise.reject('No vendorId'),
     enabled: !!vendorId,
   });
 
@@ -50,40 +112,49 @@ export default function VendorDetailPage() {
 
   if (!vendor) {
     return (
-      <div className="text-center py-32 bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800">
-        <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">Shop not found</h2>
-        <button onClick={() => navigate('/')} className="text-indigo-600 font-bold">Back to Explore</button>
+      <div className="text-center py-32 bg-white rounded-[2.5rem] border border-slate-100">
+        <h2 className="text-2xl font-black text-slate-900 mb-2">Shop not found</h2>
+        <button onClick={() => navigate('/')} className="text-orange-600 font-bold">Back to Explore</button>
       </div>
     );
   }
 
   return (
-    <div className="pb-20">
+    <div className="pb-20 section-container pt-8 sm:pt-12">
       {/* Vendor Header */}
-      <div className="relative rounded-[3rem] overflow-hidden mb-16 bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-900 shadow-2xl shadow-indigo-500/5">
-        <div className="h-64 md:h-80 relative overflow-hidden">
-          <div className="absolute inset-0 bg-linear-to-r from-indigo-600/90 to-blue-600/90 z-10" />
+      <div className="relative rounded-[2.5rem] sm:rounded-[4rem] overflow-hidden mb-12 sm:mb-20 bg-white border border-slate-100 shadow-2xl shadow-orange-500/5">
+        <div className="h-48 sm:h-64 md:h-96 relative overflow-hidden">
+          <div className="absolute inset-0 bg-linear-to-br from-orange-600 via-orange-500 to-amber-500 opacity-90 z-10" />
           {vendor.image_url ? (
             <img src={vendor.image_url} alt={vendor.shop_name} className="w-full h-full object-cover scale-110 blur-sm opacity-50" />
           ) : (
-             <div className="w-full h-full bg-indigo-600" />
+             <div className="w-full h-full bg-orange-600" />
           )}
           
-          {/* Animated Circles */}
-          <div className="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-white/10 rounded-full blur-3xl z-20"></div>
-          <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl z-20"></div>
+          {/* Animated Circles for Bright Sensation */}
+          <motion.div 
+            animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            className="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-white/20 rounded-full blur-[80px] z-20" 
+          />
+          <motion.div 
+            animate={{ scale: [1, 1.3, 1], x: [0, 50, 0] }}
+            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+            className="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-orange-300/30 rounded-full blur-[60px] z-20" 
+          />
         </div>
 
-        <div className="px-10 pb-10 relative z-30 -mt-24 md:-mt-32">
-          <div className="flex flex-col md:flex-row md:items-end gap-8">
-            <div className="w-40 h-40 md:w-52 md:h-52 rounded-[2.5rem] border-8 border-white dark:border-slate-950 bg-white dark:bg-slate-900 overflow-hidden shadow-2xl shrink-0">
+        <div className="px-6 sm:px-10 pb-8 sm:pb-12 relative z-30 -mt-20 sm:-mt-24 md:-mt-32">
+          <div className="flex flex-col md:flex-row md:items-end gap-6 sm:gap-10">
+            <div className="w-32 h-32 sm:w-44 sm:h-44 md:w-56 md:h-56 rounded-[2rem] sm:rounded-[3rem] border-[6px] sm:border-[10px] border-white bg-white overflow-hidden shadow-2xl shrink-0 group relative">
               {vendor.image_url ? (
-                <img src={vendor.image_url} alt={vendor.shop_name} className="w-full h-full object-cover" />
+                <img src={vendor.image_url} alt={vendor.shop_name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/40 dark:to-blue-900/40 text-indigo-600 dark:text-indigo-400">
-                  <span className="text-6xl font-black">{vendor.shop_name.charAt(0)}</span>
+                <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-orange-50 to-amber-50 text-orange-600">
+                  <span className="text-5xl sm:text-7xl font-black tracking-tighter">{vendor.shop_name.charAt(0)}</span>
                 </div>
               )}
+              <div className="absolute inset-0 ring-1 ring-inset ring-black/5 rounded-[2rem] sm:rounded-[3rem]" />
             </div>
 
             <div className="flex-1 pb-4">
@@ -93,16 +164,16 @@ export default function VendorDetailPage() {
                   {vendor.category}
                 </span>
               </div>
-              <p className="text-indigo-50/80 text-lg font-medium mb-6 max-w-2xl">{vendor.description}</p>
+              <p className="text-orange-50/80 text-xl font-bold mb-6 max-w-2xl leading-relaxed">{vendor.description}</p>
               <div className="flex flex-wrap items-center gap-6">
                 <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-white text-sm font-bold">
-                  <svg className="w-5 h-5 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-5 h-5 text-orange-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   </svg>
                   {vendor.location}
                 </div>
                 <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-white text-sm font-bold">
-                  <svg className="w-5 h-5 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-5 h-5 text-orange-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   Open Now
@@ -113,51 +184,51 @@ export default function VendorDetailPage() {
         </div>
       </div>
 
-      {/* Products Section */}
-      <div className="flex items-center justify-between mb-10">
+      {/* Products Section Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 sm:mb-16">
         <div className="flex flex-col">
-          <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Available Items</h2>
-          <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mt-1">Freshly prepared for you</p>
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">Handpicked Collection</h2>
+          <p className="text-[10px] sm:text-xs font-bold text-orange-400 uppercase tracking-[0.4em] mt-2 sm:mt-3">Premium quality items only</p>
         </div>
-        <div className="h-0.5 flex-1 bg-slate-100 dark:bg-slate-800 mx-8 rounded-full opacity-50"></div>
+        <div className="h-0.5 flex-1 bg-orange-100 hidden md:block mx-12 rounded-full opacity-30"></div>
       </div>
 
       {productsLoading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="aspect-square bg-white dark:bg-slate-900 rounded-[2.5rem] animate-pulse border border-slate-100 dark:border-slate-800" />
+            <div key={i} className="aspect-square bg-white rounded-[2.5rem] animate-pulse border border-slate-100" />
           ))}
         </div>
       ) : products.length === 0 ? (
-        <div className="text-center py-20 bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 border-dashed">
+        <div className="text-center py-20 bg-white rounded-[2.5rem] border border-slate-100 border-dashed">
           <p className="text-slate-400 font-bold uppercase tracking-widest">No products available yet.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {products.map((product: Product) => (
-            <div key={product.id} className="group card-hover bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[2.5rem] overflow-hidden shadow-sm flex flex-col">
-              <div className="aspect-square bg-slate-50 dark:bg-slate-950 relative overflow-hidden cursor-pointer" onClick={() => navigate(`/product/${product.id}`)}>
+            <div key={product.id} className="group card-hover bg-white border border-slate-100 rounded-[2.5rem] overflow-hidden shadow-sm flex flex-col">
+              <div className="aspect-square bg-slate-50 relative overflow-hidden cursor-pointer" onClick={() => navigate(`/product/${product.id}`)}>
                 {product.image_url ? (
                   <img src={product.image_url} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-slate-200 dark:text-slate-800">
+                  <div className="w-full h-full flex items-center justify-center text-slate-200">
                     <svg className="w-20 h-20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   </div>
                 )}
-                <div className="absolute top-5 right-5 px-4 py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-white/20 rounded-2xl text-base font-black text-indigo-600 dark:text-indigo-400 shadow-xl">
+                <div className="absolute top-5 right-5 px-4 py-2 bg-white/95 backdrop-blur-md border border-white/20 rounded-2xl text-base font-black text-orange-600 shadow-xl">
                   ₦{product.price.toLocaleString()}
                 </div>
               </div>
               <div className="p-8 flex flex-col flex-1">
-                <h3 className="text-lg font-black text-slate-900 dark:text-white mb-2 line-clamp-1 cursor-pointer hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors" onClick={() => navigate(`/product/${product.id}`)}>
+                <h3 className="text-lg font-black text-slate-900 mb-2 line-clamp-1 cursor-pointer hover:text-orange-600 transition-colors" onClick={() => navigate(`/product/${product.id}`)}>
                   {product.name}
                 </h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium line-clamp-2 mb-6 flex-1">{product.description}</p>
+                <p className="text-sm text-slate-500 font-medium line-clamp-2 mb-6 flex-1">{product.description}</p>
                 <button
                   onClick={() => handleAddToCart(product)}
-                  className="w-full py-4 rounded-2xl text-sm font-black text-white bg-indigo-600 hover:bg-indigo-700 shadow-lg shadow-indigo-600/20 hover:shadow-indigo-600/40 transition-all flex items-center justify-center gap-3 active:scale-95"
+                  className="w-full py-4 rounded-2xl text-sm font-black text-white bg-orange-600 hover:bg-orange-700 shadow-xl shadow-orange-600/20 hover:shadow-orange-600/40 transition-all flex items-center justify-center gap-3 active:scale-95"
                 >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                   </svg>
                   Add to Cart

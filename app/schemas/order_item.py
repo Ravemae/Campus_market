@@ -2,15 +2,15 @@ from pydantic import BaseModel
 
 
 class OrderItemCreate(BaseModel):
-    product_id: int
+    product_id: str
     quantity: int
     unit_price: float
 
 
 class OrderItemResponse(BaseModel):
-    id: int
-    order_id: int
-    product_id: int
+    id: str
+    order_id: str
+    product_id: str
     quantity: int
     unit_price: float
     subtotal: float

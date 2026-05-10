@@ -49,7 +49,7 @@ def get_my_vendor(
     return vendor
 
 @router.get("/{vendor_id}")
-def get_vendor(vendor_id: int, session: Session = Depends(get_session)):
+def get_vendor(vendor_id: str, session: Session = Depends(get_session)):
     """Get a single vendor by ID (public)."""
     vendor = session.get(Vendor, vendor_id)
     if not vendor:
@@ -59,7 +59,7 @@ def get_vendor(vendor_id: int, session: Session = Depends(get_session)):
 
 @router.patch("/{vendor_id}")
 def update_vendor(
-    vendor_id: int,
+    vendor_id: str,
     data: VendorUpdate,
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user)
@@ -80,7 +80,7 @@ def update_vendor(
 
 @router.patch("/{vendor_id}/approve")
 def approve_vendor(
-    vendor_id: int,
+    vendor_id: str,
     session: Session = Depends(get_session),
     admin: User = Depends(get_admin_user)
 ):

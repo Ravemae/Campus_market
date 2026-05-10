@@ -100,7 +100,7 @@ def get_cart(
 
 @router.patch("/{item_id}", response_model=CartItemResponse)
 def update_cart_item(
-    item_id: int,
+    item_id: str,
     data: CartItemUpdate,
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user)
@@ -136,7 +136,7 @@ def update_cart_item(
 
 @router.delete("/{item_id}")
 def remove_cart_item(
-    item_id: int,
+    item_id: str,
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user)
 ):

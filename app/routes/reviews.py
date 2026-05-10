@@ -62,7 +62,7 @@ def create_review(
 
 @router.get("/vendor/{vendor_id}")
 def get_vendor_reviews(
-    vendor_id: int,
+    vendor_id: str,
     session: Session = Depends(get_session)
 ):
     """Get all reviews for a vendor with average rating (public)."""

@@ -5,8 +5,8 @@ import type { CartStoreItem } from '../types';
 interface CartState {
   items: CartStoreItem[];
   addItem: (item: CartStoreItem) => void;
-  removeItem: (productId: number) => void;
-  updateQty: (productId: number, quantity: number) => void;
+  removeItem: (productId: string) => void;
+  updateQty: (productId: string, quantity: number) => void;
   clearCart: () => void;
   getTotal: () => number;
   getItemCount: () => number;

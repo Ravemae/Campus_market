@@ -25,17 +25,21 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-[85vh] flex items-center justify-center px-4 relative overflow-hidden">
+      {/* Background Blobs for Bright Sensation */}
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-orange-500/5 rounded-full blur-[100px] -mr-40 -mt-40" />
+      <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-amber-500/5 rounded-full blur-[80px] -ml-20 -mb-20" />
+      
+      <div className="w-full max-w-md relative z-10">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-xl shadow-emerald-500/20">
-            <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-linear-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-2xl shadow-orange-500/30">
+            <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-white mb-1">Welcome back</h1>
-          <p className="text-gray-500 text-sm">Sign in to your CampusMarket account</p>
+          <h1 className="text-3xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">Welcome back</h1>
+          <p className="text-slate-500 dark:text-slate-400 font-medium">Sign in to your CampusMarket account</p>
         </div>
 
         {/* Form */}
@@ -47,7 +51,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-3 rounded-xl bg-gray-900/60 border border-gray-800/50 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all"
+              className="w-full px-4 py-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-orange-500/50 focus:ring-4 focus:ring-orange-500/5 transition-all shadow-sm"
               placeholder="you@university.edu"
             />
           </div>
@@ -59,7 +63,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full px-4 py-3 rounded-xl bg-gray-900/60 border border-gray-800/50 text-white placeholder-gray-600 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all"
+                className="w-full px-4 py-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-orange-500/50 focus:ring-4 focus:ring-orange-500/5 transition-all shadow-sm"
                 placeholder="••••••••"
               />
               <button
@@ -85,11 +89,11 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={mutation.isPending}
-            className="w-full py-3 rounded-xl font-medium text-white bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-4 rounded-2xl font-black text-white bg-linear-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 shadow-xl shadow-orange-600/25 hover:shadow-orange-600/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
           >
             {mutation.isPending ? (
               <span className="flex items-center justify-center gap-2">
-                <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>
+                <svg className="animate-spin w-5 h-5" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>
                 Signing in...
               </span>
             ) : (
@@ -99,16 +103,16 @@ export default function LoginPage() {
         </form>
 
         {/* Links */}
-        <div className="mt-6 text-center space-y-2">
-          <p className="text-sm text-gray-500">
+        <div className="mt-8 text-center space-y-3">
+          <p className="text-sm text-slate-500 font-medium">
             Don't have an account?{' '}
-            <Link to="/signup" className="text-emerald-400 hover:text-emerald-300 font-medium">
+            <Link to="/signup" className="text-orange-600 hover:text-orange-500 font-bold">
               Sign up
             </Link>
           </p>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-slate-400 font-medium">
             Want to sell?{' '}
-            <Link to="/signup/vendor" className="text-teal-400 hover:text-teal-300 font-medium">
+            <Link to="/signup/vendor" className="text-orange-400 hover:text-orange-300 font-bold">
               Register as vendor
             </Link>
           </p>

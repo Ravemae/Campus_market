@@ -14,7 +14,7 @@ const VendorDashboardPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const fetchProducts = async (vendorId: number) => {
+  const fetchProducts = async (vendorId: string) => {
     try {
       const pRes = await getVendorProducts(vendorId, { include_unavailable: true });
       setProducts(pRes.data);
@@ -33,7 +33,7 @@ const VendorDashboardPage: React.FC = () => {
         
         if (myVendor) {
           setVendor(myVendor);
-          const oRes = await getVendorOrders(myVendor.id);
+          const oRes = await getVendorOrders();
           setOrders(oRes.data);
           await fetchProducts(myVendor.id);
         }
@@ -46,7 +46,7 @@ const VendorDashboardPage: React.FC = () => {
     fetchData();
   }, [user]);
 
-  const handleStatusChange = async (orderId: number, newStatus: string) => {
+  const handleStatusChange = async (orderId: string, newStatus: string) => {
     try {
       await updateOrderStatus(orderId, newStatus);
       setOrders(orders.map(o => o.id === orderId ? { ...o, status: newStatus as any } : o));
@@ -55,7 +55,7 @@ const VendorDashboardPage: React.FC = () => {
     }
   };
 
-  const handleDeleteProduct = async (productId: number) => {
+  const handleDeleteProduct = async (productId: string) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
         await deleteProduct(productId);

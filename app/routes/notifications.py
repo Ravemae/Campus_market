@@ -25,7 +25,7 @@ def get_my_notifications(
 
 @router.patch("/{notification_id}/read")
 def mark_as_read(
-    notification_id: int,
+    notification_id: str,
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user)
 ):

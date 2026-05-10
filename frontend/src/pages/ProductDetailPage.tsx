@@ -13,7 +13,7 @@ export default function ProductDetailPage() {
 
   const { data: product, isLoading: productLoading } = useQuery({
     queryKey: ['product', productId],
-    queryFn: () => getProduct(Number(productId)).then((r) => r.data),
+    queryFn: () => getProduct(productId!).then((r) => r.data),
     enabled: !!productId,
   });
 

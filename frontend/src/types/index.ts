@@ -1,7 +1,7 @@
 /* === Types for Campus Market === */
 
 export interface User {
-  id: number;
+  id: string;
   full_name: string;
   email: string;
   phone: string;
@@ -11,8 +11,8 @@ export interface User {
 }
 
 export interface Vendor {
-  id: number;
-  owner_id: number;
+  id: string;
+  owner_id: string;
   shop_name: string;
   description: string;
   location: string;
@@ -23,8 +23,8 @@ export interface Vendor {
 }
 
 export interface Product {
-  id: number;
-  vendor_id: number;
+  id: string;
+  vendor_id: string;
   name: string;
   description?: string;
   price: number;
@@ -35,24 +35,24 @@ export interface Product {
 }
 
 export interface OrderItem {
-  id: number;
-  order_id: number;
-  product_id: number;
+  id: string;
+  order_id: string;
+  product_id: string;
   quantity: number;
   unit_price: number;
   subtotal: number;
 }
 
 export interface OrderItemCreate {
-  product_id: number;
+  product_id: string;
   quantity: number;
   unit_price: number;
 }
 
 export interface Order {
-  id: number;
-  user_id: number;
-  vendor_id: number;
+  id: string;
+  user_id: string;
+  vendor_id: string;
   total_amount: number;
   delivery_type: 'pickup' | 'delivery';
   status: 'pending' | 'confirmed' | 'ready' | 'delivered' | 'cancelled';
@@ -61,26 +61,27 @@ export interface Order {
   created_at: string;
   hostel_name?: string;
   room_number?: string;
-  items: OrderItem[];
+  delivery_address?: string;
+  items?: OrderItem[]; // Made optional as backend currently doesn't return them
 }
 
 export interface CartItem {
-  id: number;
-  user_id: number;
-  product_id: number;
+  id: string;
+  user_id: string;
+  product_id: string;
   quantity: number;
   added_at: string;
   product_name: string;
   product_price: number;
   product_image_url: string;
-  vendor_id: number;
+  vendor_id: string;
 }
 
 export interface Review {
-  id: number;
-  user_id: number;
-  vendor_id: number;
-  order_id: number;
+  id: string;
+  user_id: string;
+  vendor_id: string;
+  order_id: string;
   rating: number;
   comment?: string;
   created_at: string;
@@ -88,7 +89,7 @@ export interface Review {
 }
 
 export interface VendorReviews {
-  vendor_id: number;
+  vendor_id: string;
   average_rating: number;
   total_reviews: number;
   reviews: Review[];
@@ -101,10 +102,9 @@ export interface AuthResponse {
 }
 
 /* Cart store item (frontend-only, Zustand) */
-/* Cart store item (frontend-only, Zustand) */
 export interface CartStoreItem {
-  productId: number;
-  vendorId: number;
+  productId: string;
+  vendorId: string;
   name: string;
   price: number;
   quantity: number;
@@ -112,8 +112,8 @@ export interface CartStoreItem {
 }
 
 export interface Notification {
-  id: number;
-  user_id: number;
+  id: string;
+  user_id: string;
   message: string;
   type: 'general' | 'order' | 'payment' | 'review';
   is_read: boolean;

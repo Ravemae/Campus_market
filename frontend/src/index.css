@@ -35,11 +35,11 @@
 
 @layer components {
   .glass {
-    @apply backdrop-blur-xl bg-white/70 dark:bg-slate-900/70 border border-white/20 dark:border-white/10;
+    @apply backdrop-blur-xl bg-white/70 border border-white/20
   }
   
   .card-hover {
-    @apply transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_40px_80px_-15px_rgba(99,102,241,0.15)] dark:hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.5)];
+    @apply transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_40px_80px_-15px_rgba(99,102,241,0.15)]
   }
 
   .text-gradient {
@@ -55,7 +55,7 @@
   @apply bg-transparent;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-200 dark:bg-slate-800 rounded-full border-4 border-solid border-slate-50 dark:border-slate-950 hover:bg-indigo-200 dark:hover:bg-indigo-900 transition-colors;
+  @apply bg-slate-200 rounded-full border-4 border-solid border-slate-50 hover:bg-indigo-200 transition-colors;
 }
 
 .scrollbar-hide::-webkit-scrollbar {

@@ -23,7 +23,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=False,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -40,29 +40,12 @@ async def global_exception_handler(request: Request, exc: Exception):
 @app.on_event("startup")
 def on_startup():
     create_db()
-    # print("DATABASE URL:", os.getenv("DATABASE_URL"))
     import os
     if not os.path.exists("seeded.txt"):
         from seed import seed
         seed()
         with open("seeded.txt", "w") as f:
             f.write("seeded")
-    
-    # Also seed products if they don't exist
-    from sqlmodel import Session, select
-    from app.models.product import Product
-    from app.database import engine
-    
-    with Session(engine) as session:
-        existing_products = session.exec(select(Product)).all()
-        if not existing_products:
-            print("No products found, seeding products...")
-            from app.routes.admin import seed_products_logic
-            try:
-                result = seed_products_logic(session)
-                print(f"Products seeded: {result}")
-            except Exception as e:
-                print(f"Error seeding products: {e}")
 
 
 # Mount static files for uploaded images

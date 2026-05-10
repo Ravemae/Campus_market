@@ -5,17 +5,18 @@ from app.schemas.order_item import OrderItemCreate, OrderItemResponse
 
 
 class OrderCreate(BaseModel):
-    vendor_id: int
-    items: List[OrderItemCreate]
+    vendor_id: str
+    total_amount: float
     delivery_type: DeliveryType
     hostel_name: Optional[str] = None
     room_number: Optional[str] = None
+    delivery_address: Optional[str] = None
 
 
 class OrderResponse(BaseModel):
-    id: int
-    user_id: int
-    vendor_id: int
+    id: str
+    user_id: str
+    vendor_id: str
     total_amount: float
     delivery_type: DeliveryType
     status: OrderStatus
