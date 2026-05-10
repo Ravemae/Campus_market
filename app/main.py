@@ -15,7 +15,7 @@ import os
 security = HTTPBearer()
 
 app = FastAPI(
-    title="Campus Market API",
+    title="QuickMart API",
     description="A multi-vendor food and items booking platform for campus communities",
     version="1.0.0"
 )
@@ -46,6 +46,22 @@ def on_startup():
         seed()
         with open("seeded.txt", "w") as f:
             f.write("seeded")
+    
+    # Also seed products if they don't exist
+    from sqlmodel import Session, select
+    from app.models.product import Product
+    from app.database import engine
+    
+    with Session(engine) as session:
+        existing_products = session.exec(select(Product)).all()
+        if not existing_products:
+            print("No products found, seeding products...")
+            from app.routes.admin import seed_products_logic
+            try:
+                result = seed_products_logic(session)
+                print(f"Products seeded: {result}")
+            except Exception as e:
+                print(f"Error seeding products: {e}")
 
 
 # Mount static files for uploaded images
@@ -70,5 +86,5 @@ app.include_router(notifications.router)
 
 @app.get("/")
 def root():
-    return {"message": "Campus Market API is running 🚀"}
+    return {"message": "QuickMart API is running 🚀"}
 
