@@ -209,3 +209,32 @@ For other location:
 - `UPDATES.md` — This file
 
 ## Environment Variables Required
+
+
+---
+## Latest Updates (May 10, 2026)
+
+### Flutterwave Payment Integration (`app/routes/flutterwave.py`)
+- Added Flutterwave as second payment option alongside Paystack
+- `POST /flutterwave/initialize/{order_id}` — initialize payment
+- `GET /flutterwave/verify/{tx_ref}` — verify payment after redirect
+- Supports Card, USSD, Bank Transfer payment options
+- Added `FLUTTERWAVE_SECRET_KEY` to environment variables
+
+### Delivery Model Fix (`app/models/delivery.py`)
+- Fixed NULL identity key issue — migrated from `default=None` to `default_factory=generate_uuid`
+- Delivery records now properly generate UUID IDs
+
+### Payment Route Rename (`app/routes/payment.py`)
+- Changed tag from `"Payment"` to `"Paystack Payment"` for clarity in API docs
+
+### Order Fees Confirmed Working
+- ₦100 service fee added to ALL orders automatically
+- ₦200 delivery fee added only when delivery type is selected
+- Tested and confirmed: ₦2,500 order → ₦2,800 total with delivery
+
+### Three Delivery Types Confirmed
+- `pickup` — no extra fields needed, no extra charge
+- `delivery` + `hostel_name` + `room_number` — hostel delivery +₦200
+- `delivery` + `delivery_address` — custom campus location +₦200
+---
