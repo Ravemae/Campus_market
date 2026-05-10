@@ -1,5 +1,9 @@
 from sqlmodel import SQLModel, Field
 from typing import Optional
+import uuid
+
+def generate_uuid():
+    return str(uuid.uuid4())
 
 HOSTELS = [
     # Female
@@ -27,8 +31,11 @@ HOSTELS = [
 ]
 
 class Delivery(SQLModel, table=True):
-    id: Optional[str] = Field(default=None, primary_key=True)
-    order_id: str = Field(foreign_key="order.id")    
+    id: Optional[str] = Field(
+        default_factory=generate_uuid,
+        primary_key=True
+    )
+    order_id: str = Field(foreign_key="order.id")
     hostel_name: str
     room_number: str
     delivery_fee: float = 200.0

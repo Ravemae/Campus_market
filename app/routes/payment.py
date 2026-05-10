@@ -9,7 +9,7 @@ import os
 
 load_dotenv()
 
-router = APIRouter(prefix="/payment", tags=["Payment"])
+router = APIRouter(prefix="/payment", tags=["Paystack Payment"])
 
 PAYSTACK_SECRET = os.getenv("PAYSTACK_SECRET_KEY")
 PAYSTACK_BASE = "https://api.paystack.co"

@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from app.database import create_db
-from app.routes import auth, vendors, products, orders, payment, delivery, admin, helpdesk, cart, reviews, upload, notifications
+from app.routes import auth, vendors, products, orders, payment, flutterwave, delivery, admin, helpdesk, cart, reviews, upload, notifications
 from app.core.otp import OTPStore
 from fastapi.security import HTTPBearer
 import traceback
@@ -59,6 +59,7 @@ app.include_router(vendors.router)
 app.include_router(products.router)
 app.include_router(orders.router)
 app.include_router(payment.router)
+app.include_router(flutterwave.router)  
 app.include_router(delivery.router)
 app.include_router(admin.router)
 app.include_router(cart.router)
