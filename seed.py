@@ -128,7 +128,7 @@ def seed():
                 full_name="System Administrator",
                 email=admin_email,
                 phone="08000000000",
-                password_hash=hash_password("Admin@123"),
+                password_hash=hash_password("Admin@1234"),
                 role=UserRole.admin,
                 created_at=str(__import__('datetime').datetime.utcnow())
             )
