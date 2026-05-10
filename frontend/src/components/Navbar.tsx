@@ -45,7 +45,7 @@ export default function Navbar() {
             </div>
             <div className="flex flex-col">
               <span className="text-lg sm:text-2xl font-black bg-linear-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent leading-none tracking-tight">
-                CampusMarket
+                QuickMart
               </span>
               <span className="text-[7px] sm:text-[9px] font-black text-orange-600 uppercase tracking-[0.25em] mt-0.5 sm:mt-1">Campus Commerce</span>
             </div>

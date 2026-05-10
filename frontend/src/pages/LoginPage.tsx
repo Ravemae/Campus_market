@@ -39,7 +39,7 @@ export default function LoginPage() {
             </svg>
           </div>
           <h1 className="text-3xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">Welcome back</h1>
-          <p className="text-slate-500 dark:text-slate-400 font-medium">Sign in to your CampusMarket account</p>
+          <p className="text-slate-500 dark:text-slate-400 font-medium">Sign in to your QuickMart account</p>
         </div>
 
         {/* Form */}

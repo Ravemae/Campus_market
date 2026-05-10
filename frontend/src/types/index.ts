@@ -1,4 +1,4 @@
-/* === Types for Campus Market === */
+/* === Types for QuickMart === */
 
 export interface User {
   id: string;

@@ -27,7 +27,7 @@ export default function VendorSignupPage() {
       <div className="w-full max-w-2xl">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">Open your shop</h1>
-          <p className="text-slate-500 font-medium">Join CampusMarket as a vendor</p>
+          <p className="text-slate-500 font-medium">Join QuickMart as a vendor</p>
         </div>
 
         <form onSubmit={(e) => { e.preventDefault(); mutation.mutate(); }} className="space-y-8">

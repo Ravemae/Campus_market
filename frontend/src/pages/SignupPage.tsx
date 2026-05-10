@@ -28,7 +28,7 @@ export default function SignupPage() {
       <div className="w-full max-w-md relative z-10 py-12">
         <div className="text-center mb-10">
           <h1 className="text-3xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">Create your account</h1>
-          <p className="text-slate-500 dark:text-slate-400 font-medium">Start shopping on CampusMarket</p>
+          <p className="text-slate-500 dark:text-slate-400 font-medium">Start shopping on QuickMart</p>
         </div>
 
         <form onSubmit={(e) => { e.preventDefault(); mutation.mutate(); }} className="space-y-4">

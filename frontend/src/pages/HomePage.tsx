@@ -243,11 +243,11 @@ export default function HomePage() {
             
             <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black text-slate-900 mb-6 sm:mb-8 leading-[0.95] tracking-tight">
               Food & Items, <br />
-              <span className="text-transparent bg-linear-to-r from-orange-600 to-orange-500 bg-clip-text">to your door.</span>
+              <span className="text-transparent bg-linear-to-r from-orange-600 to-orange-500 bg-clip-text">in your hands.</span>
             </h1>
             
             <p className="text-slate-600 text-lg sm:text-xl mb-10 max-w-lg font-semibold leading-relaxed">
-              Experience campus commerce at its finest. Fast delivery for snacks, meals, tech, and everything students need.
+              Deliver to your hostel or pick up in minutes. Experience campus commerce at its finest with everything students need.
             </p>
 
             {/* Search Bar */}
@@ -317,8 +317,8 @@ export default function HomePage() {
                 </svg>
               </div>
               <div>
-                <p className="text-base sm:text-lg font-black text-slate-900 tracking-tight leading-none">15 Min</p>
-                <p className="text-[7px] sm:text-[8px] font-black text-orange-600 uppercase tracking-[0.2em] mt-1">Avg. Delivery</p>
+                <p className="text-base sm:text-lg font-black text-slate-900 tracking-tight leading-none">Fast</p>
+                <p className="text-[7px] sm:text-[8px] font-black text-orange-600 uppercase tracking-[0.2em] mt-1">Campus Delivery</p>
               </div>
             </motion.div>
           </div>

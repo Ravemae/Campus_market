@@ -20,7 +20,7 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: () => !!get().accessToken,
     }),
     {
-      name: 'campus-market-auth',
+      name: 'quickmart-auth',
     }
   )
 );
