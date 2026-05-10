@@ -1,8 +1,9 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { getProduct, getVendor } from '../api/endpoints';
+import { getProduct, getVendor, resolveMediaUrl } from '../api/endpoints';
 import { useCartStore } from '../stores/cartStore';
+import { useAuthStore } from '../stores/authStore';
 
 export default function ProductDetailPage() {
   const { productId } = useParams<{ productId: string }>();
@@ -10,6 +11,7 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const addItem = useCartStore((s) => s.addItem);
   const cartItems = useCartStore((s) => s.items);
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
   const { data: product, isLoading: productLoading } = useQuery({
     queryKey: ['product', productId],
@@ -32,6 +34,14 @@ export default function ProductDetailPage() {
   }
 
   const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      const confirmLogin = window.confirm("You need to be logged in to add items to your cart. Login now?");
+      if (confirmLogin) {
+        navigate('/login');
+      }
+      return;
+    }
+
     const currentVendorId = cartItems[0]?.vendorId;
     if (currentVendorId && currentVendorId !== product.vendor_id) {
       const confirmMsg = "Your cart has items from another shop. Clear cart to add this item?";
@@ -67,7 +77,7 @@ export default function ProductDetailPage() {
           {/* Image */}
           <div className="aspect-square bg-gray-800 rounded-2xl overflow-hidden border border-gray-700/50">
             {product.image_url ? (
-              <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" />
+              <img src={resolveMediaUrl(product.image_url)} alt={product.name} className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
                 <svg className="w-16 h-16 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>

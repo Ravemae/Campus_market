@@ -404,9 +404,9 @@ export default function HomePage() {
         </motion.div>
       ) : (
         <motion.div 
+          key={currentPage}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          animate="visible"
           variants={containerVariants}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10"
         >

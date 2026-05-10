@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCartStore } from '../stores/cartStore';
 import { useAuthStore } from '../stores/authStore';
+import { resolveMediaUrl } from '../api/endpoints';
 import { TrashIcon, PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
 
 const CartPage: React.FC = () => {
@@ -63,7 +64,7 @@ const CartPage: React.FC = () => {
                 <li key={item.productId} className="flex p-8 sm:p-10 hover:bg-slate-50/50 transition-colors">
                   <div className="shrink-0">
                     <img
-                      src={item.imageUrl || 'https://via.placeholder.com/150'}
+                      src={resolveMediaUrl(item.imageUrl) || 'https://via.placeholder.com/150'}
                       alt={item.name}
                       className="w-24 h-24 rounded-2xl object-cover sm:w-32 sm:h-32 shadow-md"
                     />
@@ -109,7 +110,7 @@ const CartPage: React.FC = () => {
                         </button>
                       </div>
                       
-                      <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">
+                      <p className="text-xs font-bold text-slate-700 uppercase tracking-widest">
                         Subtotal: <span className="text-slate-900 ml-2">₦{(item.price * item.quantity).toLocaleString()}</span>
                       </p>
                     </div>
@@ -169,7 +170,7 @@ const CartPage: React.FC = () => {
               Proceed to Checkout
             </button>
             
-            <p className="mt-6 text-center text-xs text-slate-400 font-bold uppercase tracking-widest">
+            <p className="mt-6 text-center text-xs text-slate-700 font-bold uppercase tracking-widest">
               Secure checkout with Paystack
             </p>
           </div>

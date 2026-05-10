@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCartStore } from '../stores/cartStore';
 import { useAuthStore } from '../stores/authStore';
-import { createOrder, initializePayment, getHostels } from '../api/endpoints';
+import { createOrder, initializePayment, getHostels, resolveMediaUrl } from '../api/endpoints';
 
 const CheckoutPage: React.FC = () => {
   const { items, getTotal } = useCartStore();
@@ -58,11 +58,6 @@ const CheckoutPage: React.FC = () => {
     try {
       // 1. Create the order
       const vendorId = items[0].vendorId; // Guaranteed to be same vendor from our cart logic
-      const orderItems = items.map(i => ({
-        product_id: i.productId,
-        quantity: i.quantity,
-        unit_price: i.price
-      }));
 
       const orderRes = await createOrder({
         vendor_id: vendorId,
@@ -170,7 +165,7 @@ const CheckoutPage: React.FC = () => {
             {deliveryType === 'delivery' && (
               <div className="mt-8 pt-8 border-t border-slate-50 dark:border-slate-800 grid grid-cols-1 gap-6 sm:grid-cols-2 animate-in fade-in slide-in-from-top-4 duration-500">
                 <div>
-                  <label htmlFor="hostel" className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 px-1">
+                  <label htmlFor="hostel" className="block text-xs font-black text-slate-700 uppercase tracking-widest mb-2 px-1">
                     Hostel Name
                   </label>
                   <select
@@ -186,7 +181,7 @@ const CheckoutPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="room" className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 px-1">
+                  <label htmlFor="room" className="block text-xs font-black text-slate-700 uppercase tracking-widest mb-2 px-1">
                     Room Number
                   </label>
                   <input
@@ -215,13 +210,13 @@ const CheckoutPage: React.FC = () => {
               {items.map((item) => (
                 <li key={item.productId} className="flex items-center gap-4 group">
                    <div className="w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-800 overflow-hidden shrink-0">
-                    <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
+                    <img src={resolveMediaUrl(item.imageUrl)} alt={item.name} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-black text-slate-900 dark:text-white truncate">
                       {item.name}
                     </p>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                    <p className="text-xs font-bold text-slate-700 uppercase tracking-widest">
                       QTY: {item.quantity}
                     </p>
                   </div>
