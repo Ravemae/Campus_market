@@ -58,11 +58,6 @@ const CheckoutPage: React.FC = () => {
     try {
       // 1. Create the order
       const vendorId = items[0].vendorId; // Guaranteed to be same vendor from our cart logic
-      const orderItems = items.map(i => ({
-        product_id: i.productId,
-        quantity: i.quantity,
-        unit_price: i.price
-      }));
 
       const orderRes = await createOrder({
         vendor_id: vendorId,

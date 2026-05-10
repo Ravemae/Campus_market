@@ -9,6 +9,8 @@ const OrdersPage: React.FC = () => {
   const user = useAuthStore(state => state.user);
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 5;
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -108,7 +110,7 @@ const OrdersPage: React.FC = () => {
                 </div>
 
                 <div className="space-y-4">
-                  {order.items.map((item, idx) => (
+                  {order.items?.map((item, idx) => (
                     <div key={idx} className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
                         <div className="w-8 h-8 flex items-center justify-center bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-xl text-xs font-black">

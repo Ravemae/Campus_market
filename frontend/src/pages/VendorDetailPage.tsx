@@ -5,66 +5,7 @@ import { motion } from 'framer-motion';
 import { useCartStore } from '../stores/cartStore';
 import type { Product } from '../types';
 
-const getCategoryIcon = (category: string) => {
-  const key = category.toLowerCase();
-  if (key.includes('food')) {
-    return (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M7 3v12.5a4.5 4.5 0 109 0V3m-4.5 8.5V21" />
-      </svg>
-    );
-  }
-  if (key.includes('drink')) {
-    return (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M8 3h8l-1.5 10.5a2 2 0 01-2 1.5h-1a2 2 0 01-2-1.5L8 3z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M7 21h10" />
-      </svg>
-    );
-  }
-  if (key.includes('snack')) {
-    return (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M5 11h14M6 15h12M7 19h10" />
-      </svg>
-    );
-  }
-  if (key.includes('grocery')) {
-    return (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6 10l1-5h10l1 5M6 10h12l1 10H5L6 10z" />
-      </svg>
-    );
-  }
-  if (key.includes('elect')) {
-    return (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M8 7h8v10H8z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 17v2" />
-      </svg>
-    );
-  }
-  if (key.includes('fashion') || key.includes('style')) {
-    return (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6 4l2 8h8l2-8M6 4h12" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M10 16h4" />
-      </svg>
-    );
-  }
-  if (key.includes('service')) {
-    return (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18M3 12h18" />
-      </svg>
-    );
-  }
-  return (
-    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m7-7H5" />
-    </svg>
-  );
-};
+
 
 export default function VendorDetailPage() {
   const { vendorId } = useParams<{ vendorId: string }>();
@@ -85,7 +26,6 @@ export default function VendorDetailPage() {
   });
 
   const handleAddToCart = (product: Product) => {
-    // Check if cart has items from another vendor
     const currentVendorId = cartItems[0]?.vendorId;
     if (currentVendorId && currentVendorId !== product.vendor_id) {
       const confirmMsg = "Your cart has items from another shop. Clear cart to add this item?";
@@ -131,7 +71,6 @@ export default function VendorDetailPage() {
              <div className="w-full h-full bg-orange-600" />
           )}
           
-          {/* Animated Circles for Bright Sensation */}
           <motion.div 
             animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
@@ -151,7 +90,7 @@ export default function VendorDetailPage() {
                 <img src={vendor.image_url} alt={vendor.shop_name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-orange-50 to-amber-50 text-orange-600">
-                  <span className="text-5xl sm:text-7xl font-black tracking-tighter">{vendor.shop_name.charAt(0)}</span>
+                  <span className="text-5xl sm:text-7xl font-black tracking-tighter">{vendor.shop_name?.charAt(0)}</span>
                 </div>
               )}
               <div className="absolute inset-0 ring-1 ring-inset ring-black/5 rounded-[2rem] sm:rounded-[3rem]" />
