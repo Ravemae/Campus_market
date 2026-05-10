@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCartStore } from '../stores/cartStore';
 import { useAuthStore } from '../stores/authStore';
 import { resolveMediaUrl } from '../api/endpoints';
-import { TrashIcon, PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
+import { TrashIcon, PlusIcon, MinusIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
 
 const CartPage: React.FC = () => {
   const { items, updateQty, removeItem, getTotal, clearCart } = useCartStore();
@@ -22,20 +22,18 @@ const CartPage: React.FC = () => {
   if (items.length === 0) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
-        <div className="w-28 h-28 mx-auto mb-8 rounded-[2.5rem] bg-indigo-50 flex items-center justify-center text-indigo-400">
-          <svg className="w-14 h-14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-          </svg>
+        <div className="w-28 h-28 mx-auto mb-8 rounded-[2.5rem] bg-orange-50 flex items-center justify-center text-orange-400">
+          <ShoppingBagIcon className="w-14 h-14" />
         </div>
         <h2 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">
           Your Cart is Empty
         </h2>
-        <p className="text-slate-500 font-medium mb-10 max-w-sm mx-auto">
+        <p className="text-slate-500 font-bold mb-10 max-w-sm mx-auto">
           Looks like you haven't added any delicious items yet. Explore our vendors and find something tasty!
         </p>
         <Link
           to="/"
-          className="inline-flex items-center px-10 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-black rounded-2xl shadow-xl shadow-indigo-600/30 transition-all active:scale-95"
+          className="inline-flex items-center px-10 py-4 bg-orange-600 hover:bg-orange-700 text-white font-black rounded-2xl shadow-xl shadow-orange-600/30 transition-all active:scale-95 uppercase tracking-widest text-sm"
         >
           Start Shopping
         </Link>
@@ -46,10 +44,8 @@ const CartPage: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="flex items-center gap-4 mb-10">
-        <div className="p-3 bg-indigo-600 rounded-2xl shadow-lg shadow-indigo-600/30">
-          <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-          </svg>
+        <div className="p-3 bg-orange-600 rounded-2xl shadow-lg shadow-orange-600/30">
+          <ShoppingBagIcon className="w-6 h-6 text-white" strokeWidth={2.5} />
         </div>
         <h1 className="text-4xl font-black text-slate-900 tracking-tight">
           Shopping Cart
@@ -58,16 +54,22 @@ const CartPage: React.FC = () => {
 
       <div className="lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start">
         <div className="lg:col-span-8">
-          <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden mb-8">
-            <ul className="divide-y divide-slate-100">
+          <div className="bg-white rounded-[2.5rem] border-2 border-slate-50 shadow-sm overflow-hidden mb-8">
+            <ul className="divide-y divide-slate-50">
               {items.map((item) => (
-                <li key={item.productId} className="flex p-8 sm:p-10 hover:bg-slate-50/50 transition-colors">
+                <li key={item.productId} className="flex p-8 sm:p-10 hover:bg-slate-50/30 transition-colors">
                   <div className="shrink-0">
-                    <img
-                      src={resolveMediaUrl(item.imageUrl) || 'https://via.placeholder.com/150'}
-                      alt={item.name}
-                      className="w-24 h-24 rounded-2xl object-cover sm:w-32 sm:h-32 shadow-md"
-                    />
+                    <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden bg-slate-100 shadow-md">
+                      <img
+                        src={resolveMediaUrl(item.imageUrl)}
+                        alt={item.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = 'https://via.placeholder.com/150?text=No+Image';
+                        }}
+                      />
+                    </div>
                   </div>
 
                   <div className="ml-6 flex-1 flex flex-col">
@@ -75,11 +77,11 @@ const CartPage: React.FC = () => {
                       <div>
                         <Link
                           to={`/product/${item.productId}`}
-                          className="text-xl font-black text-slate-900 hover:text-indigo-600 transition-colors"
+                          className="text-xl font-black text-slate-900 hover:text-orange-600 transition-colors tracking-tight"
                         >
                           {item.name}
                         </Link>
-                        <p className="mt-2 text-indigo-600 font-black">
+                        <p className="mt-2 text-orange-600 font-black text-lg">
                           ₦{item.price.toLocaleString()}
                         </p>
                       </div>
@@ -91,27 +93,27 @@ const CartPage: React.FC = () => {
                       </button>
                     </div>
 
-                    <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
-                      <div className="flex items-center bg-slate-50 rounded-xl p-1 border border-slate-100">
+                    <div className="mt-auto flex flex-wrap items-center justify-between gap-4">
+                      <div className="flex items-center bg-slate-50 rounded-xl p-1 border-2 border-slate-100">
                         <button
                           onClick={() => updateQty(item.productId, item.quantity - 1)}
-                          className="p-2 text-slate-500 hover:text-indigo-600 transition-all"
+                          className="p-2 text-slate-500 hover:text-orange-600 transition-all"
                         >
                           <MinusIcon className="h-5 w-5" strokeWidth={3} />
                         </button>
-                        <span className="px-6 py-2 text-slate-900 font-black min-w-12 text-center">
+                        <span className="px-6 py-2 text-slate-900 font-black min-w-[3.5rem] text-center">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() => updateQty(item.productId, item.quantity + 1)}
-                          className="p-2 text-slate-500 hover:text-indigo-600 transition-all"
+                          className="p-2 text-slate-500 hover:text-orange-600 transition-all"
                         >
                           <PlusIcon className="h-5 w-5" strokeWidth={3} />
                         </button>
                       </div>
                       
-                      <p className="text-xs font-bold text-slate-700 uppercase tracking-widest">
-                        Subtotal: <span className="text-slate-900 ml-2">₦{(item.price * item.quantity).toLocaleString()}</span>
+                      <p className="text-xs font-black text-slate-700 uppercase tracking-widest">
+                        Item Subtotal: <span className="text-slate-900 ml-2">₦{(item.price * item.quantity).toLocaleString()}</span>
                       </p>
                     </div>
                   </div>
@@ -123,14 +125,14 @@ const CartPage: React.FC = () => {
           <div className="flex justify-between items-center px-4">
             <button
               onClick={clearCart}
-              className="text-sm font-black text-red-500 hover:text-red-600 uppercase tracking-widest flex items-center gap-2"
+              className="text-xs font-black text-red-500 hover:text-red-600 uppercase tracking-widest flex items-center gap-2"
             >
               <TrashIcon className="h-4 w-4" />
               Clear Cart
             </button>
             <Link
               to="/"
-              className="text-sm font-black text-indigo-600 hover:text-indigo-700 uppercase tracking-widest"
+              className="text-xs font-black text-orange-600 hover:text-orange-700 uppercase tracking-widest"
             >
               &larr; Continue Shopping
             </Link>
@@ -139,25 +141,25 @@ const CartPage: React.FC = () => {
 
         {/* Order summary */}
         <section className="mt-16 lg:mt-0 lg:col-span-4 sticky top-32">
-          <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-indigo-500/5 p-8 sm:p-10">
+          <div className="bg-white rounded-[2.5rem] border-2 border-slate-50 shadow-2xl shadow-orange-500/5 p-8 sm:p-10">
             <h2 className="text-2xl font-black text-slate-900 mb-8 tracking-tight">
               Order summary
             </h2>
 
             <dl className="space-y-6">
               <div className="flex items-center justify-between">
-                <dt className="text-slate-500 font-medium">Subtotal</dt>
+                <dt className="text-slate-500 font-bold">Items Subtotal</dt>
                 <dd className="text-slate-900 font-black">
                   ₦{getTotal().toLocaleString()}
                 </dd>
               </div>
               <div className="flex items-center justify-between">
-                <dt className="text-slate-500 font-medium">Delivery Fee</dt>
-                <dd className="text-slate-400 font-medium text-sm italic">Calculated at next step</dd>
+                <dt className="text-slate-500 font-bold">Delivery Fee</dt>
+                <dd className="text-slate-400 font-black text-xs uppercase tracking-widest">At next step</dd>
               </div>
-              <div className="border-t border-slate-50 pt-6 flex items-center justify-between">
-                <dt className="text-lg font-black text-slate-900 uppercase tracking-tight">Total</dt>
-                <dd className="text-2xl font-black text-indigo-600">
+              <div className="border-t-2 border-slate-50 pt-6 flex items-center justify-between">
+                <dt className="text-lg font-black text-slate-900 uppercase tracking-tight">Final Total</dt>
+                <dd className="text-2xl font-black text-orange-600">
                   ₦{getTotal().toLocaleString()}
                 </dd>
               </div>
@@ -165,14 +167,15 @@ const CartPage: React.FC = () => {
 
             <button
               onClick={handleCheckout}
-              className="mt-10 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-5 rounded-[1.8rem] shadow-xl shadow-indigo-600/30 transition-all active:scale-95 text-lg"
+              className="mt-10 w-full bg-linear-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white font-black py-5 rounded-[1.8rem] shadow-xl shadow-orange-600/30 transition-all active:scale-95 text-lg uppercase tracking-widest text-sm"
             >
-              Proceed to Checkout
+              Secure Checkout
             </button>
             
-            <p className="mt-6 text-center text-xs text-slate-700 font-bold uppercase tracking-widest">
-              Secure checkout with Paystack
-            </p>
+            <div className="mt-8 flex items-center justify-center gap-3 grayscale opacity-50">
+               <img src="https://paystack.com/assets/img/integrations/paystack-mark.png" alt="Paystack" className="h-5 w-auto" />
+               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Protected by Paystack</p>
+            </div>
           </div>
         </section>
       </div>

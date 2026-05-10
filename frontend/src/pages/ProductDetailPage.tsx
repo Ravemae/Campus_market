@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { getProduct, getVendor, resolveMediaUrl } from '../api/endpoints';
 import { useCartStore } from '../stores/cartStore';
 import { useAuthStore } from '../stores/authStore';
+import { ShoppingBagIcon, ChevronLeftIcon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 
 export default function ProductDetailPage() {
   const { productId } = useParams<{ productId: string }>();
@@ -26,11 +27,16 @@ export default function ProductDetailPage() {
   });
 
   if (productLoading || vendorLoading) {
-    return <div className="text-center py-20 text-gray-400">Loading product...</div>;
+    return <div className="text-center py-32 text-orange-600 font-black uppercase tracking-[0.3em] animate-pulse">Product loading...</div>;
   }
 
   if (!product) {
-    return <div className="text-center py-20 text-gray-400">Product not found</div>;
+    return (
+      <div className="text-center py-32">
+        <h2 className="text-2xl font-black text-slate-900 mb-4">Product not found</h2>
+        <button onClick={() => navigate('/')} className="text-orange-600 font-bold uppercase tracking-widest text-xs">Back to Marketplace</button>
+      </div>
+    );
   }
 
   const handleAddToCart = () => {
@@ -61,65 +67,94 @@ export default function ProductDetailPage() {
       imageUrl: product.image_url || '',
     });
     
-    // Provide some visual feedback or redirect to cart
     alert('Added to cart!');
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors">
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-        Back
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative overflow-hidden">
+      {/* Decorative Blobs */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-500/5 rounded-full blur-[120px] -mr-40 -mt-40 -z-10" />
+      
+      <button onClick={() => navigate(-1)} className="group flex items-center gap-3 text-slate-400 hover:text-orange-600 mb-10 transition-all font-black uppercase tracking-widest text-[10px]">
+        <div className="p-2 rounded-xl bg-white border-2 border-slate-50 group-hover:border-orange-100 group-hover:bg-orange-50 transition-all">
+          <ChevronLeftIcon className="w-4 h-4" strokeWidth={3} />
+        </div>
+        Back to listings
       </button>
 
-      <div className="bg-gray-900/60 border border-gray-800/50 rounded-3xl overflow-hidden p-6 md:p-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+      <div className="bg-white border-2 border-slate-50 rounded-[3rem] overflow-hidden p-8 md:p-12 shadow-2xl shadow-orange-500/5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
           {/* Image */}
-          <div className="aspect-square bg-gray-800 rounded-2xl overflow-hidden border border-gray-700/50">
+          <div className="aspect-square bg-slate-50 rounded-[2.5rem] overflow-hidden border-2 border-slate-100 shadow-inner group relative">
             {product.image_url ? (
-              <img src={resolveMediaUrl(product.image_url)} alt={product.name} className="w-full h-full object-cover" />
+              <img src={resolveMediaUrl(product.image_url)} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             ) : (
-              <div className="w-full h-full flex items-center justify-center">
-                <svg className="w-16 h-16 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              <div className="w-full h-full flex items-center justify-center text-slate-200">
+                <ShoppingBagIcon className="w-24 h-24" />
               </div>
             )}
+            <div className="absolute top-6 right-6">
+              <span className="px-6 py-3 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-white/50 text-orange-600 font-black text-xl">
+                ₦{product.price.toLocaleString()}
+              </span>
+            </div>
           </div>
 
           {/* Details */}
-          <div className="flex flex-col">
+          <div className="flex flex-col py-4">
             {vendor && (
-              <button onClick={() => navigate(`/vendor/${vendor.id}`)} className="text-emerald-400 text-sm font-medium hover:text-emerald-300 transition-colors mb-2 text-left">
-                {vendor.shop_name}
+              <button onClick={() => navigate(`/vendor/${vendor.id}`)} className="group flex items-center gap-2 mb-4 text-left">
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-orange-600 transition-colors">From {vendor.shop_name}</span>
+                <div className="w-4 h-4 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-orange-100 transition-colors">
+                  <div className="w-1 h-1 rounded-full bg-slate-400 group-hover:bg-orange-600"></div>
+                </div>
               </button>
             )}
-            <h1 className="text-3xl font-bold text-white mb-4">{product.name}</h1>
-            <div className="text-3xl font-bold text-white mb-6">₦{product.price.toLocaleString()}</div>
+            <h1 className="text-4xl lg:text-5xl font-black text-slate-900 mb-6 tracking-tight">{product.name}</h1>
             
-            <div className="prose prose-invert max-w-none text-gray-400 mb-8">
-              <p>{product.description || 'No description available for this product.'}</p>
+            <div className="space-y-6 mb-10">
+              <div className="flex items-center gap-4">
+                 <span className="px-4 py-2 rounded-xl bg-orange-50 text-orange-600 text-xs font-black uppercase tracking-widest border border-orange-100">
+                    {product.category}
+                 </span>
+                 <span className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest border ${product.is_available ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-slate-50 text-slate-400 border-slate-100'}`}>
+                    {product.is_available ? 'In Stock' : 'Unavailable'}
+                 </span>
+              </div>
+              
+              <div className="prose prose-slate max-w-none text-slate-600 font-bold leading-relaxed text-lg">
+                <p>{product.description || 'No detailed description available for this product yet. Rest assured, it is high quality and campus-approved!'}</p>
+              </div>
             </div>
 
-            <div className="mt-auto space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">Quantity</label>
-                <div className="flex items-center gap-3 w-32 bg-gray-800/80 p-1 rounded-xl border border-gray-700">
-                  <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors">
-                    -
-                  </button>
-                  <span className="flex-1 text-center font-medium text-white">{quantity}</span>
-                  <button onClick={() => setQuantity(quantity + 1)} className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors">
-                    +
-                  </button>
+            <div className="mt-auto space-y-8 pt-10 border-t-2 border-slate-50">
+              <div className="flex items-center justify-between">
+                <div>
+                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 px-1">Quantity Selection</label>
+                  <div className="flex items-center gap-4 bg-slate-50 p-1.5 rounded-2xl border-2 border-slate-100">
+                    <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-10 h-10 flex items-center justify-center text-slate-500 hover:text-orange-600 hover:bg-white rounded-xl transition-all shadow-sm">
+                      <MinusIcon className="w-5 h-5" strokeWidth={3} />
+                    </button>
+                    <span className="w-12 text-center font-black text-slate-900 text-lg">{quantity}</span>
+                    <button onClick={() => setQuantity(quantity + 1)} className="w-10 h-10 flex items-center justify-center text-slate-500 hover:text-orange-600 hover:bg-white rounded-xl transition-all shadow-sm">
+                      <PlusIcon className="w-5 h-5" strokeWidth={3} />
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="text-right">
+                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Price</p>
+                   <p className="text-3xl font-black text-orange-600 tracking-tight">₦{(product.price * quantity).toLocaleString()}</p>
                 </div>
               </div>
 
               <button
                 onClick={handleAddToCart}
                 disabled={!product.is_available}
-                className="w-full py-4 rounded-xl font-bold text-white bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 shadow-lg shadow-emerald-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full py-5 rounded-[1.8rem] font-black text-white bg-linear-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 shadow-2xl shadow-orange-600/30 transition-all disabled:opacity-50 active:scale-95 flex items-center justify-center gap-4 uppercase tracking-widest text-sm"
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" /></svg>
-                {product.is_available ? `Add to Cart - ₦${(product.price * quantity).toLocaleString()}` : 'Out of Stock'}
+                <ShoppingBagIcon className="w-6 h-6" strokeWidth={2.5} />
+                {product.is_available ? `Add to Cart` : 'Currently Unavailable'}
               </button>
             </div>
           </div>

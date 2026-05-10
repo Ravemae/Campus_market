@@ -16,8 +16,12 @@ export const resolveMediaUrl = (url?: string | null) => {
   if (!url) return '';
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
   if (url.startsWith('//')) return `${window.location.protocol}${url}`;
-  if (url.startsWith('/')) return `${API_URL}${url}`;
-  return `${API_URL}/${url}`;
+  
+  // Ensure we don't have double slashes when joining API_URL and url
+  const baseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
+  const path = url.startsWith('/') ? url : `/${url}`;
+  
+  return `${baseUrl}${path}`;
 };
 
 /* ─── Auth ─── */
