@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthStore } from '../stores/authStore';
-import { getMyVendor, getVendorOrders, getVendorProducts, updateOrderStatus, deleteProduct } from '../api/endpoints';
+import { getMyVendor, getVendorOrders, getVendorProducts, updateOrderStatus, deleteProduct, resolveMediaUrl } from '../api/endpoints';
 import type { Vendor, Order, Product } from '../types';
 import ProductModal from '../components/ProductModal';
 import { Pagination } from '../components/Pagination';
@@ -220,7 +220,7 @@ const VendorDashboardPage: React.FC = () => {
                     <div className="flex items-center gap-5">
                       <div className="h-16 w-16 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm">
                         {product.image_url ? (
-                          <img className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500" src={product.image_url} alt="" />
+                          <img className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500" src={resolveMediaUrl(product.image_url)} alt="" />
                         ) : (
                           <div className="h-full w-full flex items-center justify-center text-slate-300 dark:text-slate-700">
                             <ShoppingBagIcon className="h-8 w-8" />

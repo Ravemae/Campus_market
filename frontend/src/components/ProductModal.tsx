@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { XMarkIcon, PhotoIcon } from '@heroicons/react/24/outline';
-import { uploadFile, createProduct, updateProduct } from '../api/endpoints';
+import { uploadFile, createProduct, updateProduct, resolveMediaUrl } from '../api/endpoints';
 import type { Product } from '../types';
 
 interface ProductModalProps {
@@ -104,7 +104,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSuccess,
              <div className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50 hover:border-indigo-400 transition-all cursor-pointer relative overflow-hidden min-h-[12rem]">
               {formData.image_url ? (
                 <div className="relative w-full h-40">
-                  <img src={formData.image_url} alt="Preview" className="w-full h-full object-cover rounded-2xl shadow-md" />
+                  <img src={resolveMediaUrl(formData.image_url)} alt="Preview" className="w-full h-full object-cover rounded-2xl shadow-md" />
                   <div className="absolute inset-0 bg-indigo-600/10 group-hover:bg-indigo-600/0 transition-all"></div>
                 </div>
               ) : (

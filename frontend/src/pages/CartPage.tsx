@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCartStore } from '../stores/cartStore';
 import { useAuthStore } from '../stores/authStore';
+import { resolveMediaUrl } from '../api/endpoints';
 import { TrashIcon, PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
 
 const CartPage: React.FC = () => {
@@ -63,7 +64,7 @@ const CartPage: React.FC = () => {
                 <li key={item.productId} className="flex p-8 sm:p-10 hover:bg-slate-50/50 transition-colors">
                   <div className="shrink-0">
                     <img
-                      src={item.imageUrl || 'https://via.placeholder.com/150'}
+                      src={resolveMediaUrl(item.imageUrl) || 'https://via.placeholder.com/150'}
                       alt={item.name}
                       className="w-24 h-24 rounded-2xl object-cover sm:w-32 sm:h-32 shadow-md"
                     />

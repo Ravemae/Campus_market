@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCartStore } from '../stores/cartStore';
 import { useAuthStore } from '../stores/authStore';
-import { createOrder, initializePayment, getHostels } from '../api/endpoints';
+import { createOrder, initializePayment, getHostels, resolveMediaUrl } from '../api/endpoints';
 
 const CheckoutPage: React.FC = () => {
   const { items, getTotal } = useCartStore();
@@ -210,7 +210,7 @@ const CheckoutPage: React.FC = () => {
               {items.map((item) => (
                 <li key={item.productId} className="flex items-center gap-4 group">
                    <div className="w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-800 overflow-hidden shrink-0">
-                    <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
+                    <img src={resolveMediaUrl(item.imageUrl)} alt={item.name} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-black text-slate-900 dark:text-white truncate">
