@@ -1,7 +1,13 @@
 from sqlmodel import create_engine, SQLModel, Session
+from dotenv import load_dotenv
 import os
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./app.db")
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL is not set. Check Railway environment variables.")
 
 connect_args = {}
 if DATABASE_URL.startswith("sqlite"):

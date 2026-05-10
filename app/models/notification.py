@@ -4,8 +4,8 @@ from datetime import datetime
 
 
 class Notification(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-    user_id: int = Field(foreign_key="user.id")
+    id: Optional[str] = Field(default=None, primary_key=True)
+    user_id: str = Field(foreign_key="user.id")
     message: str
     type: str = "general"  # general, order, payment, review
     is_read: bool = False

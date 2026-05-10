@@ -23,7 +23,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -40,6 +40,7 @@ async def global_exception_handler(request: Request, exc: Exception):
 @app.on_event("startup")
 def on_startup():
     create_db()
+    # print("DATABASE URL:", os.getenv("DATABASE_URL"))
     import os
     if not os.path.exists("seeded.txt"):
         from seed import seed
