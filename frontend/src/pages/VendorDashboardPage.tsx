@@ -3,6 +3,7 @@ import { useAuthStore } from '../stores/authStore';
 import { getMyVendor, getVendorOrders, getVendorProducts, updateOrderStatus, deleteProduct } from '../api/endpoints';
 import type { Vendor, Order, Product } from '../types';
 import ProductModal from '../components/ProductModal';
+import { Pagination } from '../components/Pagination';
 import { PencilSquareIcon, TrashIcon, PlusIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
 
 const VendorDashboardPage: React.FC = () => {
@@ -13,6 +14,9 @@ const VendorDashboardPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [orderPage, setOrderPage] = useState(1);
+  const [productPage, setProductPage] = useState(1);
+  const ITEMS_PER_PAGE = 5;
 
   const fetchProducts = async (vendorId: string) => {
     try {
@@ -141,7 +145,7 @@ const VendorDashboardPage: React.FC = () => {
               </div>
             ) : (
               <div className="space-y-4">
-                {orders.map(order => (
+                {orders.slice((orderPage - 1) * ITEMS_PER_PAGE, orderPage * ITEMS_PER_PAGE).map(order => (
                   <div key={order.id} className="p-6 rounded-4xl bg-slate-50/50 dark:bg-slate-950/50 border border-slate-100 dark:border-slate-900 group hover:border-indigo-100 dark:hover:border-indigo-900/50 transition-all">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                       <div className="flex-1 min-w-0">
@@ -176,6 +180,13 @@ const VendorDashboardPage: React.FC = () => {
                     </div>
                   </div>
                 ))}
+                <Pagination 
+                  currentPage={orderPage}
+                  totalPages={Math.ceil(orders.length / ITEMS_PER_PAGE)}
+                  onPageChange={setOrderPage}
+                  totalItems={orders.length}
+                  itemsPerPage={ITEMS_PER_PAGE}
+                />
               </div>
             )}
           </div>
@@ -204,7 +215,7 @@ const VendorDashboardPage: React.FC = () => {
               </div>
             ) : (
               <div className="space-y-4">
-                {products.map(product => (
+                {products.slice((productPage - 1) * ITEMS_PER_PAGE, productPage * ITEMS_PER_PAGE).map(product => (
                   <div key={product.id} className="p-5 rounded-4xl bg-slate-50/50 dark:bg-slate-950/50 border border-slate-100 dark:border-slate-900 group hover:border-indigo-100 dark:hover:border-indigo-900/50 transition-all">
                     <div className="flex items-center gap-5">
                       <div className="h-16 w-16 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm">
@@ -242,6 +253,13 @@ const VendorDashboardPage: React.FC = () => {
                     </div>
                   </div>
                 ))}
+                <Pagination 
+                  currentPage={productPage}
+                  totalPages={Math.ceil(products.length / ITEMS_PER_PAGE)}
+                  onPageChange={setProductPage}
+                  totalItems={products.length}
+                  itemsPerPage={ITEMS_PER_PAGE}
+                />
               </div>
             )}
           </div>

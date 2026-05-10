@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { getVendors, resolveMediaUrl } from '../api/endpoints';
 import type { Vendor } from '../types';
+import { Pagination } from '../components/Pagination';
 import heroFood from '../assets/hero-food.png';
 import heroLogistics from '../assets/hero-logistics.png';
 
@@ -415,47 +416,16 @@ export default function HomePage() {
         </motion.div>
       )}
 
-      {filtered.length > ITEMS_PER_PAGE && !isLoading && (
-        <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-3xl bg-white border-2 border-orange-100 p-5 shadow-sm">
-          <p className="text-sm text-slate-600 font-semibold">
-            Showing {paginatedVendors.length} of {filtered.length} vendors — page {currentPage} of {totalPages}
-          </p>
-          <div className="inline-flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
-              disabled={currentPage === 1}
-              className="px-4 py-2 rounded-2xl font-black text-sm transition duration-300 border-2 border-orange-200 bg-white text-orange-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-orange-50"
-            >
-              Previous
-            </button>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-orange-50 text-orange-700 font-black text-sm border border-orange-200">
-              {Array.from({ length: totalPages }, (_, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  onClick={() => setCurrentPage(index + 1)}
-                  className={`w-9 h-9 rounded-full transition duration-300 ${
-                    currentPage === index + 1
-                      ? 'bg-orange-600 text-white shadow-lg shadow-orange-600/20'
-                      : 'bg-white text-orange-700 hover:bg-orange-100'
-                  }`}
-                >
-                  {index + 1}
-                </button>
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 rounded-2xl font-black text-sm transition duration-300 border-2 border-orange-200 bg-white text-orange-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-orange-50"
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      )}
+      <Pagination 
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={(page) => {
+          setCurrentPage(page);
+          window.scrollTo({ top: 600, behavior: 'smooth' });
+        }}
+        totalItems={filtered.length}
+        itemsPerPage={ITEMS_PER_PAGE}
+      />
       </section>
     </div>
   );

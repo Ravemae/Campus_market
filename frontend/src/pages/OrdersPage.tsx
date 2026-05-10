@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getUserOrders } from '../api/endpoints';
 import { useAuthStore } from '../stores/authStore';
 import type { Order } from '../types';
+import { Pagination } from '../components/Pagination';
 import { ShoppingBagIcon, ClockIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 
 const OrdersPage: React.FC = () => {
@@ -68,7 +69,7 @@ const OrdersPage: React.FC = () => {
         </div>
       ) : (
         <div className="space-y-8">
-          {orders.map(order => (
+          {orders.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE).map(order => (
             <div key={order.id} className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden group">
               <div className="px-8 py-6 bg-slate-50/50 dark:bg-slate-950/50 border-b border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-6">
                 <div className="flex items-center gap-8">
@@ -126,6 +127,17 @@ const OrdersPage: React.FC = () => {
               </div>
             </div>
           ))}
+          
+          <Pagination 
+            currentPage={currentPage}
+            totalPages={Math.ceil(orders.length / ITEMS_PER_PAGE)}
+            onPageChange={(page) => {
+              setCurrentPage(page);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            totalItems={orders.length}
+            itemsPerPage={ITEMS_PER_PAGE}
+          />
         </div>
       )}
     </div>

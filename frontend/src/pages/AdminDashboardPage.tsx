@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getAllVendorsAdmin, approveVendor, getAdminDashboard } from '../api/endpoints';
 import type { Vendor } from '../types';
+import { Pagination } from '../components/Pagination';
 import { 
   CheckCircleIcon, 
   UsersIcon, 
@@ -28,6 +29,8 @@ const AdminDashboardPage: React.FC = () => {
   const [dashboardData, setDashboardData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 5;
 
   const fetchData = async () => {
     try {
@@ -255,7 +258,7 @@ const AdminDashboardPage: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
-                  {vendors.map(vendor => (
+                  {vendors.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE).map(vendor => (
                     <tr key={vendor.id} className="hover:bg-indigo-50/20 dark:hover:bg-indigo-900/10 transition-colors">
                       <td className="px-8 py-6">
                         <div className="flex flex-col">
@@ -265,13 +268,22 @@ const AdminDashboardPage: React.FC = () => {
                       </td>
                       <td className="px-8 py-6">
                         <span className={`px-4 py-1.5 inline-flex text-[8px] font-black rounded-xl uppercase tracking-widest ${vendor.is_approved ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400' : 'bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400'}`}>
-                          {vendor.is_approved ? 'Active' : 'Pending'}
+                           {vendor.is_approved ? 'Active' : 'Pending'}
                         </span>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+            </div>
+            <div className="p-4 border-t border-slate-50 dark:border-slate-800 bg-slate-50/30 dark:bg-slate-950/30">
+              <Pagination 
+                currentPage={currentPage}
+                totalPages={Math.ceil(vendors.length / ITEMS_PER_PAGE)}
+                onPageChange={setCurrentPage}
+                totalItems={vendors.length}
+                itemsPerPage={ITEMS_PER_PAGE}
+              />
             </div>
           </div>
         </div>
