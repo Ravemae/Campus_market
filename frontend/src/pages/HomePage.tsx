@@ -7,7 +7,7 @@ import { getVendors, resolveMediaUrl } from '../api/endpoints';
 import type { Vendor } from '../types';
 import { Pagination } from '../components/Pagination';
 import heroFood from '../assets/hero-food.png';
-import heroLogistics from '../assets/hero-logistics.png';
+import heroDelivery from '../assets/hero-delivery.jpg';
 
 const CATEGORIES = ['All', 'Food', 'Drinks', 'Snacks', 'Groceries', 'Electronics', 'Fashion', 'Services', 'Other'];
 
@@ -282,7 +282,7 @@ export default function HomePage() {
               transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className="absolute top-0 right-0 w-[55%] sm:w-[260px] lg:w-72 h-[280px] sm:h-[380px] lg:h-[450px] rounded-3xl sm:rounded-4xl overflow-hidden shadow-2xl border-4 border-white z-10 hover:rotate-0 hover:shadow-orange-500/30 transition-all duration-500"
             >
-              <img src={heroLogistics} alt="Logistics" className="w-full h-full object-cover" />
+              <img src={heroDelivery} alt="Swift Delivery" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-5 left-5 sm:bottom-8 sm:left-8">
                 <p className="text-white font-black text-lg sm:text-2xl tracking-tight">Swift Delivery</p>
