@@ -30,7 +30,7 @@ const LoginPromptModal: React.FC<LoginPromptModalProps> = ({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 24 }}
               transition={{ type: 'spring', stiffness: 320, damping: 28 }}
-              className="bg-white rounded-[2rem] shadow-2xl shadow-orange-500/20 border-2 border-orange-50 p-8 w-full max-w-sm text-center"
+              className="bg-white rounded-4xl shadow-2xl shadow-orange-500/20 border-2 border-orange-50 p-8 w-full max-w-sm text-center"
             >
               {/* Icon */}
               <div className="w-16 h-16 rounded-[1.5rem] bg-orange-50 border-2 border-orange-100 flex items-center justify-center mx-auto mb-5">

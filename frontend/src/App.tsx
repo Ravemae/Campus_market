@@ -3,7 +3,7 @@ import AppLayout from './layouts/AppLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Pages
-import HomePage from './pages/HomePage';
+import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import VendorSignupPage from './pages/VendorSignupPage';
@@ -27,7 +27,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<AppLayout />}>
         {/* Public Routes */}
-        <Route index element={<HomePage />} />
+        <Route index element={<LandingPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="signup" element={<SignupPage />} />
         <Route path="signup/vendor" element={<VendorSignupPage />} />

@@ -82,7 +82,7 @@ const AISupportWidget: React.FC = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed bottom-24 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-96 max-w-sm bg-white rounded-[2rem] shadow-2xl shadow-orange-500/20 border-2 border-orange-100 overflow-hidden flex flex-col"
+            className="fixed bottom-24 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-96 max-w-sm bg-white rounded-4xl shadow-2xl shadow-orange-500/20 border-2 border-orange-100 overflow-hidden flex flex-col"
             style={{ maxHeight: '70vh' }}
           >
             {/* Header */}

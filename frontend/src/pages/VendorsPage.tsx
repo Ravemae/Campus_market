@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useNavigate, useSearchParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { motion, type Variants } from 'framer-motion';
 import { getVendors, resolveMediaUrl } from '../api/endpoints';
 import type { Vendor } from '../types';
 import { Pagination } from '../components/Pagination';
 
 const CATEGORIES = ['All', 'Food', 'Drinks', 'Snacks', 'Groceries', 'Electronics', 'Fashion', 'Services', 'Other'];
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { y: 20, opacity: 0 },
   visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 100, damping: 12 } },
 };
@@ -137,11 +137,11 @@ export default function VendorsPage() {
                   className="group bg-white rounded-2xl sm:rounded-3xl border-2 border-orange-200 overflow-hidden shadow-md hover:shadow-2xl hover:shadow-orange-500/30 transition-all duration-400 cursor-pointer"
                   onClick={() => navigate(`/vendor/${vendor.id}`)}
                 >
-                  <div className="aspect-[4/3] relative overflow-hidden bg-orange-100">
+                  <div className="aspect-4/3 relative overflow-hidden bg-orange-100">
                     {imgUrl ? (
                       <img src={imgUrl} alt={vendor.shop_name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-100 to-amber-50 text-orange-600">
+                      <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-orange-100 to-amber-50 text-orange-600">
                          <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72" />
                           </svg>

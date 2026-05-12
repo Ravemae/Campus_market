@@ -98,14 +98,14 @@ const CheckoutPage: React.FC = () => {
             </h2>
             <div className="grid grid-cols-2 gap-3 sm:gap-6">
               <button type="button" onClick={() => setDeliveryType('pickup')}
-                className={`p-4 sm:p-8 rounded-xl sm:rounded-[2rem] border-2 transition-all text-left flex flex-col gap-3 ${deliveryType === 'pickup' ? 'border-orange-600 bg-orange-50/50 ring-4 ring-orange-500/10' : 'border-slate-100 hover:border-orange-200'}`}>
+                className={`p-4 sm:p-8 rounded-xl sm:rounded-4xl border-2 transition-all text-left flex flex-col gap-3 ${deliveryType === 'pickup' ? 'border-orange-600 bg-orange-50/50 ring-4 ring-orange-500/10' : 'border-slate-100 hover:border-orange-200'}`}>
                 <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${deliveryType === 'pickup' ? 'border-orange-600' : 'border-slate-300'}`}>
                   {deliveryType === 'pickup' && <div className="w-2.5 h-2.5 bg-orange-600 rounded-full"></div>}
                 </div>
                 <div><p className="font-black text-slate-900 uppercase tracking-wider text-[10px] sm:text-xs mb-1">Store Pickup</p><p className="text-slate-500 text-[10px] sm:text-sm font-bold">Free</p></div>
               </button>
               <button type="button" onClick={() => setDeliveryType('delivery')}
-                className={`p-4 sm:p-8 rounded-xl sm:rounded-[2rem] border-2 transition-all text-left flex flex-col gap-3 ${deliveryType === 'delivery' ? 'border-orange-600 bg-orange-50/50 ring-4 ring-orange-500/10' : 'border-slate-100 hover:border-orange-200'}`}>
+                className={`p-4 sm:p-8 rounded-xl sm:rounded-4xl border-2 transition-all text-left flex flex-col gap-3 ${deliveryType === 'delivery' ? 'border-orange-600 bg-orange-50/50 ring-4 ring-orange-500/10' : 'border-slate-100 hover:border-orange-200'}`}>
                 <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${deliveryType === 'delivery' ? 'border-orange-600' : 'border-slate-300'}`}>
                   {deliveryType === 'delivery' && <div className="w-2.5 h-2.5 bg-orange-600 rounded-full"></div>}
                 </div>

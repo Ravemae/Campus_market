@@ -24,13 +24,13 @@ export default function Navbar() {
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group shrink-0">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center shadow-lg shadow-orange-500/40 group-hover:shadow-orange-500/60 transition-all duration-500 group-hover:scale-110">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-xl sm:rounded-2xl bg-linear-to-br from-orange-500 to-orange-700 flex items-center justify-center shadow-lg shadow-orange-500/40 group-hover:shadow-orange-500/60 transition-all duration-500 group-hover:scale-110">
               <svg className="w-4 h-4 sm:w-5 sm:h-5 lg:w-7 lg:h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
               </svg>
             </div>
             <div className="flex flex-col">
-              <span className="text-base sm:text-lg lg:text-2xl font-black bg-gradient-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent leading-none tracking-tight">
+              <span className="text-base sm:text-lg lg:text-2xl font-black bg-linear-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent leading-none tracking-tight">
                 QuickMart
               </span>
               <span className="text-[6px] sm:text-[7px] lg:text-[9px] font-black text-orange-600 uppercase tracking-[0.25em] mt-0.5">Campus Commerce</span>
@@ -99,7 +99,7 @@ export default function Navbar() {
                 </Link>
                 <Link
                   to="/signup"
-                  className="px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl text-[9px] sm:text-xs font-black text-white bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 shadow-lg shadow-orange-500/40 transition-all active:scale-95 uppercase tracking-[0.15em]"
+                  className="px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl text-[9px] sm:text-xs font-black text-white bg-linear-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 shadow-lg shadow-orange-500/40 transition-all active:scale-95 uppercase tracking-[0.15em]"
                 >
                   Join
                 </Link>

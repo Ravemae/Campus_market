@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { loginUser } from '../api/endpoints';
 import { useAuthStore } from '../stores/authStore';
@@ -9,13 +9,15 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const setAuth = useAuthStore((s) => s.setAuth);
 
   const mutation = useMutation({
     mutationFn: () => loginUser(email, password),
     onSuccess: (res) => {
       setAuth(res.data.user, res.data.access_token);
-      navigate('/');
+      const redirect = searchParams.get('redirect') || '/';
+      navigate(redirect);
     },
   });
 
@@ -58,7 +60,7 @@ export default function LoginPage() {
           <div>
             <div className="flex justify-between items-center px-1 mb-2">
               <label className="block text-xs font-black text-slate-700 uppercase tracking-widest">Security Password</label>
-              <Link to="/forgot-password" size="sm" className="text-[10px] font-black text-orange-600 uppercase tracking-widest hover:underline">Forgot?</Link>
+              <Link to="/forgot-password" className="text-[10px] font-black text-orange-600 uppercase tracking-widest hover:underline">Forgot?</Link>
             </div>
             <div className="relative">
               <input

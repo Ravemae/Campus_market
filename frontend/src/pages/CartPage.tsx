@@ -69,7 +69,7 @@ const CartPage: React.FC = () => {
                         <button onClick={() => updateQty(item.productId, item.quantity - 1)} className="p-1.5 text-slate-500 hover:text-orange-600">
                           <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15" /></svg>
                         </button>
-                        <span className="px-3 py-1 text-slate-900 font-black text-xs min-w-[2rem] text-center">{item.quantity}</span>
+                        <span className="px-3 py-1 text-slate-900 font-black text-xs min-w-8 text-center">{item.quantity}</span>
                         <button onClick={() => updateQty(item.productId, item.quantity + 1)} className="p-1.5 text-slate-500 hover:text-orange-600">
                           <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                         </button>
@@ -107,7 +107,7 @@ const CartPage: React.FC = () => {
                 <dd className="text-xl font-black text-orange-600">₦{getTotal().toLocaleString()}</dd>
               </div>
             </dl>
-            <button onClick={handleCheckout} className="mt-8 w-full bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white font-black py-4 rounded-2xl shadow-xl shadow-orange-600/30 transition-all active:scale-95 uppercase tracking-widest text-xs">
+            <button onClick={handleCheckout} className="mt-8 w-full bg-linear-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white font-black py-4 rounded-2xl shadow-xl shadow-orange-600/30 transition-all active:scale-95 uppercase tracking-widest text-xs">
               Checkout
             </button>
           </div>

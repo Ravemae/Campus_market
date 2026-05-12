@@ -1,22 +1,57 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import { getProducts, resolveMediaUrl } from '../api/endpoints';
 import { useCartStore } from '../stores/cartStore';
 import { useAuthStore } from '../stores/authStore';
 import type { Product } from '../types';
 import { Pagination } from '../components/Pagination';
 import LoginPromptModal from '../components/LoginPromptModal';
+import { 
+  PiCookingPotBold, 
+  PiCoffeeBold, 
+  PiCookieBold, 
+  PiBagBold,
+  PiDevicesBold, 
+  PiTShirtBold, 
+  PiWrenchBold,
+  PiSquaresFourBold,
+  PiOrangeBold,
+  PiBookOpenBold 
+} from "react-icons/pi";
 
-const CATEGORIES = ['All', 'Food', 'Drinks', 'Snacks', 'Groceries', 'Electronics', 'Fashion', 'Services', 'Other'];
+const CATEGORIES = [
+  { id: 'All', label: 'All', icon: <PiSquaresFourBold className="w-7 h-7" /> },
+  { id: 'Food', label: 'Meals', icon: <PiCookingPotBold className="w-7 h-7" /> },
+  { id: 'Drinks', label: 'Drinks', icon: <PiCoffeeBold className="w-7 h-7" /> },
+  { id: 'Snacks', label: 'Snacks', icon: <PiCookieBold className="w-7 h-7" /> },
+  { id: 'Fruits', label: 'Fruits', icon: <PiOrangeBold className="w-7 h-7" /> },
+  { id: 'Books', label: 'Books', icon: <PiBookOpenBold className="w-7 h-7" /> },
+  { id: 'Groceries', label: 'Groceries', icon: <PiBagBold className="w-7 h-7" /> },
+  { id: 'Electronics', label: 'Tech', icon: <PiDevicesBold className="w-7 h-7" /> },
+  { id: 'Fashion', label: 'Fashion', icon: <PiTShirtBold className="w-7 h-7" /> },
+  { id: 'Services', label: 'Services', icon: <PiWrenchBold className="w-7 h-7" /> },
+];
 
-const containerVariants = {
+const CATEGORY_KEYWORDS: Record<string, string[]> = {
+  Food: ['food', 'meals', 'lunch', 'dinner', 'breakfast', 'local', 'rice', 'soup', 'stew', 'yam', 'beans'],
+  Drinks: ['drinks', 'beverages', 'soda', 'juice', 'water', 'coffee', 'tea', 'milk', 'smoothie'],
+  Snacks: ['snacks', 'bakery', 'pastries', 'cookies', 'cakes', 'bread', 'shawarma', 'pizza', 'pie'],
+  Fruits: ['fruits', 'apple', 'orange', 'banana', 'watermelon', 'pineapple', 'mango', 'grapes', 'citrus'],
+  Books: ['books', 'stationary', 'stationery', 'pen', 'pencil', 'notebook', 'textbook', 'journal', 'eraser', 'sharpener', 'ruler', 'calculator'],
+  Fashion: ['fashion', 'clothes', 'clothing', 'shoes', 'bags', 'accessories', 'wears', 'shirt', 'dress', 'trousers', 'skirt', 'heels', 'sneakers'],
+  Electronics: ['tech', 'electronics', 'gadgets', 'phones', 'laptops', 'chargers', 'cables', 'earbuds', 'headphones', 'powerbank'],
+  Groceries: ['groceries', 'supermarket', 'provisions', 'household', 'detergent', 'soap', 'milk', 'sugar'],
+  Services: ['services', 'repairs', 'laundry', 'haircut', 'tutoring', 'typing', 'printing'],
+};
+
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { y: 20, opacity: 0 },
   visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 100, damping: 12 } },
 };
@@ -45,8 +80,22 @@ export default function ProductsPage() {
   });
 
   const filtered = allProducts.filter((p: Product) => {
-    const matchesCategory = activeCategory === 'All' || p.category.toLowerCase().includes(activeCategory.toLowerCase());
-    const matchesSearch = !searchQuery || p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.category.toLowerCase().includes(searchQuery.toLowerCase()) || p.description?.toLowerCase().includes(searchQuery.toLowerCase());
+    const categoryLower = p.category.toLowerCase();
+    const nameLower = p.name.toLowerCase();
+    const descLower = (p.description || '').toLowerCase();
+
+    const matchesCategory = activeCategory === 'All' || 
+      CATEGORY_KEYWORDS[activeCategory]?.some(keyword => 
+        categoryLower.includes(keyword) || 
+        nameLower.includes(keyword) ||
+        descLower.includes(keyword)
+      ) || 
+      categoryLower.includes(activeCategory.toLowerCase());
+
+    const matchesSearch = !searchQuery || 
+      nameLower.includes(searchQuery.toLowerCase()) || 
+      categoryLower.includes(searchQuery.toLowerCase()) || 
+      descLower.includes(searchQuery.toLowerCase());
     
     const price = p.price;
     const matchesMinPrice = !minPrice || price >= parseFloat(minPrice);
@@ -113,18 +162,25 @@ export default function ProductsPage() {
 
       {/* Categories Filter */}
       <div className="flex flex-col gap-6 mb-8">
-        <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide">
+        <div className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 scrollbar-hide">
           {CATEGORIES.map((cat) => (
             <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`shrink-0 px-6 py-2.5 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider transition-all duration-300 border-2 ${
-                activeCategory === cat
-                  ? 'bg-orange-600 text-white border-orange-600 shadow-lg shadow-orange-600/30'
-                  : 'bg-white text-slate-600 border-orange-100 hover:border-orange-300 hover:bg-orange-50'
-              }`}
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              className="flex flex-col items-center gap-4 shrink-0 group"
             >
-              {cat}
+              <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center transition-all duration-300 border-2 ${
+                activeCategory === cat.id
+                  ? 'bg-orange-600 text-white border-orange-600 shadow-xl shadow-orange-600/10 scale-105'
+                  : 'bg-white text-slate-500 border-orange-100 group-hover:border-orange-300 group-hover:bg-orange-50 group-hover:text-orange-600'
+              }`}>
+                {cat.icon}
+              </div>
+              <span className={`text-[10px] font-black uppercase tracking-widest transition-colors ${
+                activeCategory === cat.id ? 'text-orange-600' : 'text-slate-400 group-hover:text-slate-900'
+              }`}>
+                {cat.label}
+              </span>
             </button>
           ))}
         </div>

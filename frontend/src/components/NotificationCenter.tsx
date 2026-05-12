@@ -82,7 +82,7 @@ const NotificationCenter: React.FC = () => {
       {isOpen && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)}></div>
-          <div className="absolute right-0 mt-4 w-80 sm:w-96 bg-white rounded-[2rem] shadow-2xl shadow-orange-500/10 z-50 overflow-hidden border-2 border-orange-50 animate-in fade-in zoom-in-95 duration-300 origin-top-right">
+          <div className="absolute right-0 mt-4 w-80 sm:w-96 bg-white rounded-4xl shadow-2xl shadow-orange-500/10 z-50 overflow-hidden border-2 border-orange-50 animate-in fade-in zoom-in-95 duration-300 origin-top-right">
             <div className="px-6 py-5 bg-orange-50/30 border-b border-orange-50 flex justify-between items-center">
               <div>
                 <h3 className="text-base sm:text-lg font-black text-slate-900 tracking-tight">Updates</h3>
@@ -158,7 +158,7 @@ const NotificationCenter: React.FC = () => {
       )}
       {/* Floating Toast for new notifications */}
       {latestNew && (
-        <div className="fixed top-24 right-6 z-[100] w-72 sm:w-80 pointer-events-none">
+        <div className="fixed top-24 right-6 z-100 w-72 sm:w-80 pointer-events-none">
           <motion.div
             initial={{ opacity: 0, x: 50, scale: 0.9 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}

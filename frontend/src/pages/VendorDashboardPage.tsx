@@ -159,7 +159,7 @@ const VendorDashboardPage: React.FC = () => {
             ) : (
               <div className="space-y-6">
                 {orders.slice((orderPage - 1) * ITEMS_PER_PAGE, orderPage * ITEMS_PER_PAGE).map(order => (
-                  <div key={order.id} className="p-6 sm:p-8 rounded-[2rem] bg-slate-50/50 border-2 border-slate-50 group hover:border-orange-100 transition-all duration-300">
+                  <div key={order.id} className="p-6 sm:p-8 rounded-4xl bg-slate-50/50 border-2 border-slate-50 group hover:border-orange-100 transition-all duration-300">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-4 mb-3">
@@ -229,7 +229,7 @@ const VendorDashboardPage: React.FC = () => {
             ) : (
               <div className="space-y-6">
                 {products.slice((productPage - 1) * ITEMS_PER_PAGE, productPage * ITEMS_PER_PAGE).map(product => (
-                  <div key={product.id} className="p-5 rounded-[2rem] bg-slate-50/50 border-2 border-slate-50 group hover:border-orange-100 transition-all duration-300">
+                  <div key={product.id} className="p-5 rounded-4xl bg-slate-50/50 border-2 border-slate-50 group hover:border-orange-100 transition-all duration-300">
                     <div className="flex items-center gap-6">
                       <div className="h-20 w-20 shrink-0 rounded-2xl overflow-hidden bg-white border border-slate-100 shadow-sm relative">
                         {product.image_url ? (

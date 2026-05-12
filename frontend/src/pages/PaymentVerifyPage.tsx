@@ -115,12 +115,12 @@ const PaymentVerifyPage: React.FC = () => {
               <motion.div
                 initial={{ scale: 0, rotate: -180 }} animate={{ scale: 1, rotate: 0 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 20, delay: 0.1 }}
-                className="w-24 h-24 rounded-[2rem] bg-emerald-50 border-2 border-emerald-100 flex items-center justify-center mx-auto mb-6 relative"
+                className="w-24 h-24 rounded-4xl bg-emerald-50 border-2 border-emerald-100 flex items-center justify-center mx-auto mb-6 relative"
               >
                 <svg className="h-12 w-12 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                 </svg>
-                <div className="absolute inset-0 rounded-[2rem] border-2 border-emerald-300 animate-ping opacity-20" />
+                <div className="absolute inset-0 rounded-4xl border-2 border-emerald-300 animate-ping opacity-20" />
               </motion.div>
 
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
@@ -181,7 +181,7 @@ const PaymentVerifyPage: React.FC = () => {
             <motion.div key="error" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
               transition={{ type: 'spring', stiffness: 300, damping: 28 }}
               className="bg-white py-12 px-8 shadow-xl rounded-[2.5rem] border-2 border-red-50 text-center">
-              <div className="w-24 h-24 rounded-[2rem] bg-red-50 border-2 border-red-100 flex items-center justify-center mx-auto mb-6">
+              <div className="w-24 h-24 rounded-4xl bg-red-50 border-2 border-red-100 flex items-center justify-center mx-auto mb-6">
                 <svg className="h-12 w-12 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>

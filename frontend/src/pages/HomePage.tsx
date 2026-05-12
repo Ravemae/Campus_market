@@ -53,19 +53,19 @@ function VendorCard({ vendor }: { vendor: Vendor }) {
       className="group bg-white rounded-2xl sm:rounded-3xl border-2 border-orange-200 overflow-hidden shadow-md hover:shadow-2xl hover:shadow-orange-500/30 transition-all duration-400"
     >
       <Link to={`/vendor/${vendor.id}`} className="block">
-        <div className="aspect-[4/3] relative overflow-hidden bg-orange-100">
+        <div className="aspect-4/3 relative overflow-hidden bg-orange-100">
           {imageUrl ? (
             <img src={imageUrl} alt={vendor.shop_name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
               onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.style.display = 'none'; }} />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-100 to-amber-50">
+            <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-orange-100 to-amber-50">
               <div className="flex flex-col items-center gap-2 text-orange-600">
                 {getCategoryIcon(vendor.category)}
                 <span className="text-[9px] font-black uppercase tracking-[0.2em]">{vendor.category.split(' ')[0]}</span>
               </div>
             </div>
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent" />
           <div className="absolute top-3 left-3 flex items-center gap-2">
             <span className="px-2.5 py-1 rounded-full text-[8px] sm:text-[9px] font-black uppercase tracking-wider bg-white/95 text-orange-700 shadow-sm border border-orange-100">
               {vendor.category}
@@ -173,16 +173,16 @@ export default function HomePage() {
 
             <h1 className="text-3xl sm:text-5xl lg:text-7xl xl:text-8xl font-black text-slate-900 mb-4 sm:mb-8 leading-[0.95] tracking-tight">
               Food & Items, <br />
-              <span className="text-transparent bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text">in your hands.</span>
+              <span className="text-transparent bg-linear-to-r from-orange-600 to-orange-500 bg-clip-text">in your hands.</span>
             </h1>
 
             <p className="text-slate-600 text-sm sm:text-lg lg:text-xl mb-6 sm:mb-10 max-w-lg font-semibold leading-relaxed">
-              Deliver to your hostel or pick up in minutes. Campus commerce at its finest.
+              Deliver to your hostel or pick up fast. Campus commerce at its finest.
             </p>
 
             {/* Search Bar */}
             <div className="relative group max-w-xl">
-              <div className="absolute -inset-1 bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl sm:rounded-3xl blur-lg opacity-20 group-hover:opacity-40 transition duration-700"></div>
+              <div className="absolute -inset-1 bg-linear-to-r from-orange-500 to-amber-500 rounded-2xl sm:rounded-3xl blur-lg opacity-20 group-hover:opacity-40 transition duration-700"></div>
               <div className="relative flex items-center bg-white rounded-2xl sm:rounded-3xl p-1.5 sm:p-2 shadow-xl shadow-orange-500/15 border-2 border-orange-200">
                 <div className="flex items-center flex-1 px-3 sm:px-6">
                   <svg className="w-5 h-5 text-orange-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -196,7 +196,7 @@ export default function HomePage() {
                     className="w-full bg-transparent border-none focus:ring-0 text-slate-900 font-bold py-2.5 sm:py-4 px-3 placeholder:text-slate-400 text-sm sm:text-base"
                   />
                 </div>
-                <button className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white font-black py-2.5 sm:py-3.5 px-5 sm:px-8 rounded-xl sm:rounded-2xl transition-all shadow-xl shadow-orange-600/40 active:scale-95 text-xs sm:text-sm shrink-0">
+                <button className="bg-linear-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white font-black py-2.5 sm:py-3.5 px-5 sm:px-8 rounded-xl sm:rounded-2xl transition-all shadow-xl shadow-orange-600/40 active:scale-95 text-xs sm:text-sm shrink-0">
                   Search
                 </button>
               </div>
@@ -212,7 +212,7 @@ export default function HomePage() {
               className="absolute top-0 right-0 w-[55%] sm:w-[240px] lg:w-72 h-[220px] sm:h-[300px] lg:h-[400px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-4 border-white z-10 hover:rotate-0 hover:shadow-orange-500/30 transition-all duration-500"
             >
               <img src={heroDelivery} alt="Swift Delivery" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6">
                 <p className="text-white font-black text-base sm:text-xl tracking-tight">Swift Delivery</p>
                 <p className="text-orange-300 font-black text-[7px] sm:text-[9px] uppercase tracking-widest mt-1">Across Campus</p>
@@ -226,7 +226,7 @@ export default function HomePage() {
               className="absolute bottom-0 left-0 w-[50%] sm:w-[220px] lg:w-64 h-[180px] sm:h-[250px] lg:h-[350px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-4 border-white z-20 hover:scale-105 hover:shadow-orange-600/40 transition-all duration-500 cursor-pointer"
             >
               <img src={heroFood} alt="Food" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6">
                 <p className="text-white font-black text-base sm:text-xl tracking-tight">Fresh Eats</p>
                 <p className="text-orange-300 font-black text-[7px] sm:text-[9px] uppercase tracking-widest mt-1">Student Faves</p>
@@ -238,7 +238,7 @@ export default function HomePage() {
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 bg-white/95 backdrop-blur p-3 sm:p-4 rounded-xl sm:rounded-2xl flex items-center gap-2 border-2 border-white shadow-xl shadow-orange-500/20"
             >
-              <div className="w-9 h-9 sm:w-12 sm:h-12 bg-gradient-to-br from-orange-600 to-orange-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-orange-600/40 shrink-0">
+              <div className="w-9 h-9 sm:w-12 sm:h-12 bg-linear-to-br from-orange-600 to-orange-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-orange-600/40 shrink-0">
                 <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -262,7 +262,7 @@ export default function HomePage() {
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">Explore Markets</h2>
             <p className="text-[10px] sm:text-xs font-black text-orange-600 uppercase tracking-[0.2em] sm:tracking-[0.3em] mt-1 sm:mt-2">What do You Need?</p>
           </div>
-          <div className="h-1 flex-1 bg-gradient-to-r from-orange-300 to-transparent hidden md:block mx-8 rounded-full"></div>
+          <div className="h-1 flex-1 bg-linear-to-r from-orange-300 to-transparent hidden md:block mx-8 rounded-full"></div>
         </div>
 
         <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-4 scrollbar-hide -mx-3 px-3 sm:mx-0 sm:px-0">
@@ -272,7 +272,7 @@ export default function HomePage() {
               onClick={() => setActiveCategory(cat)}
               className={`shrink-0 px-4 sm:px-6 lg:px-8 py-2 sm:py-3 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider transition-all duration-400 border-2 ${
                 activeCategory === cat
-                  ? 'bg-gradient-to-r from-orange-600 to-orange-500 text-white border-orange-600 shadow-lg shadow-orange-500/40 scale-105'
+                  ? 'bg-linear-to-r from-orange-600 to-orange-500 text-white border-orange-600 shadow-lg shadow-orange-500/40 scale-105'
                   : 'bg-white text-slate-600 border-orange-200 hover:border-orange-400 hover:bg-orange-50 hover:text-orange-600 shadow-sm'
               }`}
             >
@@ -389,7 +389,7 @@ export default function HomePage() {
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">Popular Markets</h2>
             <p className="text-[10px] sm:text-xs font-black text-orange-600 uppercase tracking-widest mt-1 sm:mt-2">Top student favorites</p>
           </div>
-          <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-orange-100 to-amber-50 text-orange-700 text-[9px] sm:text-[10px] font-black rounded-xl sm:rounded-2xl border-2 border-orange-300 shadow-sm shrink-0">
+          <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-linear-to-r from-orange-100 to-amber-50 text-orange-700 text-[9px] sm:text-[10px] font-black rounded-xl sm:rounded-2xl border-2 border-orange-300 shadow-sm shrink-0">
             {filtered.length} SHOPS
           </span>
         </div>
@@ -398,7 +398,7 @@ export default function HomePage() {
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-10">
             {[...Array(6)].map((_, i) => (
               <div key={i} className="rounded-2xl sm:rounded-3xl bg-white border-2 border-orange-100 animate-pulse overflow-hidden shadow-sm">
-                <div className="aspect-[4/3] bg-slate-100" />
+                <div className="aspect-4/3 bg-slate-100" />
                 <div className="p-4 sm:p-6 space-y-3">
                   <div className="h-5 bg-slate-100 rounded-xl w-3/4" />
                   <div className="h-3 bg-slate-100 rounded-xl w-full" />

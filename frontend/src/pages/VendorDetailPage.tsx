@@ -69,7 +69,7 @@ const VendorDetailPage: React.FC = () => {
       {/* Vendor Header */}
       <div className="relative rounded-2xl sm:rounded-[2.5rem] overflow-hidden mb-8 sm:mb-16 bg-white border border-slate-100 shadow-xl">
         <div className="h-40 sm:h-64 md:h-80 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-600 via-orange-500 to-amber-500 z-10" />
+          <div className="absolute inset-0 bg-linear-to-br from-orange-600 via-orange-500 to-amber-500 z-10" />
           {vendor.image_url && (
             <img src={resolveMediaUrl(vendor.image_url)} alt={vendor.shop_name} className="w-full h-full object-cover scale-110 blur-sm opacity-40" />
           )}
@@ -89,11 +89,11 @@ const VendorDetailPage: React.FC = () => {
 
         <div className="px-4 sm:px-8 pb-6 sm:pb-8 relative z-30 -mt-8 sm:-mt-16">
           <div className="flex flex-col sm:flex-row sm:items-end gap-4 sm:gap-8">
-            <div className="w-20 h-20 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-xl sm:rounded-[2rem] border-4 sm:border-[8px] border-white bg-white overflow-hidden shadow-xl shrink-0">
+            <div className="w-20 h-20 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-xl sm:rounded-4xl border-4 sm:border-8 border-white bg-white overflow-hidden shadow-xl shrink-0">
               {vendor.image_url ? (
                 <img src={resolveMediaUrl(vendor.image_url)} alt={vendor.shop_name} className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-50 to-amber-50 text-orange-600">
+                <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-orange-50 to-amber-50 text-orange-600">
                   <span className="text-3xl sm:text-5xl font-black">{vendor.shop_name?.charAt(0)}</span>
                 </div>
               )}

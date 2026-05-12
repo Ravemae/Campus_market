@@ -159,7 +159,7 @@ const ProfilePage: React.FC = () => {
       {/* Profile Card — Cover + Avatar */}
       <div className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-100 shadow-xl shadow-slate-200/60 mb-5">
         {/* Cover gradient */}
-        <div className="h-24 sm:h-32 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-500 relative overflow-hidden">
+        <div className="h-24 sm:h-32 bg-linear-to-br from-orange-500 via-orange-600 to-amber-500 relative overflow-hidden">
           {/* Decorative circles */}
           <div className="absolute -top-8 -right-8 w-40 h-40 bg-white/10 rounded-full blur-2xl" />
           <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-amber-400/20 rounded-full blur-xl" />
@@ -177,7 +177,7 @@ const ProfilePage: React.FC = () => {
               onClick={handleAvatarClick}
               className="relative group cursor-pointer"
             >
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center text-white font-black text-2xl sm:text-3xl shadow-xl shadow-orange-500/40 border-4 border-white shrink-0 overflow-hidden">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-linear-to-br from-orange-500 to-orange-700 flex items-center justify-center text-white font-black text-2xl sm:text-3xl shadow-xl shadow-orange-500/40 border-4 border-white shrink-0 overflow-hidden">
                 {user.avatar_url ? (
                   <img src={avatarUrl} alt={user.full_name} className="w-full h-full object-cover" />
                 ) : (

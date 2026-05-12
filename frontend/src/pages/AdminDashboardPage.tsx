@@ -87,7 +87,7 @@ const AdminDashboardPage: React.FC = () => {
   };
 
   const pendingVendors = vendors.filter(v => !v.is_approved);
-  const approvedVendors = vendors.filter(v => v.is_approved);
+
   const stats = dashboardData?.stats;
 
   const statCards = [
@@ -166,7 +166,7 @@ const AdminDashboardPage: React.FC = () => {
           {/* Stats */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-10">
             {statCards.map((stat, i) => (
-              <div key={i} className="bg-white rounded-[2rem] border-2 border-orange-50 p-6 sm:p-8 shadow-sm hover:border-orange-200 hover:shadow-xl hover:shadow-orange-500/10 transition-all group">
+              <div key={i} className="bg-white rounded-4xl border-2 border-orange-50 p-6 sm:p-8 shadow-sm hover:border-orange-200 hover:shadow-xl hover:shadow-orange-500/10 transition-all group">
                 <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-600 mb-5 group-hover:scale-110 transition-transform">
                   <stat.icon className="h-6 w-6" strokeWidth={2.5} />
                 </div>
@@ -234,7 +234,7 @@ const AdminDashboardPage: React.FC = () => {
 
           {/* Pending approvals quick-view */}
           {pendingVendors.length > 0 && (
-            <div className="bg-amber-50 border-2 border-amber-200 rounded-[2rem] p-6 flex items-center justify-between">
+            <div className="bg-amber-50 border-2 border-amber-200 rounded-4xl p-6 flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-600">
                   <BuildingStorefrontIcon className="w-6 h-6" />
@@ -269,14 +269,14 @@ const AdminDashboardPage: React.FC = () => {
             </div>
 
             {pendingVendors.length === 0 ? (
-              <div className="text-center py-16 bg-white rounded-[2rem] border-2 border-orange-50">
+              <div className="text-center py-16 bg-white rounded-4xl border-2 border-orange-50">
                 <CheckCircleIcon className="w-12 h-12 text-emerald-400 mx-auto mb-3" />
                 <p className="text-xs font-black text-slate-400 uppercase tracking-widest">All caught up! No pending vendors.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {pendingVendors.map(vendor => (
-                  <div key={vendor.id} className="bg-white p-6 rounded-[2rem] border-2 border-orange-50 hover:border-orange-200 shadow-sm hover:shadow-xl hover:shadow-orange-500/10 transition-all group">
+                  <div key={vendor.id} className="bg-white p-6 rounded-4xl border-2 border-orange-50 hover:border-orange-200 shadow-sm hover:shadow-xl hover:shadow-orange-500/10 transition-all group">
                     <span className="inline-block px-3 py-1 bg-orange-50 text-orange-600 text-[8px] font-black uppercase tracking-widest rounded-lg mb-4 border border-orange-100">
                       {vendor.category}
                     </span>
@@ -309,7 +309,7 @@ const AdminDashboardPage: React.FC = () => {
                 {vendors.length} Total
               </span>
             </div>
-            <div className="bg-white rounded-[2rem] border-2 border-orange-50 overflow-hidden shadow-sm">
+            <div className="bg-white rounded-4xl border-2 border-orange-50 overflow-hidden shadow-sm">
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-orange-50">
                   <thead className="bg-orange-50/50">
@@ -356,7 +356,7 @@ const AdminDashboardPage: React.FC = () => {
               {users.length} Users
             </span>
           </div>
-          <div className="bg-white rounded-[2rem] border-2 border-orange-50 overflow-hidden shadow-sm">
+          <div className="bg-white rounded-4xl border-2 border-orange-50 overflow-hidden shadow-sm">
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-orange-50">
                 <thead className="bg-orange-50/50">

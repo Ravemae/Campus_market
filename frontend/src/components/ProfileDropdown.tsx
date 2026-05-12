@@ -102,7 +102,7 @@ export default function ProfileDropdown() {
         aria-label="Open profile menu"
       >
         {/* Avatar circle */}
-        <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-xl bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center text-white font-black text-sm shadow-md shadow-orange-500/30 group-hover:shadow-orange-500/50 transition-all">
+        <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-xl bg-linear-to-br from-orange-500 to-orange-700 flex items-center justify-center text-white font-black text-sm shadow-md shadow-orange-500/30 group-hover:shadow-orange-500/50 transition-all">
           {initial}
         </div>
         {/* Name + role — visible on lg+ */}
@@ -123,9 +123,9 @@ export default function ProfileDropdown() {
       {open && (
         <div className="absolute right-0 top-full mt-3 w-72 bg-white rounded-2xl border border-orange-100 shadow-2xl shadow-orange-500/15 overflow-hidden z-50 animate-in">
           {/* Header */}
-          <div className="px-5 py-4 bg-gradient-to-br from-orange-50 to-amber-50 border-b border-orange-100">
+          <div className="px-5 py-4 bg-linear-to-br from-orange-50 to-amber-50 border-b border-orange-100">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center text-white font-black text-lg shadow-lg shadow-orange-500/30 shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-linear-to-br from-orange-500 to-orange-700 flex items-center justify-center text-white font-black text-lg shadow-lg shadow-orange-500/30 shrink-0">
                 {initial}
               </div>
               <div className="min-w-0">

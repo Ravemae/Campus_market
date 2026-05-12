@@ -101,7 +101,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSuccess,
           {/* Image Upload */}
           <div className="group relative">
              <label className="block text-[10px] font-black text-slate-700 uppercase tracking-widest mb-3 px-1">Product Visual</label>
-             <div className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-slate-200 rounded-[2rem] bg-slate-50/50 hover:border-orange-400 transition-all cursor-pointer relative overflow-hidden min-h-[14rem]">
+             <div className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-slate-200 rounded-4xl bg-slate-50/50 hover:border-orange-400 transition-all cursor-pointer relative overflow-hidden min-h-56">
               {formData.image_url ? (
                 <div className="relative w-full h-48">
                   <img src={resolveMediaUrl(formData.image_url)} alt="Preview" className="w-full h-full object-cover rounded-2xl shadow-lg" />

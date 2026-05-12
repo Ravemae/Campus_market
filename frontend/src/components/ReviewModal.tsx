@@ -59,7 +59,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose, orderId, ven
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="bg-white rounded-[2rem] shadow-2xl shadow-orange-500/20 border-2 border-orange-50 p-8 w-full max-w-md"
+              className="bg-white rounded-4xl shadow-2xl shadow-orange-500/20 border-2 border-orange-50 p-8 w-full max-w-md"
             >
               {done ? (
                 <div className="text-center py-8">
