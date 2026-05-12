@@ -91,9 +91,12 @@
    ```bash
    npm install
    ```
-3. Ensure the environment variables are set. There is a `.env` file inside `frontend/` with:
+3. Configure Environment Variables:
+   - Copy `.env.example` to `.env` in the `frontend/` directory.
+   - Set your `VITE_HCAPTCHA_SITE_KEY`.
    ```env
    VITE_API_URL=http://localhost:8000
+   VITE_HCAPTCHA_SITE_KEY=your_hcaptcha_site_key_here
    ```
 4. Start the Vite Dev Server:
    ```bash
@@ -110,22 +113,7 @@
 ```
 Campus_market/
 ├── app/                  # FastAPI Backend Application
-│   ├── core/             # Core settings, dependencies, config
-│   ├── models/           # Database models (User, Vendor, Product, Order, etc.)
-│   ├── routes/           # API Endpoints (auth, vendors, products, cart, etc.)
-│   ├── schemas/          # Pydantic schemas for data validation
-│   ├── database.py       # DB connection and session management
-│   └── main.py           # FastAPI application entry point
 ├── frontend/             # React + Vite Frontend Application
-│   ├── src/
-│   │   ├── api/          # Axios client and API endpoint functions
-│   │   ├── components/   # Reusable UI components (Navbar, ProtectedRoute)
-│   │   ├── layouts/      # App layouts
-│   │   ├── pages/        # React route pages (Home, Login, Vendor Details, etc.)
-│   │   ├── stores/       # Zustand state stores (Auth, Cart)
-│   │   └── types/        # TypeScript interfaces matching backend models
-│   ├── index.css         # Global Tailwind CSS styles
-│   └── vite.config.ts    # Vite configuration
 ├── uploads/              # Local storage for uploaded files/images
 ├── .env                  # Backend environment variables
 └── .env.example          # Template for backend environment variables
@@ -133,13 +121,12 @@ Campus_market/
 
 ---
 
----
-
 ## 🎨 Premium UI/UX Experience
 
-The platform has been completely refreshed with a modern, high-end "bluish" aesthetic designed to wow users.
+The platform has been completely refreshed with a modern, high-end **Sunset Orange** aesthetic.
 
-- **Vibrant Aesthetic**: Custom indigo-based color palette with sophisticated slate accents.
+- **Vibrant Aesthetic**: Custom sunset orange and amber color palette with sophisticated slate accents.
+- **Bot Protection**: Integrated **hCaptcha** across all authentication entry points to ensure a bot-free environment.
 - **Glassmorphism**: Elegant backdrop-blur effects on navigation and interactive popovers.
 - **Modern Typography**: Powered by *Plus Jakarta Sans* for maximum readability and style.
 - **Data-Driven Dashboards**: Premium Admin and Vendor interfaces featuring interactive charts and real-time activity monitoring.
@@ -147,11 +134,14 @@ The platform has been completely refreshed with a modern, high-end "bluish" aest
 
 ---
 
-## 🤝 Current Status: Phase 6 Complete
+## 🤝 Current Status: Production Ready
 
-We have successfully completed the platform's core infrastructure and UI refresh. Key highlights include:
+We have successfully finalized the platform's production-ready state. Key highlights include:
 
+- **Enterprise Security**: hCaptcha integration for bot mitigation.
+- **Refined Aesthetics**: Sunset Orange design system for a premium look and feel.
 - **Full E-commerce Cycle**: From product discovery to cart management, checkout, and order fulfillment.
 - **Multi-Role Dashboards**: Specialized views for Customers, Vendors, and Administrators.
 - **Real-time Updates**: Integrated notification center for order status changes.
-- **Secure Payments**: Fully functional checkout flow ready for production scaling.
+- **Secure Payments**: Fully functional checkout flow with Paystack and Flutterwave integration.
+- **Bug Fixes**: Resolved the 300 NGN fee discrepancy for a trustworthy checkout experience.
