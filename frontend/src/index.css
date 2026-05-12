@@ -43,8 +43,9 @@
     background-attachment: fixed;
   }
 
-  button, [role="button"], a {
+  button, [role="button"], a, input, select, textarea {
     cursor: pointer !important;
+    outline: none !important;
   }
 
   .dark body {

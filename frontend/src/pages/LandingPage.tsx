@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 import { Spotlight } from "../components/ui/Spotlight";
 import { WavyBackground } from "../components/ui/WavyBackground";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,6 +18,25 @@ import {
   PiBookOpenBold,
   PiLightningBold 
 } from "react-icons/pi";
+
+function NumberTicker({ value }: { value: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const motionValue = useMotionValue(0);
+  const springValue = useSpring(motionValue, { damping: 40, stiffness: 100 });
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  useEffect(() => {
+    if (isInView) motionValue.set(value);
+  }, [isInView, value, motionValue]);
+
+  useEffect(() => {
+    springValue.on("change", (latest) => {
+      if (ref.current) ref.current.textContent = Intl.NumberFormat().format(Math.floor(latest));
+    });
+  }, [springValue]);
+
+  return <span ref={ref}>0</span>;
+}
 
 const CATEGORIES = [
   { id: 'All', label: 'All', icon: <PiSquaresFourBold className="w-7 h-7" /> },
@@ -94,15 +114,15 @@ export default function LandingPage() {
               {/* Quick Stats */}
               <div className="mt-12 flex items-center justify-center lg:justify-start gap-8 border-t border-slate-100 pt-8">
                 <div className="text-center lg:text-left">
-                   <p className="text-2xl font-black text-slate-900">50+</p>
+                   <p className="text-2xl font-black text-slate-900"><NumberTicker value={30} />+</p>
                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Vendors</p>
                 </div>
                 <div className="text-center lg:text-left">
-                   <p className="text-2xl font-black text-slate-900">Fast</p>
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Delivery</p>
+                   <p className="text-2xl font-black text-slate-900">4.9/5</p>
+                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Rating</p>
                 </div>
                 <div className="text-center lg:text-left">
-                   <p className="text-2xl font-black text-slate-900">5k+</p>
+                   <p className="text-2xl font-black text-slate-900"><NumberTicker value={2} />k+</p>
                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Students</p>
                 </div>
               </div>

@@ -28,6 +28,7 @@ class UserSignupRequest(BaseModel):
     email: str
     phone: str
     password: str
+    captcha_token: str
 
 class VendorSignupRequest(BaseModel):
     full_name: str
