@@ -3,11 +3,13 @@ import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { loginUser } from '../api/endpoints';
 import { useAuthStore } from '../stores/authStore';
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const setAuth = useAuthStore((s) => s.setAuth);
@@ -16,13 +18,18 @@ export default function LoginPage() {
     mutationFn: () => loginUser(email, password),
     onSuccess: (res) => {
       setAuth(res.data.user, res.data.access_token);
-      const redirect = searchParams.get('redirect') || '/';
+      // Default redirect to dashboard instead of home
+      const redirect = searchParams.get('redirect') || '/dashboard';
       navigate(redirect);
     },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!captchaToken) {
+      alert('Please complete the captcha verification');
+      return;
+    }
     mutation.mutate();
   };
 
@@ -91,10 +98,18 @@ export default function LoginPage() {
             </div>
           )}
 
+          <div className="flex justify-center scale-90 sm:scale-100 origin-center">
+            <HCaptcha
+              sitekey={import.meta.env.VITE_HCAPTCHA_SITE_KEY || "10000000-ffff-ffff-ffff-000000000001"}
+              onVerify={(token) => setCaptchaToken(token)}
+              onExpire={() => setCaptchaToken(null)}
+            />
+          </div>
+
           <button
             type="submit"
-            disabled={mutation.isPending}
-            className="w-full py-4.5 rounded-2xl font-black text-white bg-linear-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 shadow-xl shadow-orange-600/30 transition-all disabled:opacity-50 active:scale-95 uppercase tracking-widest text-sm"
+            disabled={mutation.isPending || !captchaToken}
+            className="w-full py-4.5 rounded-2xl font-black text-white bg-linear-to-r from-orange-700 to-orange-800 hover:from-orange-800 hover:to-orange-900 shadow-xl shadow-orange-900/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 uppercase tracking-widest text-sm"
           >
             {mutation.isPending ? 'Signing in...' : 'Sign in'}
           </button>

@@ -4,6 +4,7 @@ import { WavyBackground } from "../components/ui/WavyBackground";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../stores/authStore";
 import { PhoneMockup } from "../components/ui/PhoneMockup";
+import heroDelivery from "../assets/hero-delivery.jpg";
 import { 
   PiCookingPotBold, 
   PiCoffeeBold, 
@@ -58,14 +59,14 @@ export default function LandingPage() {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="text-center lg:text-left relative z-10"
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 border border-orange-100 text-orange-600 mb-8 mx-auto lg:mx-0">
-                <div className="w-2 h-2 rounded-full bg-orange-600 animate-pulse" />
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-100/50 border border-orange-200/50 text-orange-700 mb-8 mx-auto lg:mx-0">
+                <div className="w-2 h-2 rounded-full bg-orange-700 animate-pulse" />
                 <span className="text-[10px] font-black uppercase tracking-widest">Live at Babcock University</span>
               </div>
               
               <h1 className="text-5xl md:text-7xl xl:text-8xl font-black tracking-tighter text-slate-900 mb-6 leading-[0.9]">
                 Campus Commerce, <br />
-                <span className="bg-linear-to-r from-orange-600 to-orange-400 bg-clip-text text-transparent">
+                <span className="bg-linear-to-r from-orange-700 to-amber-600 bg-clip-text text-transparent">
                   Reimagined.
                 </span>
               </h1>
@@ -78,7 +79,7 @@ export default function LandingPage() {
               <div className="flex flex-col sm:flex-row items-center justify-start gap-4">
                 <Link
                   to="/products"
-                  className="w-full sm:w-auto px-10 py-5 bg-orange-600 text-white font-black rounded-2xl shadow-2xl shadow-orange-600/30 hover:bg-orange-500 transition-all active:scale-95 uppercase tracking-widest text-sm text-center"
+                  className="w-full sm:w-auto px-10 py-5 bg-orange-700 text-white font-black rounded-2xl shadow-2xl shadow-orange-900/20 hover:bg-orange-800 transition-all active:scale-95 uppercase tracking-widest text-sm text-center"
                 >
                   Start Shopping
                 </Link>
@@ -140,7 +141,7 @@ export default function LandingPage() {
                 to={`/products?category=${cat.id}`}
                 className="flex flex-col items-center gap-4 group"
               >
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-orange-50 border-2 border-orange-100 flex items-center justify-center text-orange-600 group-hover:bg-orange-600 group-hover:text-white group-hover:border-orange-600 group-hover:scale-105 group-hover:-rotate-3 transition-all duration-500 shadow-sm group-hover:shadow-xl group-hover:shadow-orange-600/10">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-slate-50 border-2 border-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-orange-700 group-hover:text-white group-hover:border-orange-700 group-hover:scale-105 group-hover:-rotate-3 transition-all duration-500 shadow-sm group-hover:shadow-xl group-hover:shadow-orange-900/10">
                   {cat.icon}
                 </div>
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-hover:text-orange-600 transition-colors">
@@ -225,35 +226,43 @@ export default function LandingPage() {
             {/* Logistics Bento */}
             <div 
               onClick={handleTrackOrder}
-              className="md:col-span-4 lg:col-span-4 bg-amber-100 rounded-4xl p-10 relative overflow-hidden group border border-amber-200/50 block transition-all duration-500 hover:shadow-2xl hover:shadow-amber-600/10 hover:-translate-y-2 cursor-pointer"
+              className="md:col-span-4 lg:col-span-4 bg-amber-900 rounded-4xl p-10 relative overflow-hidden group border border-amber-800/50 block transition-all duration-500 hover:shadow-2xl hover:shadow-amber-900/10 hover:-translate-y-2 cursor-pointer"
             >
+               {/* Background Image with Gradient Blend */}
+               <div className="absolute inset-0 z-0">
+                  <img 
+                    src={heroDelivery} 
+                    alt="Delivery" 
+                    className="w-full h-full object-cover opacity-40 group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-r from-amber-950 via-amber-900/90 to-transparent" />
+               </div>
                <div className="relative z-10 flex flex-col justify-between h-full">
                   <div className="max-w-md">
-                    <div className="bg-amber-950 text-amber-50 w-12 h-12 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-amber-950/20 group-hover:scale-110 group-hover:rotate-6 transition-transform">
+                    <div className="bg-white/10 backdrop-blur-md text-white w-12 h-12 rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-white/10 group-hover:scale-110 group-hover:rotate-6 transition-transform">
                        <PiWrenchBold className="w-6 h-6" />
                     </div>
-                    <h3 className="text-3xl font-black text-amber-950 mb-3 tracking-tight">Swift Logistics</h3>
-                    <p className="text-amber-900/60 font-medium text-lg leading-relaxed">Hostel to hostel, or campus to campus. Our dispatch riders are always ready.</p>
+                    <h3 className="text-3xl font-black text-white mb-3 tracking-tight">Swift Logistics</h3>
+                    <p className="text-amber-50/70 font-medium text-lg leading-relaxed">Hostel to hostel, or campus to campus. Our dispatch riders are always ready.</p>
                   </div>
                   <div className="mt-12 flex items-center gap-6">
                      <div 
-                       className="px-8 py-4 bg-amber-950 text-amber-50 rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-xl shadow-amber-950/20 group-hover:bg-amber-900"
+                       className="px-8 py-4 bg-white text-amber-900 rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-xl shadow-white/10 hover:bg-amber-50 active:scale-95"
                      >
                        Track Order
                      </div>
                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-amber-950/5 flex items-center justify-center text-amber-950">
+                        <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-amber-400">
                            <PiLightningBold className="w-5 h-5 animate-pulse" />
                         </div>
                         <div className="flex flex-col">
-                           <span className="text-xl font-black text-amber-950 leading-tight">Fast</span>
-                           <span className="text-[10px] font-black text-amber-900/40 uppercase tracking-widest leading-none">Delivery</span>
+                           <span className="text-xl font-black text-white leading-tight">Fast</span>
+                           <span className="text-[10px] font-black text-amber-400/60 uppercase tracking-widest leading-none">Delivery</span>
                         </div>
                      </div>
                   </div>
                </div>
-               <div className="absolute right-0 top-0 w-1/2 h-full bg-linear-to-l from-amber-200/50 to-transparent pointer-events-none" />
-               <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-amber-200/30 rounded-full blur-3xl group-hover:bg-amber-300/30 transition-colors" />
+
             </div>
 
             {/* Fashion Bento */}
@@ -283,19 +292,19 @@ export default function LandingPage() {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center group">
-               <h4 className="text-4xl md:text-6xl font-black text-orange-600 mb-2 group-hover:scale-110 transition-transform">50k+</h4>
+               <h4 className="text-4xl md:text-6xl font-black text-orange-700 mb-2 group-hover:scale-110 transition-transform">50k+</h4>
                <p className="text-slate-900 font-black uppercase tracking-widest text-[10px]">Active Students</p>
             </div>
             <div className="text-center group">
-               <h4 className="text-4xl md:text-6xl font-black text-orange-600 mb-2 group-hover:scale-110 transition-transform">200+</h4>
+               <h4 className="text-4xl md:text-6xl font-black text-orange-700 mb-2 group-hover:scale-110 transition-transform">200+</h4>
                <p className="text-slate-900 font-black uppercase tracking-widest text-[10px]">Campus Shops</p>
             </div>
             <div className="text-center group">
-               <h4 className="text-4xl md:text-6xl font-black text-orange-600 mb-2 group-hover:scale-110 transition-transform">100k+</h4>
+               <h4 className="text-4xl md:text-6xl font-black text-orange-700 mb-2 group-hover:scale-110 transition-transform">100k+</h4>
                <p className="text-slate-900 font-black uppercase tracking-widest text-[10px]">Successful Trades</p>
             </div>
             <div className="text-center group">
-               <h4 className="text-4xl md:text-6xl font-black text-orange-600 mb-2 group-hover:scale-110 transition-transform">4.9/5</h4>
+               <h4 className="text-4xl md:text-6xl font-black text-orange-700 mb-2 group-hover:scale-110 transition-transform">4.9/5</h4>
                <p className="text-slate-900 font-black uppercase tracking-widest text-[10px]">Student Rating</p>
             </div>
         </div>
@@ -303,12 +312,26 @@ export default function LandingPage() {
 
       {/* Final CTA */}
       <section className="py-24 px-6">
-        <div className="max-w-5xl mx-auto bg-linear-to-br from-orange-600 to-orange-500 rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden shadow-2xl shadow-orange-600/30">
+        <div className="max-w-5xl mx-auto bg-linear-to-br from-orange-800 to-orange-700 rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden shadow-2xl shadow-orange-900/30">
            <div className="relative z-10">
               <h2 className="text-4xl md:text-7xl font-black text-white mb-8 tracking-tight">Ready to join the <br /> campus revolution?</h2>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                 <Link to="/signup" className="px-10 py-5 bg-white text-orange-600 font-black rounded-2xl shadow-xl hover:bg-orange-50 transition-all active:scale-95 uppercase tracking-widest text-sm">Create Account</Link>
-                 <Link to="/login" className="px-10 py-5 bg-orange-700/30 text-white border-2 border-orange-400/30 font-black rounded-2xl hover:bg-orange-700/50 transition-all active:scale-95 uppercase tracking-widest text-sm backdrop-blur-sm">Sign In</Link>
+                {user ? (
+                  <Link 
+                    to="/dashboard" 
+                    className="px-12 py-5 bg-white text-orange-700 font-black rounded-2xl shadow-xl hover:bg-orange-50 transition-all active:scale-95 uppercase tracking-widest text-sm flex items-center gap-2"
+                  >
+                    Go to Dashboard
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </Link>
+                ) : (
+                  <>
+                    <Link to="/signup" className="px-10 py-5 bg-white text-orange-700 font-black rounded-2xl shadow-xl hover:bg-orange-50 transition-all active:scale-95 uppercase tracking-widest text-sm">Create Account</Link>
+                    <Link to="/login" className="px-10 py-5 bg-orange-900/30 text-white border-2 border-orange-400/30 font-black rounded-2xl hover:bg-orange-900/50 transition-all active:scale-95 uppercase tracking-widest text-sm backdrop-blur-sm">Sign In</Link>
+                  </>
+                )}
               </div>
            </div>
            {/* Decorative elements */}
@@ -321,7 +344,7 @@ export default function LandingPage() {
       <footer className="py-12 border-t border-slate-100">
          <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="flex items-center gap-2">
-               <div className="w-8 h-8 rounded-lg bg-orange-600 flex items-center justify-center text-white">
+               <div className="w-8 h-8 rounded-lg bg-orange-700 flex items-center justify-center text-white">
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
                   </svg>
@@ -331,7 +354,7 @@ export default function LandingPage() {
             <div className="flex gap-8 text-[10px] font-black text-slate-400 uppercase tracking-widest">
                <a href="#" className="hover:text-orange-600">Privacy</a>
                <a href="#" className="hover:text-orange-600">Terms</a>
-               <a href="#" className="hover:text-orange-600">Contact</a>
+               <a href="mailto:quickmart.apps@gmail.com" className="hover:text-orange-600">Contact</a>
             </div>
             <p className="text-[10px] font-bold text-slate-400">© 2026 QuickMart Inc. All rights reserved.</p>
          </div>

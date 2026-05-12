@@ -46,8 +46,12 @@ const CheckoutPage: React.FC = () => {
     setIsSubmitting(true);
     try {
       const vendorId = items[0].vendorId;
+      // FIX: Send the base subtotal only, as the backend calculates service and delivery fees automatically
+      // This prevents the '300 NGN extra' error where fees were being added twice.
       const orderRes = await createOrder({
-        vendor_id: vendorId, total_amount: total, delivery_type: deliveryType,
+        vendor_id: vendorId, 
+        total_amount: subtotal, 
+        delivery_type: deliveryType,
         hostel_name: deliveryType === 'delivery' ? hostelName : undefined,
         room_number: deliveryType === 'delivery' ? roomNumber : undefined
       });

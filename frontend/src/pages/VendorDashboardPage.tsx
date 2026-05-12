@@ -131,7 +131,12 @@ const VendorDashboardPage: React.FC = () => {
         </div>
         <div className="flex gap-4">
           <button className="px-6 py-4 rounded-2xl bg-white border-2 border-slate-100 text-xs font-black text-slate-700 hover:border-orange-600 transition-all uppercase tracking-widest">Settings</button>
-          <button className="px-6 py-4 rounded-2xl bg-orange-600 text-white shadow-xl shadow-orange-600/30 text-xs font-black hover:bg-orange-700 transition-all active:scale-95 uppercase tracking-widest">Support</button>
+          <a 
+            href="mailto:quickmart.apps@gmail.com"
+            className="px-6 py-4 rounded-2xl bg-orange-600 text-white shadow-xl shadow-orange-600/30 text-xs font-black hover:bg-orange-700 transition-all active:scale-95 uppercase tracking-widest inline-block"
+          >
+            Support
+          </a>
         </div>
       </div>
 

@@ -24,23 +24,23 @@ export default function Navbar() {
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group shrink-0">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-xl sm:rounded-2xl bg-linear-to-br from-orange-500 to-orange-700 flex items-center justify-center shadow-lg shadow-orange-500/40 group-hover:shadow-orange-500/60 transition-all duration-500 group-hover:scale-110">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-xl sm:rounded-2xl bg-linear-to-br from-orange-700 to-amber-600 flex items-center justify-center shadow-lg shadow-orange-900/20 group-hover:shadow-orange-900/30 transition-all duration-500 group-hover:scale-110">
               <svg className="w-4 h-4 sm:w-5 sm:h-5 lg:w-7 lg:h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
               </svg>
             </div>
             <div className="flex flex-col">
-              <span className="text-base sm:text-lg lg:text-2xl font-black bg-linear-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent leading-none tracking-tight">
+              <span className="text-base sm:text-lg lg:text-2xl font-black bg-linear-to-r from-orange-700 to-amber-600 bg-clip-text text-transparent leading-none tracking-tight">
                 QuickMart
               </span>
-              <span className="text-[6px] sm:text-[7px] lg:text-[9px] font-black text-orange-600 uppercase tracking-[0.25em] mt-0.5">Campus Commerce</span>
+              <span className="text-[6px] sm:text-[7px] lg:text-[9px] font-black text-orange-700 uppercase tracking-[0.25em] mt-0.5">Campus Commerce</span>
             </div>
           </Link>
 
           {/* Nav Links - Desktop */}
           <div className="hidden md:flex items-center gap-1 lg:gap-2">
-            <Link to="/" className="px-3 lg:px-4 py-2 rounded-xl text-xs lg:text-sm font-black text-slate-600 hover:text-orange-600 hover:bg-orange-100 transition-all uppercase tracking-wider">
-              Home
+            <Link to={user ? "/dashboard" : "/"} className="px-3 lg:px-4 py-2 rounded-xl text-xs lg:text-sm font-black text-slate-600 hover:text-orange-600 hover:bg-orange-100 transition-all uppercase tracking-wider">
+              {user ? 'Dashboard' : 'Home'}
             </Link>
             <Link to="/products" className="px-3 lg:px-4 py-2 rounded-xl text-xs lg:text-sm font-black text-slate-600 hover:text-orange-600 hover:bg-orange-100 transition-all uppercase tracking-wider">
               Items
@@ -99,7 +99,7 @@ export default function Navbar() {
                 </Link>
                 <Link
                   to="/signup"
-                  className="px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl text-[9px] sm:text-xs font-black text-white bg-linear-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 shadow-lg shadow-orange-500/40 transition-all active:scale-95 uppercase tracking-[0.15em]"
+                  className="px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl text-[9px] sm:text-xs font-black text-white bg-linear-to-r from-orange-700 to-orange-600 hover:from-orange-800 hover:to-orange-700 shadow-lg shadow-orange-900/20 transition-all active:scale-95 uppercase tracking-[0.15em]"
                 >
                   Join
                 </Link>
@@ -125,8 +125,8 @@ export default function Navbar() {
         {/* Mobile Menu - Dropdown */}
         {isMobileMenuOpen && (
           <div className="md:hidden py-4 border-t-2 border-orange-100 space-y-1 bg-orange-50/50 -mx-6 sm:-mx-10 lg:-mx-16 px-6 sm:px-10 lg:px-16">
-            <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-white hover:text-orange-600">
-              Home
+            <Link to={user ? "/dashboard" : "/"} onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-white hover:text-orange-600">
+              {user ? 'Dashboard' : 'Home'}
             </Link>
             <Link to="/products" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-white hover:text-orange-600">
               Items

@@ -35,11 +35,11 @@
   }
 
   body {
-    @apply bg-slate-50 text-slate-900 antialiased selection:bg-orange-500/30 selection:text-orange-900;
+    @apply bg-slate-50 text-slate-900 antialiased selection:bg-amber-500/20 selection:text-amber-900;
     background-image: 
-      radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.05) 0, transparent 50%),
-      radial-gradient(at 50% 0%, rgba(245, 158, 11, 0.05) 0, transparent 50%),
-      radial-gradient(at 100% 100%, rgba(251, 191, 36, 0.03) 0, transparent 50%);
+      radial-gradient(at 0% 0%, rgba(217, 119, 6, 0.03) 0, transparent 50%),
+      radial-gradient(at 50% 0%, rgba(180, 83, 9, 0.02) 0, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.02) 0, transparent 50%);
     background-attachment: fixed;
   }
 
@@ -50,9 +50,9 @@
   .dark body {
     @apply bg-slate-950 text-slate-100;
     background-image: 
-      radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.12) 0, transparent 50%),
-      radial-gradient(at 50% 0%, rgba(245, 158, 11, 0.08) 0, transparent 50%),
-      radial-gradient(at 100% 100%, rgba(251, 191, 36, 0.05) 0, transparent 50%);
+      radial-gradient(at 0% 0%, rgba(217, 119, 6, 0.08) 0, transparent 50%),
+      radial-gradient(at 50% 0%, rgba(180, 83, 9, 0.05) 0, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.03) 0, transparent 50%);
   }
 }
 

@@ -3,9 +3,11 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { signupUser } from '../api/endpoints';
 import { useAuthStore } from '../stores/authStore';
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 
 export default function SignupPage() {
   const [form, setForm] = useState({ full_name: '', email: '', phone: '', password: '' });
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const navigate = useNavigate();
   const setAuth = useAuthStore((s) => s.setAuth);
 
@@ -31,7 +33,14 @@ export default function SignupPage() {
           <p className="text-slate-600 font-bold">Start shopping on QuickMart</p>
         </div>
 
-        <form onSubmit={(e) => { e.preventDefault(); mutation.mutate(); }} className="space-y-6">
+        <form onSubmit={(e) => { 
+          e.preventDefault(); 
+          if (!captchaToken) {
+            alert('Please complete the captcha verification');
+            return;
+          }
+          mutation.mutate(); 
+        }} className="space-y-6">
           <div>
             <label className="block text-xs font-black text-slate-700 mb-2 uppercase tracking-widest px-1">Full Name</label>
             <input type="text" value={form.full_name} onChange={(e) => update('full_name', e.target.value)} required
@@ -64,8 +73,16 @@ export default function SignupPage() {
             </div>
           )}
 
-           <button type="submit" disabled={mutation.isPending}
-            className="w-full py-4.5 rounded-2xl font-black text-white bg-linear-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 shadow-xl shadow-orange-600/30 transition-all disabled:opacity-50 active:scale-95 uppercase tracking-widest text-sm">
+           <div className="flex justify-center scale-90 sm:scale-100 origin-center py-2">
+             <HCaptcha
+               sitekey={import.meta.env.VITE_HCAPTCHA_SITE_KEY || "10000000-ffff-ffff-ffff-000000000001"}
+               onVerify={(token) => setCaptchaToken(token)}
+               onExpire={() => setCaptchaToken(null)}
+             />
+           </div>
+
+           <button type="submit" disabled={mutation.isPending || !captchaToken}
+             className="w-full py-4.5 rounded-2xl font-black text-white bg-linear-to-r from-orange-700 to-orange-600 hover:from-orange-800 hover:to-orange-700 shadow-xl shadow-orange-900/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 uppercase tracking-widest text-sm">
             {mutation.isPending ? 'Creating account...' : 'Create account'}
           </button>
         </form>
