@@ -143,7 +143,7 @@ export default function ProductsPage() {
         {/* Search Bar */}
         <div className="relative w-full md:w-96 group">
           <div className="absolute -inset-1 bg-orange-500 rounded-2xl blur-lg opacity-10 group-hover:opacity-20 transition duration-700"></div>
-          <div className="relative flex items-center bg-white rounded-2xl p-1.5 shadow-sm border-2 border-orange-100">
+          <div className="relative flex items-center bg-white rounded-2xl p-1.5 shadow-sm border-2 border-orange-100 focus-within:ring-8 focus-within:ring-orange-500/10 focus-within:border-orange-200/50 transition-all duration-300">
             <div className="flex items-center flex-1 px-3">
               <svg className="w-4 h-4 text-orange-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />

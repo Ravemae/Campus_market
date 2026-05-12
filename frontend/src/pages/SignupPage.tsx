@@ -44,25 +44,25 @@ export default function SignupPage() {
           <div>
             <label className="block text-xs font-black text-slate-700 mb-2 uppercase tracking-widest px-1">Full Name</label>
             <input type="text" value={form.full_name} onChange={(e) => update('full_name', e.target.value)} required
-              className="w-full px-5 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/5 transition-all shadow-sm font-bold"
+              className="w-full px-5 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-8 focus:ring-orange-500/10 focus:border-orange-200/50 transition-all shadow-sm font-bold"
               placeholder="John Doe" />
           </div>
           <div>
             <label className="block text-xs font-black text-slate-700 mb-2 uppercase tracking-widest px-1">Email Address</label>
             <input type="email" value={form.email} onChange={(e) => update('email', e.target.value)} required
-              className="w-full px-5 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/5 transition-all shadow-sm font-bold"
+              className="w-full px-5 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-8 focus:ring-orange-500/10 focus:border-orange-200/50 transition-all shadow-sm font-bold"
               placeholder="you@university.edu" />
           </div>
           <div>
             <label className="block text-xs font-black text-slate-700 mb-2 uppercase tracking-widest px-1">Phone Number</label>
             <input type="tel" value={form.phone} onChange={(e) => update('phone', e.target.value)} required
-              className="w-full px-5 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/5 transition-all shadow-sm font-bold"
+              className="w-full px-5 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-8 focus:ring-orange-500/10 focus:border-orange-200/50 transition-all shadow-sm font-bold"
               placeholder="08012345678" />
           </div>
           <div>
             <label className="block text-xs font-black text-slate-700 mb-2 uppercase tracking-widest px-1">Security Password</label>
             <input type="password" value={form.password} onChange={(e) => update('password', e.target.value)} required
-              className="w-full px-5 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/5 transition-all shadow-sm font-bold"
+              className="w-full px-5 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-8 focus:ring-orange-500/10 focus:border-orange-200/50 transition-all shadow-sm font-bold"
               placeholder="Min 8 characters" />
             <p className="text-[10px] font-bold text-slate-400 mt-2 uppercase tracking-tight px-1">Must include uppercase, lowercase, number, and special character</p>
           </div>

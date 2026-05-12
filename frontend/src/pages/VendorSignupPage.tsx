@@ -94,22 +94,22 @@ export default function VendorSignupPage() {
                   <div>
                     <label className="block text-[10px] font-black text-slate-700 uppercase tracking-widest mb-2 px-1">Full Name</label>
                     <input type="text" value={form.full_name} onChange={(e) => update('full_name', e.target.value)} required
-                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-5 text-slate-900 font-bold focus:border-orange-500 focus:ring-4 focus:ring-orange-500/5 transition-all placeholder:text-slate-400" />
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-5 text-slate-900 font-bold focus:outline-none focus:ring-8 focus:ring-orange-500/10 focus:border-orange-200/50 transition-all placeholder:text-slate-400" />
                   </div>
                   <div>
                     <label className="block text-[10px] font-black text-slate-700 uppercase tracking-widest mb-2 px-1">Email Address</label>
                     <input type="email" value={form.email} onChange={(e) => update('email', e.target.value)} required
-                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-5 text-slate-900 font-bold focus:border-orange-500 focus:ring-4 focus:ring-orange-500/5 transition-all placeholder:text-slate-400" />
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-5 text-slate-900 font-bold focus:outline-none focus:ring-8 focus:ring-orange-500/10 focus:border-orange-200/50 transition-all placeholder:text-slate-400" />
                   </div>
                   <div>
                     <label className="block text-[10px] font-black text-slate-700 uppercase tracking-widest mb-2 px-1">Phone Number</label>
                     <input type="tel" value={form.phone} onChange={(e) => update('phone', e.target.value)} required
-                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-5 text-slate-900 font-bold focus:border-orange-500 focus:ring-4 focus:ring-orange-500/5 transition-all placeholder:text-slate-400" />
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-5 text-slate-900 font-bold focus:outline-none focus:ring-8 focus:ring-orange-500/10 focus:border-orange-200/50 transition-all placeholder:text-slate-400" />
                   </div>
                   <div>
                     <label className="block text-[10px] font-black text-slate-700 uppercase tracking-widest mb-2 px-1">Security Password</label>
                     <input type="password" value={form.password} onChange={(e) => update('password', e.target.value)} required
-                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-5 text-slate-900 font-bold focus:border-orange-500 focus:ring-4 focus:ring-orange-500/5 transition-all placeholder:text-slate-400" />
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-5 text-slate-900 font-bold focus:outline-none focus:ring-8 focus:ring-orange-500/10 focus:border-orange-200/50 transition-all placeholder:text-slate-400" />
                   </div>
                 </div>
                 <button type="button" onClick={nextStep}
@@ -140,7 +140,7 @@ export default function VendorSignupPage() {
                     <div>
                       <label className="block text-[10px] font-black text-slate-700 uppercase tracking-widest mb-2 px-1">Shop Name</label>
                       <input type="text" value={form.shop_name} onChange={(e) => update('shop_name', e.target.value)} required
-                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-5 text-slate-900 font-bold focus:border-orange-500 focus:ring-4 focus:ring-orange-500/5 transition-all placeholder:text-slate-400" />
+                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-5 text-slate-900 font-bold focus:outline-none focus:ring-8 focus:ring-orange-500/10 focus:border-orange-200/50 transition-all placeholder:text-slate-400" />
                     </div>
                     <div>
                       <label className="block text-[10px] font-black text-slate-700 uppercase tracking-widest mb-2 px-1">Shop Category</label>
@@ -154,7 +154,7 @@ export default function VendorSignupPage() {
                   <div>
                     <label className="block text-[10px] font-black text-slate-700 uppercase tracking-widest mb-2 px-1">Pickup/Delivery Location</label>
                     <input type="text" value={form.shop_location} onChange={(e) => update('shop_location', e.target.value)} required
-                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-5 text-slate-900 font-bold focus:border-orange-500 focus:ring-4 focus:ring-orange-500/5 transition-all placeholder:text-slate-400" />
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-5 text-slate-900 font-bold focus:outline-none focus:ring-8 focus:ring-orange-500/10 focus:border-orange-200/50 transition-all placeholder:text-slate-400" />
                   </div>
                   <div>
                     <label className="block text-[10px] font-black text-slate-700 uppercase tracking-widest mb-2 px-1">Shop Description</label>
