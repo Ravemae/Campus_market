@@ -15,7 +15,7 @@ export default function LoginPage() {
   const setAuth = useAuthStore((s) => s.setAuth);
 
   const mutation = useMutation({
-    mutationFn: () => loginUser(email, password),
+    mutationFn: () => loginUser(email, password, captchaToken || ""),
     onSuccess: (res) => {
       setAuth(res.data.user, res.data.access_token);
       // Default redirect to dashboard instead of home

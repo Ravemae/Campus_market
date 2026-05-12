@@ -12,7 +12,7 @@ export default function SignupPage() {
   const setAuth = useAuthStore((s) => s.setAuth);
 
   const mutation = useMutation({
-    mutationFn: () => signupUser(form),
+    mutationFn: () => signupUser({ ...form, captcha_token: captchaToken || "" }),
     onSuccess: (res) => {
       setAuth(res.data.user, res.data.access_token);
       navigate('/');

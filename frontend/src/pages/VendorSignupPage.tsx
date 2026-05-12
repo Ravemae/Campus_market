@@ -18,7 +18,7 @@ export default function VendorSignupPage() {
   const setAuth = useAuthStore((s) => s.setAuth);
 
   const mutation = useMutation({
-    mutationFn: () => signupVendor(form),
+    mutationFn: () => signupVendor({ ...form, captcha_token: captchaToken || "" }),
     onSuccess: (res) => {
       setAuth(res.data.user, res.data.access_token);
       navigate('/vendor-dashboard');

@@ -6,6 +6,7 @@ from app.models.vendor import Vendor
 from app.core.security import hash_password, verify_password, create_access_token
 from pydantic import BaseModel
 from typing import Optional
+from app.core.captcha import verify_hcaptcha
 import re
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
@@ -37,10 +38,12 @@ class VendorSignupRequest(BaseModel):
     shop_description: str
     shop_location: str
     shop_category: str
+    captcha_token: str
 
 class LoginRequest(BaseModel):
     email: str
     password: str
+    captcha_token: str
 
 class ResetPasswordRequest(BaseModel):
     email: str
@@ -53,7 +56,8 @@ class UpdateProfileRequest(BaseModel):
     avatar_url: Optional[str] = None
 
 @router.post("/signup/user", summary="Register as a Customer")
-def signup_user(data: UserSignupRequest, session: Session = Depends(get_session)):
+async def signup_user(data: UserSignupRequest, session: Session = Depends(get_session)):
+    await verify_hcaptcha(data.captcha_token)
     validate_password(data.password)
     existing = session.exec(select(User).where(User.email == data.email)).first()
     if existing:
@@ -87,7 +91,8 @@ def signup_user(data: UserSignupRequest, session: Session = Depends(get_session)
     }
 
 @router.post("/signup/vendor", summary="Register as a Shop Owner")
-def signup_vendor(data: VendorSignupRequest, session: Session = Depends(get_session)):
+async def signup_vendor(data: VendorSignupRequest, session: Session = Depends(get_session)):
+    await verify_hcaptcha(data.captcha_token)
     validate_password(data.password)
     existing = session.exec(select(User).where(User.email == data.email)).first()
     if existing:
@@ -144,7 +149,8 @@ def signup_vendor(data: VendorSignupRequest, session: Session = Depends(get_sess
     }
 
 @router.post("/login", summary="Login")
-def login(data: LoginRequest, session: Session = Depends(get_session)):
+async def login(data: LoginRequest, session: Session = Depends(get_session)):
+    await verify_hcaptcha(data.captcha_token)
     user = session.exec(select(User).where(User.email == data.email)).first()
     if not user or not verify_password(data.password, user.password_hash):
         raise HTTPException(status_code=401, detail="Invalid credentials")

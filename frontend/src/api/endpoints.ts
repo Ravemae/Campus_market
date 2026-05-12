@@ -25,14 +25,15 @@ export const resolveMediaUrl = (url?: string | null) => {
 };
 
 /* ─── Auth ─── */
-export const loginUser = (email: string, password: string) =>
-  apiClient.post<AuthResponse>('/auth/login', { email, password });
+export const loginUser = (email: string, password: string, captcha_token: string) =>
+  apiClient.post<AuthResponse>('/auth/login', { email, password, captcha_token });
 
 export const signupUser = (data: {
   full_name: string;
   email: string;
   phone: string;
   password: string;
+  captcha_token: string;
 }) => apiClient.post<AuthResponse>('/auth/signup/user', data);
 
 export const signupVendor = (data: {
@@ -44,6 +45,7 @@ export const signupVendor = (data: {
   shop_description: string;
   shop_location: string;
   shop_category: string;
+  captcha_token: string;
 }) => apiClient.post<AuthResponse>('/auth/signup/vendor', data);
 
 export const forgotPassword = (email: string) =>
