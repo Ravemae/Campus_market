@@ -8,6 +8,25 @@
   
   --radius-custom: 1.5rem;
   --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+
+  --animate-spotlight: spotlight 2s ease .75s 1 forwards;
+  @keyframes spotlight {
+    0% {
+      opacity: 0;
+      transform: translate(-72%, -62%) scale(0.5);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(-50%,-40%) scale(1);
+    }
+  }
+
+  --animate-scroll: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
+  @keyframes scroll {
+    to {
+      transform: translate(calc(-50% - 0.5rem));
+    }
+  }
 }
 
 @layer base {
@@ -16,20 +35,24 @@
   }
 
   body {
-    @apply bg-slate-50 text-slate-900 antialiased selection:bg-indigo-500/30 selection:text-indigo-900;
+    @apply bg-slate-50 text-slate-900 antialiased selection:bg-orange-500/30 selection:text-orange-900;
     background-image: 
-      radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0, transparent 50%),
-      radial-gradient(at 50% 0%, rgba(59, 130, 246, 0.05) 0, transparent 50%),
-      radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.03) 0, transparent 50%);
+      radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.05) 0, transparent 50%),
+      radial-gradient(at 50% 0%, rgba(245, 158, 11, 0.05) 0, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(251, 191, 36, 0.03) 0, transparent 50%);
     background-attachment: fixed;
+  }
+
+  button, [role="button"], a {
+    cursor: pointer !important;
   }
 
   .dark body {
     @apply bg-slate-950 text-slate-100;
     background-image: 
-      radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0, transparent 50%),
-      radial-gradient(at 50% 0%, rgba(59, 130, 246, 0.08) 0, transparent 50%),
-      radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.05) 0, transparent 50%);
+      radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.12) 0, transparent 50%),
+      radial-gradient(at 50% 0%, rgba(245, 158, 11, 0.08) 0, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(251, 191, 36, 0.05) 0, transparent 50%);
   }
 }
 

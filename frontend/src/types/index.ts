@@ -1,4 +1,4 @@
-/* === Types for Campus Market === */
+/* === Types for QuickMart === */
 
 export interface User {
   id: string;
@@ -63,6 +63,7 @@ export interface Order {
   room_number?: string;
   delivery_address?: string;
   items?: OrderItem[]; // Made optional as backend currently doesn't return them
+  vendor_name?: string;
 }
 
 export interface CartItem {

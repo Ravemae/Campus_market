@@ -9,6 +9,8 @@ __pycache__/
 app.db
 *.db
 
+*.zip
+
 # Distribution / packaging
 .Python
 build/
