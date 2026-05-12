@@ -1,5 +1,5 @@
 import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Spotlight } from "../components/ui/Spotlight";
 import { WavyBackground } from "../components/ui/WavyBackground";
 import { Link, useNavigate } from "react-router-dom";
