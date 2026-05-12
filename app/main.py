@@ -24,7 +24,9 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
     "http://localhost:5173",
-    "https://quickmartcampus.netlify.app",
+    "https://quickmartcampus.netlify.app"
+    "https://quickmartapp.com.ng"
+    "https://www.quickmartapp.com.ng/",
 ],
     allow_credentials=True,
     allow_methods=["*"],
