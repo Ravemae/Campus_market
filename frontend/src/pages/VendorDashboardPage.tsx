@@ -27,6 +27,15 @@ const VendorDashboardPage: React.FC = () => {
     }
   };
 
+  const fetchOrders = async () => {
+    try {
+      const oRes = await getVendorOrders();
+      setOrders(oRes.data);
+    } catch (err) {
+      console.error("Error fetching orders", err);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -37,8 +46,7 @@ const VendorDashboardPage: React.FC = () => {
         
         if (myVendor) {
           setVendor(myVendor);
-          const oRes = await getVendorOrders();
-          setOrders(oRes.data);
+          await fetchOrders();
           await fetchProducts(myVendor.id);
         }
       } catch (err) {
@@ -48,12 +56,17 @@ const VendorDashboardPage: React.FC = () => {
       }
     };
     fetchData();
+
+    // Auto-refresh orders every 30s
+    const interval = setInterval(fetchOrders, 30000);
+    return () => clearInterval(interval);
   }, [user]);
 
   const handleStatusChange = async (orderId: string, newStatus: string) => {
     try {
       await updateOrderStatus(orderId, newStatus);
       setOrders(orders.map(o => o.id === orderId ? { ...o, status: newStatus as any } : o));
+      // Optional: Visual confirmation
     } catch (err) {
       alert("Failed to update order status");
     }

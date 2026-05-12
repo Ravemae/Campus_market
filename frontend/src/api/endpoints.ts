@@ -56,7 +56,7 @@ export const resetPassword = (data: { email: string; new_password: string }) =>
   apiClient.post('/auth/reset-password', data);
 
 export const updateProfile = (userId: string, data: Partial<User>) =>
-  apiClient.patch<User>(`/auth/profile/${userId}`, data);
+  apiClient.patch<{ message: string; user: User }>(`/auth/profile/${userId}`, data);
 
 /* ─── Vendors ─── */
 export const getVendors = () =>
@@ -74,8 +74,20 @@ export const getAllVendorsAdmin = () =>
 export const approveVendor = (vendorId: string) =>
   apiClient.patch(`/admin/vendors/${vendorId}/approve`);
 
+export const rejectVendor = (vendorId: string) =>
+  apiClient.patch(`/admin/vendors/${vendorId}/reject`);
+
 export const getAdminDashboard = () =>
   apiClient.get('/admin/dashboard');
+
+export const getAllUsersAdmin = () =>
+  apiClient.get('/admin/users');
+
+export const deactivateUser = (userId: string) =>
+  apiClient.patch(`/admin/users/${userId}/deactivate`);
+
+export const activateUser = (userId: string) =>
+  apiClient.patch(`/admin/users/${userId}/activate`);
 
 /* ─── Products ─── */
 export const getProducts = (params?: { q?: string; category?: string }) =>
@@ -161,6 +173,13 @@ export const initializePayment = (orderId: string) =>
 export const verifyPayment = (reference: string) =>
   apiClient.get(`/payment/verify/${reference}`);
 
+/* ─── Flutterwave Payment ─── */
+export const initializeFlutterwavePayment = (orderId: string) =>
+  apiClient.post(`/flutterwave/initialize/${orderId}`);
+
+export const verifyFlutterwavePayment = (txRef: string) =>
+  apiClient.get(`/flutterwave/verify/${txRef}`);
+
 /* ─── Notifications ─── */
 export const getNotifications = () =>
   apiClient.get<Notification[]>('/notifications/');
@@ -170,6 +189,10 @@ export const markAsRead = (id: string) =>
 
 export const markAllAsRead = () =>
   apiClient.patch('/notifications/read-all');
+
+/* ─── Helpdesk / AI Support ─── */
+export const sendHelpdeskMessage = (message: string, conversation_history: any[] = []) =>
+  apiClient.post('/helpdesk/chat', { message, conversation_history });
 
 /* ─── Upload ─── */
 export const uploadFile = (file: File) => {

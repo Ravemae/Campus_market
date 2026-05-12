@@ -5,6 +5,7 @@ import { getProduct, getVendor, resolveMediaUrl } from '../api/endpoints';
 import { useCartStore } from '../stores/cartStore';
 import { useAuthStore } from '../stores/authStore';
 import { ShoppingBagIcon, ChevronLeftIcon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
+import LoginPromptModal from '../components/LoginPromptModal';
 
 export default function ProductDetailPage() {
   const { productId } = useParams<{ productId: string }>();
@@ -13,6 +14,8 @@ export default function ProductDetailPage() {
   const addItem = useCartStore((s) => s.addItem);
   const cartItems = useCartStore((s) => s.items);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [addedToCart, setAddedToCart] = useState(false);
 
   const { data: product, isLoading: productLoading } = useQuery({
     queryKey: ['product', productId],
@@ -41,10 +44,7 @@ export default function ProductDetailPage() {
 
   const handleAddToCart = () => {
     if (!isAuthenticated) {
-      const confirmLogin = window.confirm("You need to be logged in to add items to your cart. Login now?");
-      if (confirmLogin) {
-        navigate('/login');
-      }
+      setShowLoginPrompt(true);
       return;
     }
 
@@ -66,26 +66,27 @@ export default function ProductDetailPage() {
       quantity,
       imageUrl: product.image_url || '',
     });
-    
-    alert('Added to cart!');
+    setAddedToCart(true);
+    setTimeout(() => setAddedToCart(false), 2000);
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative overflow-hidden">
+    <>
+    <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-4 sm:py-12 relative overflow-hidden pb-28 sm:pb-12">
       {/* Decorative Blobs */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-500/5 rounded-full blur-[120px] -mr-40 -mt-40 -z-10" />
       
-      <button onClick={() => navigate(-1)} className="group flex items-center gap-3 text-slate-400 hover:text-orange-600 mb-10 transition-all font-black uppercase tracking-widest text-[10px]">
+      <button onClick={() => navigate(-1)} className="group flex items-center gap-2 text-slate-400 hover:text-orange-600 mb-4 sm:mb-10 transition-all font-black uppercase tracking-widest text-[10px]">
         <div className="p-2 rounded-xl bg-white border-2 border-slate-50 group-hover:border-orange-100 group-hover:bg-orange-50 transition-all">
           <ChevronLeftIcon className="w-4 h-4" strokeWidth={3} />
         </div>
         Back to listings
       </button>
 
-      <div className="bg-white border-2 border-slate-50 rounded-[3rem] overflow-hidden p-8 md:p-12 shadow-2xl shadow-orange-500/5">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
+      <div className="bg-white border-2 border-slate-50 rounded-2xl sm:rounded-[3rem] overflow-hidden p-4 sm:p-8 md:p-12 shadow-2xl shadow-orange-500/5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-12 lg:gap-20">
           {/* Image */}
-          <div className="aspect-square bg-slate-50 rounded-[2.5rem] overflow-hidden border-2 border-slate-100 shadow-inner group relative">
+          <div className="aspect-square bg-slate-50 rounded-xl sm:rounded-[2.5rem] overflow-hidden border-2 border-slate-100 shadow-inner group relative">
             {product.image_url ? (
               <img src={resolveMediaUrl(product.image_url)} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             ) : (
@@ -110,7 +111,7 @@ export default function ProductDetailPage() {
                 </div>
               </button>
             )}
-            <h1 className="text-4xl lg:text-5xl font-black text-slate-900 mb-6 tracking-tight">{product.name}</h1>
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 mb-4 sm:mb-6 tracking-tight">{product.name}</h1>
             
             <div className="space-y-6 mb-10">
               <div className="flex items-center gap-4">
@@ -151,15 +152,24 @@ export default function ProductDetailPage() {
               <button
                 onClick={handleAddToCart}
                 disabled={!product.is_available}
-                className="w-full py-5 rounded-[1.8rem] font-black text-white bg-linear-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 shadow-2xl shadow-orange-600/30 transition-all disabled:opacity-50 active:scale-95 flex items-center justify-center gap-4 uppercase tracking-widest text-sm"
+                className={`w-full py-5 rounded-[1.8rem] font-black text-white shadow-2xl transition-all disabled:opacity-50 active:scale-95 flex items-center justify-center gap-4 uppercase tracking-widest text-sm ${
+                  addedToCart
+                    ? 'bg-emerald-500 shadow-emerald-500/30'
+                    : 'bg-linear-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 shadow-orange-600/30'
+                }`}
               >
-                <ShoppingBagIcon className="w-6 h-6" strokeWidth={2.5} />
-                {product.is_available ? `Add to Cart` : 'Currently Unavailable'}
+                {addedToCart ? (
+                  <><svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>Added!</>
+                ) : (
+                  <><ShoppingBagIcon className="w-6 h-6" strokeWidth={2.5} />{product.is_available ? 'Add to Cart' : 'Currently Unavailable'}</>
+                )}
               </button>
             </div>
           </div>
         </div>
       </div>
     </div>
+      <LoginPromptModal isOpen={showLoginPrompt} onClose={() => setShowLoginPrompt(false)} />
+    </>  
   );
 }

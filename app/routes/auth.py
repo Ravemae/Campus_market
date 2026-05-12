@@ -50,6 +50,7 @@ class UpdateProfileRequest(BaseModel):
     full_name: Optional[str] = None
     phone: Optional[str] = None
     email: Optional[str] = None
+    avatar_url: Optional[str] = None
 
 @router.post("/signup/user", summary="Register as a Customer")
 def signup_user(data: UserSignupRequest, session: Session = Depends(get_session)):
@@ -223,6 +224,8 @@ def update_profile(user_id: str, data: UpdateProfileRequest, session: Session = 
         if existing and existing.id != user_id:
             raise HTTPException(status_code=400, detail="Email already in use")
         user.email = data.email
+    if data.avatar_url:
+        user.avatar_url = data.avatar_url
     session.commit()
     return {
         "message": "Profile updated successfully",
@@ -231,6 +234,7 @@ def update_profile(user_id: str, data: UpdateProfileRequest, session: Session = 
             "full_name": user.full_name,
             "email": user.email,
             "phone": user.phone,
-            "role": user.role
+            "role": user.role,
+            "avatar_url": user.avatar_url
         }
     }

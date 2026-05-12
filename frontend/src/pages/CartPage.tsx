@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCartStore } from '../stores/cartStore';
 import { useAuthStore } from '../stores/authStore';
 import { resolveMediaUrl } from '../api/endpoints';
-import { TrashIcon, PlusIcon, MinusIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
 
 const CartPage: React.FC = () => {
   const { items, updateQty, removeItem, getTotal, clearCart } = useCartStore();
@@ -11,30 +10,19 @@ const CartPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleCheckout = () => {
-    if (!isAuthenticated) {
-      alert("Please login to proceed to checkout!");
-      navigate('/login');
-    } else {
-      navigate('/checkout');
-    }
+    if (!isAuthenticated) { alert("Please login to proceed!"); navigate('/login'); }
+    else navigate('/checkout');
   };
 
   if (items.length === 0) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
-        <div className="w-28 h-28 mx-auto mb-8 rounded-[2.5rem] bg-orange-50 flex items-center justify-center text-orange-400">
-          <ShoppingBagIcon className="w-14 h-14" />
+      <div className="max-w-2xl mx-auto px-3 py-16 sm:py-32 text-center pb-28 sm:pb-32">
+        <div className="w-20 h-20 sm:w-28 sm:h-28 mx-auto mb-6 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-400">
+          <svg className="w-10 h-10 sm:w-14 sm:h-14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" /></svg>
         </div>
-        <h2 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">
-          Your Cart is Empty
-        </h2>
-        <p className="text-slate-500 font-bold mb-10 max-w-sm mx-auto">
-          Looks like you haven't added any delicious items yet. Explore our vendors and find something tasty!
-        </p>
-        <Link
-          to="/"
-          className="inline-flex items-center px-10 py-4 bg-orange-600 hover:bg-orange-700 text-white font-black rounded-2xl shadow-xl shadow-orange-600/30 transition-all active:scale-95 uppercase tracking-widest text-sm"
-        >
+        <h2 className="text-xl sm:text-3xl font-black text-slate-900 mb-3 tracking-tight">Your Cart is Empty</h2>
+        <p className="text-slate-500 font-bold text-sm mb-8 max-w-sm mx-auto">Explore our vendors and find something delicious!</p>
+        <Link to="/" className="inline-flex items-center px-8 py-3 bg-orange-600 hover:bg-orange-700 text-white font-black rounded-xl shadow-lg active:scale-95 uppercase tracking-widest text-xs">
           Start Shopping
         </Link>
       </div>
@@ -42,140 +30,86 @@ const CartPage: React.FC = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="flex items-center gap-4 mb-10">
-        <div className="p-3 bg-orange-600 rounded-2xl shadow-lg shadow-orange-600/30">
-          <ShoppingBagIcon className="w-6 h-6 text-white" strokeWidth={2.5} />
+    <div className="max-w-7xl mx-auto px-1 sm:px-6 py-4 sm:py-12 pb-28 sm:pb-12">
+      <div className="flex items-center gap-3 mb-6 sm:mb-10">
+        <div className="p-2.5 bg-orange-600 rounded-xl shadow-lg shadow-orange-600/30">
+          <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" /></svg>
         </div>
-        <h1 className="text-4xl font-black text-slate-900 tracking-tight">
-          Shopping Cart
-        </h1>
+        <h1 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">Cart</h1>
+        <span className="ml-auto text-xs font-bold text-slate-400">{items.length} items</span>
       </div>
 
-      <div className="lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start">
+      <div className="lg:grid lg:grid-cols-12 lg:gap-x-8 lg:items-start">
         <div className="lg:col-span-8">
-          <div className="bg-white rounded-[2.5rem] border-2 border-slate-50 shadow-sm overflow-hidden mb-8">
+          <div className="bg-white rounded-2xl border-2 border-slate-50 shadow-sm overflow-hidden mb-4">
             <ul className="divide-y divide-slate-50">
               {items.map((item) => (
-                <li key={item.productId} className="flex p-8 sm:p-10 hover:bg-slate-50/30 transition-colors">
-                  <div className="shrink-0">
-                    <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden bg-slate-100 shadow-md">
-                      <img
-                        src={resolveMediaUrl(item.imageUrl)}
-                        alt={item.name}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          e.currentTarget.onerror = null;
-                          e.currentTarget.src = 'https://via.placeholder.com/150?text=No+Image';
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="ml-6 flex-1 flex flex-col">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <Link
-                          to={`/product/${item.productId}`}
-                          className="text-xl font-black text-slate-900 hover:text-orange-600 transition-colors tracking-tight"
-                        >
-                          {item.name}
-                        </Link>
-                        <p className="mt-2 text-orange-600 font-black text-lg">
-                          ₦{item.price.toLocaleString()}
-                        </p>
+                <li key={item.productId} className="flex p-3 sm:p-6 hover:bg-slate-50/30 transition-colors gap-3 sm:gap-5">
+                  <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-xl overflow-hidden bg-slate-100 shadow-sm shrink-0">
+                    {item.imageUrl ? (
+                      <img src={resolveMediaUrl(item.imageUrl)} alt={item.name} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>' }} />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-orange-50 text-orange-300">
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
                       </div>
-                      <button
-                        onClick={() => removeItem(item.productId)}
-                        className="p-2.5 rounded-xl text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all"
-                      >
-                        <TrashIcon className="h-6 w-6" />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0 flex flex-col">
+                    <div className="flex justify-between items-start gap-2">
+                      <div className="min-w-0">
+                        <Link to={`/product/${item.productId}`} className="text-sm sm:text-base font-black text-slate-900 hover:text-orange-600 transition-colors line-clamp-1">{item.name}</Link>
+                        <p className="text-orange-600 font-black text-xs sm:text-base mt-0.5">₦{item.price.toLocaleString()}</p>
+                      </div>
+                      <button onClick={() => removeItem(item.productId)} className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all shrink-0">
+                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" /></svg>
                       </button>
                     </div>
-
-                    <div className="mt-auto flex flex-wrap items-center justify-between gap-4">
-                      <div className="flex items-center bg-slate-50 rounded-xl p-1 border-2 border-slate-100">
-                        <button
-                          onClick={() => updateQty(item.productId, item.quantity - 1)}
-                          className="p-2 text-slate-500 hover:text-orange-600 transition-all"
-                        >
-                          <MinusIcon className="h-5 w-5" strokeWidth={3} />
+                    <div className="mt-auto flex items-center justify-between gap-2 pt-2">
+                      <div className="flex items-center bg-slate-50 rounded-lg p-0.5 border border-slate-100">
+                        <button onClick={() => updateQty(item.productId, item.quantity - 1)} className="p-1.5 text-slate-500 hover:text-orange-600">
+                          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15" /></svg>
                         </button>
-                        <span className="px-6 py-2 text-slate-900 font-black min-w-[3.5rem] text-center">
-                          {item.quantity}
-                        </span>
-                        <button
-                          onClick={() => updateQty(item.productId, item.quantity + 1)}
-                          className="p-2 text-slate-500 hover:text-orange-600 transition-all"
-                        >
-                          <PlusIcon className="h-5 w-5" strokeWidth={3} />
+                        <span className="px-3 py-1 text-slate-900 font-black text-xs min-w-[2rem] text-center">{item.quantity}</span>
+                        <button onClick={() => updateQty(item.productId, item.quantity + 1)} className="p-1.5 text-slate-500 hover:text-orange-600">
+                          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                         </button>
                       </div>
-                      
-                      <p className="text-xs font-black text-slate-700 uppercase tracking-widest">
-                        Item Subtotal: <span className="text-slate-900 ml-2">₦{(item.price * item.quantity).toLocaleString()}</span>
-                      </p>
+                      <p className="text-xs font-black text-slate-700">₦{(item.price * item.quantity).toLocaleString()}</p>
                     </div>
                   </div>
                 </li>
               ))}
             </ul>
           </div>
-
-          <div className="flex justify-between items-center px-4">
-            <button
-              onClick={clearCart}
-              className="text-xs font-black text-red-500 hover:text-red-600 uppercase tracking-widest flex items-center gap-2"
-            >
-              <TrashIcon className="h-4 w-4" />
-              Clear Cart
+          <div className="flex justify-between items-center px-2">
+            <button onClick={clearCart} className="text-[10px] font-black text-red-500 hover:text-red-600 uppercase tracking-widest flex items-center gap-1.5">
+              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" /></svg>
+              Clear All
             </button>
-            <Link
-              to="/"
-              className="text-xs font-black text-orange-600 hover:text-orange-700 uppercase tracking-widest"
-            >
-              &larr; Continue Shopping
-            </Link>
+            <Link to="/" className="text-[10px] font-black text-orange-600 hover:text-orange-700 uppercase tracking-widest">&larr; Continue</Link>
           </div>
         </div>
 
-        {/* Order summary */}
-        <section className="mt-16 lg:mt-0 lg:col-span-4 sticky top-32">
-          <div className="bg-white rounded-[2.5rem] border-2 border-slate-50 shadow-2xl shadow-orange-500/5 p-8 sm:p-10">
-            <h2 className="text-2xl font-black text-slate-900 mb-8 tracking-tight">
-              Order summary
-            </h2>
-
-            <dl className="space-y-6">
-              <div className="flex items-center justify-between">
-                <dt className="text-slate-500 font-bold">Items Subtotal</dt>
-                <dd className="text-slate-900 font-black">
-                  ₦{getTotal().toLocaleString()}
-                </dd>
+        <section className="mt-8 lg:mt-0 lg:col-span-4 lg:sticky lg:top-32">
+          <div className="bg-white rounded-2xl border-2 border-slate-50 shadow-xl p-5 sm:p-8">
+            <h2 className="text-lg sm:text-xl font-black text-slate-900 mb-6 tracking-tight">Summary</h2>
+            <dl className="space-y-4">
+              <div className="flex items-center justify-between text-sm">
+                <dt className="text-slate-500 font-bold">Subtotal</dt>
+                <dd className="text-slate-900 font-black">₦{getTotal().toLocaleString()}</dd>
               </div>
-              <div className="flex items-center justify-between">
-                <dt className="text-slate-500 font-bold">Delivery Fee</dt>
-                <dd className="text-slate-400 font-black text-xs uppercase tracking-widest">At next step</dd>
+              <div className="flex items-center justify-between text-sm">
+                <dt className="text-slate-500 font-bold">Delivery</dt>
+                <dd className="text-slate-400 font-bold text-xs uppercase tracking-widest">At checkout</dd>
               </div>
-              <div className="border-t-2 border-slate-50 pt-6 flex items-center justify-between">
-                <dt className="text-lg font-black text-slate-900 uppercase tracking-tight">Final Total</dt>
-                <dd className="text-2xl font-black text-orange-600">
-                  ₦{getTotal().toLocaleString()}
-                </dd>
+              <div className="border-t-2 border-slate-50 pt-4 flex items-center justify-between">
+                <dt className="text-base font-black text-slate-900">Total</dt>
+                <dd className="text-xl font-black text-orange-600">₦{getTotal().toLocaleString()}</dd>
               </div>
             </dl>
-
-            <button
-              onClick={handleCheckout}
-              className="mt-10 w-full bg-linear-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white font-black py-5 rounded-[1.8rem] shadow-xl shadow-orange-600/30 transition-all active:scale-95 text-lg uppercase tracking-widest text-sm"
-            >
-              Secure Checkout
+            <button onClick={handleCheckout} className="mt-8 w-full bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white font-black py-4 rounded-2xl shadow-xl shadow-orange-600/30 transition-all active:scale-95 uppercase tracking-widest text-xs">
+              Checkout
             </button>
-            
-            <div className="mt-8 flex items-center justify-center gap-3 grayscale opacity-50">
-               <img src="https://paystack.com/assets/img/integrations/paystack-mark.png" alt="Paystack" className="h-5 w-auto" />
-               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Protected by Paystack</p>
-            </div>
           </div>
         </section>
       </div>
