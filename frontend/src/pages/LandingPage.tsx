@@ -3,9 +3,7 @@ import { Spotlight } from "../components/ui/Spotlight";
 import { WavyBackground } from "../components/ui/WavyBackground";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../stores/authStore";
-import { InfiniteMovingCards } from "../components/ui/InfiniteMovingCards";
 import { PhoneMockup } from "../components/ui/PhoneMockup";
-import fashionBabcock from "../assets/fashion_babcock.png";
 import { 
   PiCookingPotBold, 
   PiCoffeeBold, 
