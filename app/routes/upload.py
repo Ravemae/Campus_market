@@ -20,6 +20,22 @@ cloudinary.config(
 
 router = APIRouter(prefix="/upload", tags=["Upload"])
 
+@router.post("/", summary="Generic image upload")
+async def upload_generic_image(
+    file: UploadFile = File(...),
+    current_user: User = Depends(get_current_user)
+):
+    if not file.content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="Only image files allowed")
+    
+    # Use a generic 'uploads' folder for miscellaneous or new items
+    image_url = upload_to_cloudinary(file, "general")
+    return {
+        "message": "Image uploaded successfully",
+        "url": image_url,
+        "filename": file.filename
+    }
+
 def upload_to_cloudinary(file: UploadFile, folder: str) -> str:
     try:
         contents = file.file.read()
