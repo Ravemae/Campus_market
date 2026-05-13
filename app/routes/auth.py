@@ -4,10 +4,13 @@ from app.database import get_session
 from app.models.user import User, UserRole
 from app.models.vendor import Vendor
 from app.core.security import hash_password, verify_password, create_access_token
+from google.oauth2 import id_token
+from google.auth.transport import requests as google_requests
 from pydantic import BaseModel
 from typing import Optional
 from app.core.captcha import verify_hcaptcha
 import re
+import os
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
@@ -55,6 +58,58 @@ class UpdateProfileRequest(BaseModel):
     phone: Optional[str] = None
     email: Optional[str] = None
     avatar_url: Optional[str] = None
+    
+class GoogleAuthRequest(BaseModel):
+    token: str  # Google ID token from frontend
+
+@router.post("/google", summary="Sign in with Google")
+async def google_signin(data: GoogleAuthRequest, session: Session = Depends(get_session)):
+    try:
+        # Verify Google token
+        idinfo = id_token.verify_oauth2_token(
+            data.token,
+            google_requests.Request(),
+            os.getenv("GOOGLE_CLIENT_ID")
+        )
+        
+        email = idinfo["email"]
+        full_name = idinfo.get("name", "")
+        profile_image = idinfo.get("picture", "")
+        
+        # Check if user exists
+        user = session.exec(select(User).where(User.email == email)).first()
+        
+        if not user:
+            # Create new user
+            import random
+            user = User(
+                full_name=full_name,
+                email=email,
+                phone=f"google_{random.randint(10000000, 99999999)}",  # placeholder
+                password_hash=hash_password(os.urandom(32).hex()),  # random password
+                role=UserRole.user,
+                profile_image=profile_image,
+                created_at=str(__import__('datetime').datetime.utcnow())
+            )
+            session.add(user)
+            session.commit()
+            session.refresh(user)
+        
+        token = create_access_token({"sub": str(user.id), "role": user.role})
+        return {
+            "access_token": token,
+            "token_type": "bearer",
+            "user": {
+                "id": user.id,
+                "full_name": user.full_name,
+                "email": user.email,
+                "role": user.role,
+                "profile_image": user.profile_image
+            },
+            "is_new_user": True if not user else False
+        }
+    except ValueError:
+        raise HTTPException(status_code=401, detail="Invalid Google token")
 
 @router.post("/signup/user", summary="Register as a Customer")
 async def signup_user(data: UserSignupRequest, session: Session = Depends(get_session)):

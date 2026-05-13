@@ -23,5 +23,6 @@ class User(SQLModel, table=True):
     role: UserRole = UserRole.user
     is_active: bool = True
     avatar_url: Optional[str] = None
+    profile_image: Optional[str] = None
     created_at: str = Field(default="")
     updated_at: Optional[str] = None
