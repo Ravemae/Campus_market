@@ -60,7 +60,6 @@ export default function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const addItem = useCartStore((s) => s.addItem);
-  const cartItems = useCartStore((s) => s.items);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
   const initialCategory = searchParams.get('category') || 'All';

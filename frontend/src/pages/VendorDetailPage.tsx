@@ -12,7 +12,6 @@ const VendorDetailPage: React.FC = () => {
   const { vendorId } = useParams<{ vendorId: string }>();
   const navigate = useNavigate();
   const addItem = useCartStore((s) => s.addItem);
-  const cartItems = useCartStore((s) => s.items);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const [showLoginPrompt, setShowLoginPrompt] = React.useState(false);
 
