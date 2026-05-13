@@ -25,11 +25,13 @@ async def upload_generic_image(
     file: UploadFile = File(...),
     current_user: User = Depends(get_current_user)
 ):
+    print(f"DEBUG: Received upload request for file: {file.filename}, type: {file.content_type}")
     if not file.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="Only image files allowed")
     
     # Use a generic 'uploads' folder for miscellaneous or new items
     image_url = upload_to_cloudinary(file, "general")
+    print(f"DEBUG: Successfully uploaded to Cloudinary: {image_url}")
     return {
         "message": "Image uploaded successfully",
         "url": image_url,
@@ -38,7 +40,14 @@ async def upload_generic_image(
 
 def upload_to_cloudinary(file: UploadFile, folder: str) -> str:
     try:
+        # Check if credentials are set
+        if not os.getenv("CLOUDINARY_CLOUD_NAME"):
+            print("ERROR: Cloudinary credentials missing in environment variables")
+            raise Exception("Cloudinary credentials not configured on server")
+
         contents = file.file.read()
+        print(f"DEBUG: Read {len(contents)} bytes from file")
+        
         result = cloudinary.uploader.upload(
             contents,
             folder=f"quickmart/{folder}",
@@ -51,6 +60,7 @@ def upload_to_cloudinary(file: UploadFile, folder: str) -> str:
         )
         return result["secure_url"]
     except Exception as e:
+        print(f"ERROR during Cloudinary upload: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Image upload failed: {str(e)}")
 
 # Upload profile picture

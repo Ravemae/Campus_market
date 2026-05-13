@@ -208,7 +208,6 @@ export const uploadFile = (file: File) => {
   formData.append('file', file);
   return apiClient.post<{ filename: string; url: string; size: number }>(
     '/upload/',
-    formData,
-    { headers: { 'Content-Type': 'multipart/form-data' } }
+    formData
   );
 };

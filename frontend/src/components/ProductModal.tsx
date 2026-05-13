@@ -53,8 +53,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSuccess,
       try {
         const res = await uploadFile(file);
         setFormData({ ...formData, image_url: res.data.url });
-      } catch (err) {
-        alert("Failed to upload image");
+      } catch (err: any) {
+        console.error("Upload error:", err);
+        alert(err.response?.data?.detail || "Failed to upload image. Please try again.");
       } finally {
         setUploading(false);
       }

@@ -49,7 +49,8 @@ const ProfilePage: React.FC = () => {
       updateUser(updateRes.data.user);
       alert('Avatar updated successfully!');
     } catch (err: any) {
-      alert(err.response?.data?.detail || 'Failed to upload avatar');
+      console.error("Avatar upload error:", err);
+      alert(err.response?.data?.detail || 'Failed to upload avatar. Please try again.');
     } finally {
       setIsUploading(false);
     }
