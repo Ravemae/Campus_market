@@ -12,7 +12,6 @@ const VendorDetailPage: React.FC = () => {
   const { vendorId } = useParams<{ vendorId: string }>();
   const navigate = useNavigate();
   const addItem = useCartStore((s) => s.addItem);
-  const cartItems = useCartStore((s) => s.items);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const [showLoginPrompt, setShowLoginPrompt] = React.useState(false);
 
@@ -38,12 +37,6 @@ const VendorDetailPage: React.FC = () => {
     if (!isAuthenticated) {
       setShowLoginPrompt(true);
       return;
-    }
-    const currentVendorId = cartItems[0]?.vendorId;
-    if (currentVendorId && currentVendorId !== product.vendor_id) {
-      if (window.confirm("Cart has items from another shop. Clear cart?")) {
-        useCartStore.getState().clearCart();
-      } else return;
     }
     addItem({
       productId: product.id, vendorId: product.vendor_id, name: product.name,

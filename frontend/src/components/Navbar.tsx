@@ -101,7 +101,7 @@ export default function Navbar() {
                   to="/signup"
                   className="px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl text-[9px] sm:text-xs font-black text-white bg-linear-to-r from-orange-700 to-orange-600 hover:from-orange-800 hover:to-orange-700 shadow-lg shadow-orange-900/20 transition-all active:scale-95 uppercase tracking-[0.15em]"
                 >
-                  Join
+                  Sign Up
                 </Link>
               </div>
             )}
