@@ -111,21 +111,6 @@ export default function LandingPage() {
                 </Link>
               </div>
 
-              {/* Quick Stats */}
-              <div className="mt-12 flex items-center justify-center lg:justify-start gap-8 border-t border-slate-100 pt-8">
-                <div className="text-center lg:text-left">
-                   <p className="text-2xl font-black text-slate-900"><NumberTicker value={30} />+</p>
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Vendors</p>
-                </div>
-                <div className="text-center lg:text-left">
-                   <p className="text-2xl font-black text-slate-900">4.9/5</p>
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Rating</p>
-                </div>
-                <div className="text-center lg:text-left">
-                   <p className="text-2xl font-black text-slate-900"><NumberTicker value={2} />k+</p>
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Students</p>
-                </div>
-              </div>
             </motion.div>
             
             {/* Right: Phone Mockup */}
@@ -309,22 +294,28 @@ export default function LandingPage() {
 
 
       {/* Stats Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white border-y border-slate-50">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center group">
-               <h4 className="text-4xl md:text-6xl font-black text-orange-700 mb-2 group-hover:scale-110 transition-transform">50k+</h4>
+               <h4 className="text-4xl md:text-6xl font-black text-orange-700 mb-2 group-hover:scale-110 transition-transform tracking-tighter">
+                 <NumberTicker value={2} />k+
+               </h4>
                <p className="text-slate-900 font-black uppercase tracking-widest text-[10px]">Active Students</p>
             </div>
             <div className="text-center group">
-               <h4 className="text-4xl md:text-6xl font-black text-orange-700 mb-2 group-hover:scale-110 transition-transform">200+</h4>
+               <h4 className="text-4xl md:text-6xl font-black text-orange-700 mb-2 group-hover:scale-110 transition-transform tracking-tighter">
+                 <NumberTicker value={30} />+
+               </h4>
                <p className="text-slate-900 font-black uppercase tracking-widest text-[10px]">Campus Shops</p>
             </div>
             <div className="text-center group">
-               <h4 className="text-4xl md:text-6xl font-black text-orange-700 mb-2 group-hover:scale-110 transition-transform">100k+</h4>
+               <h4 className="text-4xl md:text-6xl font-black text-orange-700 mb-2 group-hover:scale-110 transition-transform tracking-tighter">
+                 <NumberTicker value={500} />+
+               </h4>
                <p className="text-slate-900 font-black uppercase tracking-widest text-[10px]">Successful Trades</p>
             </div>
             <div className="text-center group">
-               <h4 className="text-4xl md:text-6xl font-black text-orange-700 mb-2 group-hover:scale-110 transition-transform">4.9/5</h4>
+               <h4 className="text-4xl md:text-6xl font-black text-orange-700 mb-2 group-hover:scale-110 transition-transform tracking-tighter">4.9/5</h4>
                <p className="text-slate-900 font-black uppercase tracking-widest text-[10px]">Student Rating</p>
             </div>
         </div>
@@ -334,7 +325,7 @@ export default function LandingPage() {
       <section className="py-24 px-6">
         <div className="max-w-5xl mx-auto bg-linear-to-br from-orange-800 to-orange-700 rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden shadow-2xl shadow-orange-900/30">
            <div className="relative z-10">
-              <h2 className="text-4xl md:text-7xl font-black text-white mb-8 tracking-tight">Ready to join the <br /> campus revolution?</h2>
+              <h2 className="text-4xl md:text-7xl font-black text-white mb-8 tracking-tight">Ready for the <br /> campus revolution?</h2>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 {user ? (
                   <Link 
@@ -348,7 +339,7 @@ export default function LandingPage() {
                   </Link>
                 ) : (
                   <>
-                    <Link to="/signup" className="px-10 py-5 bg-white text-orange-700 font-black rounded-2xl shadow-xl hover:bg-orange-50 transition-all active:scale-95 uppercase tracking-widest text-sm">Create Account</Link>
+                    <Link to="/signup" className="px-10 py-5 bg-white text-orange-700 font-black rounded-2xl shadow-xl hover:bg-orange-50 transition-all active:scale-95 uppercase tracking-widest text-sm">Sign Up</Link>
                     <Link to="/login" className="px-10 py-5 bg-orange-900/30 text-white border-2 border-orange-400/30 font-black rounded-2xl hover:bg-orange-900/50 transition-all active:scale-95 uppercase tracking-widest text-sm backdrop-blur-sm">Sign In</Link>
                   </>
                 )}

@@ -39,12 +39,6 @@ const VendorDetailPage: React.FC = () => {
       setShowLoginPrompt(true);
       return;
     }
-    const currentVendorId = cartItems[0]?.vendorId;
-    if (currentVendorId && currentVendorId !== product.vendor_id) {
-      if (window.confirm("Cart has items from another shop. Clear cart?")) {
-        useCartStore.getState().clearCart();
-      } else return;
-    }
     addItem({
       productId: product.id, vendorId: product.vendor_id, name: product.name,
       price: product.price, quantity: 1, imageUrl: product.image_url || '',
