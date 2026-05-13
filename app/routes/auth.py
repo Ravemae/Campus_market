@@ -78,14 +78,16 @@ async def google_signin(data: GoogleAuthRequest, session: Session = Depends(get_
         
         # Check if user exists
         user = session.exec(select(User).where(User.email == email)).first()
+        is_new_user = False
         
         if not user:
+            is_new_user = True
             # Create new user
             import random
             user = User(
                 full_name=full_name,
                 email=email,
-                phone=f"google_{random.randint(10000000, 99999999)}",  # placeholder
+                phone=f"G_{random.randint(10000000, 99999999)}",  # placeholder prefix
                 password_hash=hash_password(os.urandom(32).hex()),  # random password
                 role=UserRole.user,
                 profile_image=profile_image,
@@ -106,7 +108,7 @@ async def google_signin(data: GoogleAuthRequest, session: Session = Depends(get_
                 "role": user.role,
                 "profile_image": user.profile_image
             },
-            "is_new_user": True if not user else False
+            "is_new_user": is_new_user
         }
     except ValueError:
         raise HTTPException(status_code=401, detail="Invalid Google token")

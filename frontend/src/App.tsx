@@ -22,6 +22,8 @@ import OrdersPage from './pages/OrdersPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import DashboardPage from './pages/DashboardPage';
+import CompleteProfilePage from './pages/CompleteProfilePage';
+import TermsPage from './pages/TermsPage';
 
 import { useState, useEffect } from 'react';
 import InstallBanner from './components/InstallBanner';
@@ -85,6 +87,8 @@ export default function App() {
         <Route path="product/:productId" element={<ProductDetailPage />} />
         <Route path="products" element={<ProductsPage />} />
         <Route path="vendors" element={<VendorsPage />} />
+        <Route path="terms" element={<TermsPage />} />
+        <Route path="complete-profile" element={<ProtectedRoute><CompleteProfilePage /></ProtectedRoute>} />
 
         {/* Customer Protected Routes */}
         <Route path="dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />

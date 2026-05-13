@@ -209,9 +209,9 @@ export default function Footer() {
             <div>
               <h3 className="text-slate-900 font-black uppercase tracking-widest text-xs mb-8">Support</h3>
               <ul className="space-y-4">
-                <li><a href="#" className="text-slate-500 font-bold hover:text-orange-600 transition-colors">Help Center</a></li>
-                <li><a href="#" className="text-slate-500 font-bold hover:text-orange-600 transition-colors">Terms of Service</a></li>
-                <li><a href="#" className="text-slate-500 font-bold hover:text-orange-600 transition-colors">Privacy Policy</a></li>
+                <li><Link to="/help" className="text-slate-500 font-bold hover:text-orange-600 transition-colors">Help Center</Link></li>
+                <li><Link to="/terms" className="text-slate-500 font-bold hover:text-orange-600 transition-colors">Terms of Service</Link></li>
+                <li><Link to="/terms" className="text-slate-500 font-bold hover:text-orange-600 transition-colors">Privacy Policy</Link></li>
                 <li><a href="mailto:quickmart.apps@gmail.com" className="text-slate-500 font-bold hover:text-orange-600 transition-colors">Contact Us</a></li>
               </ul>
             </div>

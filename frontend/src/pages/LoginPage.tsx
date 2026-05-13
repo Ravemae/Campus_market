@@ -131,8 +131,13 @@ export default function LoginPage() {
                   try {
                     const res = await googleLogin(credentialResponse.credential);
                     setAuth(res.data.user, res.data.access_token);
-                    const redirect = searchParams.get('redirect') || '/dashboard';
-                    navigate(redirect);
+                    
+                    if (res.data.is_new_user) {
+                      navigate('/complete-profile');
+                    } else {
+                      const redirect = searchParams.get('redirect') || '/dashboard';
+                      navigate(redirect);
+                    }
                   } catch (err) {
                     console.error('Google login failed:', err);
                   }
