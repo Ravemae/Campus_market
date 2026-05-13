@@ -65,6 +65,7 @@ export interface Order {
   delivery_address?: string;
   items?: OrderItem[]; // Made optional as backend currently doesn't return them
   vendor_name?: string;
+  payment_reference?: string;
 }
 
 export interface CartItem {

@@ -43,7 +43,7 @@ async def initialize_flutterwave_payment(
         "tx_ref": f"quickmart_{order_id[:8]}",
         "amount": str(order.total_amount),
         "currency": "NGN",
-        "redirect_url": f"{os.getenv('FRONTEND_URL', 'http://localhost:5173')}/checkout/verify",
+        "redirect_url": f"{os.getenv('FRONTEND_URL', 'https://quickmartapp.com.ng')}/checkout/verify",
         "customer": {
             "email": user.email,
             "phone_number": user.phone,
