@@ -81,7 +81,7 @@ export default function LandingPage() {
             >
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-100/50 border border-orange-200/50 text-orange-700 mb-8 mx-auto lg:mx-0">
                 <div className="w-2 h-2 rounded-full bg-orange-700 animate-pulse" />
-                <span className="text-[10px] font-black uppercase tracking-widest">Live at Babcock University</span>
+                <span className="text-[10px] font-black uppercase tracking-widest">Now Live on Campus</span>
               </div>
               
               <h1 className="text-5xl md:text-7xl xl:text-8xl font-black tracking-tighter text-slate-900 mb-6 leading-[0.9]">
@@ -280,7 +280,7 @@ export default function LandingPage() {
                      <PiTShirtBold className="w-6 h-6" />
                   </div>
                   <h3 className="text-2xl font-black text-indigo-950 mb-2">Campus Style</h3>
-                  <p className="text-indigo-900/60 font-medium">Babcock compliant, student approved fits.</p>
+                  <p className="text-indigo-900/60 font-medium">Campus compliant, student approved fits.</p>
                   <div className="mt-auto">
                     <span className="text-[10px] font-black text-indigo-950/40 uppercase tracking-widest">Explore Trends</span>
                   </div>

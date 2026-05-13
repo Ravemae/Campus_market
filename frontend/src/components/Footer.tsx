@@ -217,7 +217,7 @@ export default function Footer() {
             </div>
 
             {/* Donation Card */}
-            <div className="bg-orange-700 rounded-[2rem] p-8 text-white relative overflow-hidden group">
+            <div className="bg-orange-700 rounded-4xl p-8 text-white relative overflow-hidden group">
               <div className="relative z-10">
                 <h3 className="text-xl font-black mb-4">Love QuickMart?</h3>
                 <p className="text-orange-50 font-bold text-sm mb-8 leading-relaxed opacity-80">
