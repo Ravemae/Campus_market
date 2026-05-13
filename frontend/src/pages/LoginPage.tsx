@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import { loginUser } from '../api/endpoints';
+import { loginUser, googleLogin } from '../api/endpoints';
 import { useAuthStore } from '../stores/authStore';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
+import { GoogleLogin } from '@react-oauth/google';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -113,6 +114,39 @@ export default function LoginPage() {
           >
             {mutation.isPending ? 'Signing in...' : 'Sign in'}
           </button>
+
+          <div className="relative my-8">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-slate-200"></div>
+            </div>
+            <div className="relative flex justify-center text-[10px] uppercase tracking-widest font-black">
+              <span className="bg-white px-4 text-slate-400">Or continue with</span>
+            </div>
+          </div>
+
+          <div className="flex justify-center">
+            <GoogleLogin
+              onSuccess={async (credentialResponse) => {
+                if (credentialResponse.credential) {
+                  try {
+                    const res = await googleLogin(credentialResponse.credential);
+                    setAuth(res.data.user, res.data.access_token);
+                    const redirect = searchParams.get('redirect') || '/dashboard';
+                    navigate(redirect);
+                  } catch (err) {
+                    console.error('Google login failed:', err);
+                  }
+                }
+              }}
+              onError={() => {
+                console.error('Google Sign-in failed');
+              }}
+              useOneTap
+              shape="pill"
+              theme="outline"
+              width="100%"
+            />
+          </div>
         </form>
 
         {/* Links */}

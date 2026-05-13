@@ -28,6 +28,9 @@ export const resolveMediaUrl = (url?: string | null) => {
 export const loginUser = (email: string, password: string, captcha_token: string) =>
   apiClient.post<AuthResponse>('/auth/login', { email, password, captcha_token });
 
+export const googleLogin = (token: string) =>
+  apiClient.post<AuthResponse>('/auth/google', { token });
+
 export const signupUser = (data: {
   full_name: string;
   email: string;
@@ -63,6 +66,9 @@ export const updateProfile = (userId: string, data: Partial<User>) =>
 /* ─── Vendors ─── */
 export const getVendors = () =>
   apiClient.get<Vendor[]>('/vendors/');
+
+export const getFeaturedVendors = () =>
+  apiClient.get<Vendor[]>('/vendors/featured');
 
 export const getMyVendor = () =>
   apiClient.get<Vendor>('/vendors/me');

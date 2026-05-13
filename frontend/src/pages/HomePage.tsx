@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { getVendors, getProducts, resolveMediaUrl } from '../api/endpoints';
+import { getVendors, getFeaturedVendors, getProducts, resolveMediaUrl } from '../api/endpoints';
 import type { Vendor, Product } from '../types';
 import { useCartStore } from '../stores/cartStore';
 import { useAuthStore } from '../stores/authStore';
@@ -50,7 +50,9 @@ function VendorCard({ vendor }: { vendor: Vendor }) {
     <motion.div
       variants={itemVariants}
       whileHover={{ y: -4, transition: { duration: 0.3 } }}
-      className="group bg-white rounded-2xl sm:rounded-3xl border-2 border-orange-200 overflow-hidden shadow-md hover:shadow-2xl hover:shadow-orange-500/30 transition-all duration-400"
+      className={`group bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:shadow-orange-500/30 transition-all duration-400 border-2 ${
+        vendor.is_featured ? 'border-amber-400 ring-4 ring-amber-400/10' : 'border-orange-200'
+      }`}
     >
       <Link to={`/vendor/${vendor.id}`} className="block">
         <div className="aspect-4/3 relative overflow-hidden bg-orange-100">
@@ -70,6 +72,12 @@ function VendorCard({ vendor }: { vendor: Vendor }) {
             <span className="px-2.5 py-1 rounded-full text-[8px] sm:text-[9px] font-black uppercase tracking-wider bg-white/95 text-orange-700 shadow-sm border border-orange-100">
               {vendor.category}
             </span>
+            {vendor.is_featured && (
+              <span className="px-2.5 py-1 rounded-full text-[8px] sm:text-[9px] font-black uppercase tracking-wider bg-amber-400 text-white shadow-lg shadow-amber-500/40 border border-amber-300 flex items-center gap-1">
+                <svg className="w-2 h-2 sm:w-2.5 sm:h-2.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                Featured
+              </span>
+            )}
           </div>
         </div>
 
@@ -134,6 +142,12 @@ export default function HomePage() {
   const { data: vendors = [], isLoading } = useQuery({
     queryKey: ['vendors'],
     queryFn: () => getVendors().then((r) => r.data),
+  });
+
+  const { data: featuredVendors = [] } = useQuery({
+    queryKey: ['featuredVendors'],
+    queryFn: () => getFeaturedVendors().then((r) => r.data),
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
   const filtered = vendors.filter((v: Vendor) => {
@@ -381,6 +395,31 @@ export default function HomePage() {
           </div>
         )}
       </section>
+
+      {/* ─── Featured Shops Section ─── */}
+      {featuredVendors.length > 0 && (
+        <section className="mb-10 sm:mb-20 px-3 sm:px-0">
+          <div className="flex items-center justify-between mb-5 sm:mb-8">
+            <div className="flex flex-col">
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">Featured Shops</h2>
+              <p className="text-[10px] sm:text-xs font-black text-orange-600 uppercase tracking-[0.2em] sm:tracking-[0.3em] mt-1 sm:mt-2">Premium vendors on campus</p>
+            </div>
+            <div className="flex gap-1">
+               <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+               <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse delay-75"></span>
+               <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse delay-150"></span>
+            </div>
+          </div>
+
+          <div className="flex gap-4 sm:gap-6 lg:gap-8 overflow-x-auto pb-6 scrollbar-hide -mx-3 px-3 sm:mx-0 sm:px-0">
+            {featuredVendors.map((vendor: Vendor) => (
+              <div key={vendor.id} className="shrink-0 w-[280px] sm:w-[350px]">
+                <VendorCard vendor={vendor} />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Vendors List */}
       <section className="pb-20 px-3 sm:px-0">

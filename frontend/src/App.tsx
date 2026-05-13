@@ -23,9 +23,56 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import DashboardPage from './pages/DashboardPage';
 
+import { useState, useEffect } from 'react';
+import InstallBanner from './components/InstallBanner';
+
 export default function App() {
+  const [installPrompt, setInstallPrompt] = useState<any>(null);
+  const [showBanner, setShowBanner] = useState(false);
+
+  useEffect(() => {
+    const handler = (e: any) => {
+      // Prevent the mini-infobar from appearing on mobile
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      setInstallPrompt(e);
+      
+      // Show the banner after 30 seconds
+      const timer = setTimeout(() => {
+        setShowBanner(true);
+      }, 30000);
+
+      return () => clearTimeout(timer);
+    };
+
+    window.addEventListener('beforeinstallprompt', handler);
+
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  const handleInstall = async () => {
+    if (!installPrompt) return;
+    
+    // Show the install prompt
+    installPrompt.prompt();
+    
+    // Wait for the user to respond to the prompt
+    const { outcome } = await installPrompt.userChoice;
+    
+    if (outcome === 'accepted') {
+      console.log('User accepted the install prompt');
+    } else {
+      console.log('User dismissed the install prompt');
+    }
+    
+    // Clear the stashed prompt
+    setInstallPrompt(null);
+    setShowBanner(false);
+  };
+
   return (
-    <Routes>
+    <>
+      <Routes>
       <Route path="/" element={<AppLayout />}>
         {/* Public Routes */}
         <Route index element={<LandingPage />} />
@@ -62,5 +109,11 @@ export default function App() {
         } />
       </Route>
     </Routes>
+    <InstallBanner 
+      show={showBanner} 
+      onInstall={handleInstall} 
+      onClose={() => setShowBanner(false)} 
+    />
+    </>
   );
 }
