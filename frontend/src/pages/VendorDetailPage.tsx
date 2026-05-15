@@ -74,9 +74,7 @@ const VendorDetailPage: React.FC = () => {
       <div className="relative rounded-2xl sm:rounded-[2.5rem] overflow-hidden mb-8 sm:mb-16 bg-white border border-slate-100 shadow-xl">
         <div className="h-40 sm:h-64 md:h-80 relative overflow-hidden">
           <div className="absolute inset-0 bg-linear-to-br from-orange-600 via-orange-500 to-amber-500 z-10" />
-          {vendor.cover_image_url ? (
-            <img src={resolveMediaUrl(vendor.cover_image_url)} alt={vendor.shop_name} className="w-full h-full object-cover" />
-          ) : vendor.image_url && (
+          {vendor.image_url && (
             <img src={resolveMediaUrl(vendor.image_url)} alt={vendor.shop_name} className="w-full h-full object-cover scale-110 blur-sm opacity-40" />
           )}
           <motion.div animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }}

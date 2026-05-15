@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getUserOrders, verifyPayment, verifyFlutterwavePayment } from '../api/endpoints';
+import { getUserOrders, verifyPayment, verifyFlutterwavePayment, initializePayment, initializeFlutterwavePayment } from '../api/endpoints';
 import { useAuthStore } from '../stores/authStore';
 import type { Order } from '../types';
 import { Pagination } from '../components/Pagination';
@@ -80,35 +80,60 @@ const OrdersPage: React.FC = () => {
                   <span className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider ${getStatusColor(order.status)} shadow-sm`}>
                     {statusLabels[order.status] || order.status}
                   </span>
-                  {!order.is_paid && order.payment_reference ? (
-                    <button
-                      onClick={async (e) => {
-                        e.stopPropagation();
-                        const btn = e.currentTarget;
-                        btn.disabled = true;
-                        btn.innerText = 'VERIFYING...';
-                        try {
-                          if (order.payment_reference?.startsWith('order_')) {
-                            await verifyPayment(order.payment_reference);
-                          } else {
-                            await verifyFlutterwavePayment(order.payment_reference || '');
+                  {!order.is_paid ? (
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={async (e) => {
+                          const btn = e.currentTarget;
+                          btn.disabled = true;
+                          const originalText = btn.innerText;
+                          btn.innerText = 'PROCESSING...';
+                          try {
+                            const res = await (order.payment_reference?.startsWith('FLW') 
+                              ? initializeFlutterwavePayment(order.id) 
+                              : initializePayment(order.id));
+                            const url = res.data.payment_url || (res.data as any).link;
+                            if (url) window.location.href = url;
+                          } catch (err) {
+                            console.error(err);
+                            btn.innerText = 'ERROR';
+                            setTimeout(() => { btn.disabled = false; btn.innerText = originalText; }, 2000);
                           }
-                          // Refresh page or update state
-                          window.location.reload();
-                        } catch (err) {
-                          console.error(err);
-                          btn.disabled = false;
-                          btn.innerText = 'VERIFY FAILED';
-                          setTimeout(() => btn.innerText = 'VERIFY PAYMENT', 2000);
-                        }
-                      }}
-                      className="px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider bg-orange-600 text-white shadow-lg shadow-orange-600/20 hover:bg-orange-700 transition-all active:scale-95"
-                    >
-                      Verify Payment
-                    </button>
+                        }}
+                        className="px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider bg-orange-600 text-white shadow-lg shadow-orange-600/20 hover:bg-orange-700 transition-all active:scale-95"
+                      >
+                        Pay Now
+                      </button>
+                      {order.payment_reference && (
+                        <button
+                          onClick={async (e) => {
+                            e.stopPropagation();
+                            const btn = e.currentTarget;
+                            btn.disabled = true;
+                            btn.innerText = 'VERIFYING...';
+                            try {
+                              if (order.payment_reference?.startsWith('order_')) {
+                                await verifyPayment(order.payment_reference);
+                              } else {
+                                await verifyFlutterwavePayment(order.payment_reference || '');
+                              }
+                              window.location.reload();
+                            } catch (err) {
+                              console.error(err);
+                              btn.disabled = false;
+                              btn.innerText = 'VERIFY FAILED';
+                              setTimeout(() => btn.innerText = 'VERIFY PAYMENT', 2000);
+                            }
+                          }}
+                          className="px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all active:scale-95"
+                        >
+                          Verify Payment
+                        </button>
+                      )}
+                    </div>
                   ) : (
-                    <span className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider shadow-sm ${order.is_paid ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}`}>
-                      {order.is_paid ? 'Paid' : 'Unpaid'}
+                    <span className="px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-700 shadow-sm">
+                      Paid
                     </span>
                   )}
                 </div>

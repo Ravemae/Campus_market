@@ -16,9 +16,5 @@ class Vendor(SQLModel, table=True):
     location: str
     category: str
     image_url: Optional[str] = None
-    cover_image_url: Optional[str] = None
     is_active: bool = True
     is_approved: bool = False
-    is_featured: bool = False
-    featured_until: Optional[str] = None
-    featured_tier: Optional[str] = None  # "basic", "premium"
