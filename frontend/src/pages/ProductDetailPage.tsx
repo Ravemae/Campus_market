@@ -76,8 +76,8 @@ export default function ProductDetailPage() {
       {/* Decorative Blobs */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-500/5 rounded-full blur-[120px] -mr-40 -mt-40 -z-10" />
       
-      <button onClick={() => navigate(-1)} className="group flex items-center gap-2 text-slate-400 hover:text-orange-600 mb-4 sm:mb-10 transition-all font-black uppercase tracking-widest text-[10px]">
-        <div className="p-2 rounded-xl bg-white border-2 border-slate-50 group-hover:border-orange-100 group-hover:bg-orange-50 transition-all">
+      <button onClick={() => navigate(-1)} className="group flex items-center gap-3 text-slate-400 hover:text-orange-600 mb-6 sm:mb-10 transition-all font-black uppercase tracking-widest text-[10px]">
+        <div className="p-2.5 rounded-xl bg-white border-2 border-slate-50 group-hover:border-orange-100 group-hover:bg-orange-50 transition-all shadow-sm">
           <ChevronLeftIcon className="w-4 h-4" strokeWidth={3} />
         </div>
         Back to listings

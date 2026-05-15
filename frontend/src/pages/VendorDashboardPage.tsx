@@ -3,8 +3,9 @@ import { useAuthStore } from '../stores/authStore';
 import { getMyVendor, getVendorOrders, getVendorProducts, updateOrderStatus, deleteProduct, resolveMediaUrl } from '../api/endpoints';
 import type { Vendor, Order, Product } from '../types';
 import ProductModal from '../components/ProductModal';
+import VendorProfileModal from '../components/VendorProfileModal';
 import { Pagination } from '../components/Pagination';
-import { PencilSquareIcon, TrashIcon, PlusIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
+import { PencilSquareIcon, TrashIcon, PlusIcon, ShoppingBagIcon, Cog6ToothIcon } from '@heroicons/react/24/outline';
 
 const VendorDashboardPage: React.FC = () => {
   const user = useAuthStore(state => state.user);
@@ -13,6 +14,7 @@ const VendorDashboardPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [orderPage, setOrderPage] = useState(1);
   const [productPage, setProductPage] = useState(1);
@@ -36,25 +38,26 @@ const VendorDashboardPage: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (!user || user.role !== 'vendor') return;
+  const fetchData = async () => {
+    try {
+      if (!user || user.role !== 'vendor') return;
 
-        const vRes = await getMyVendor();
-        const myVendor = vRes.data;
-        
-        if (myVendor) {
-          setVendor(myVendor);
-          await fetchOrders();
-          await fetchProducts(myVendor.id);
-        }
-      } catch (err) {
-        console.error("Dashboard error", err);
-      } finally {
-        setLoading(false);
+      const vRes = await getMyVendor();
+      const myVendor = vRes.data;
+      
+      if (myVendor) {
+        setVendor(myVendor);
+        await fetchOrders();
+        await fetchProducts(myVendor.id);
       }
-    };
+    } catch (err) {
+      console.error("Dashboard error", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
 
     // Auto-refresh orders every 30s
@@ -130,7 +133,13 @@ const VendorDashboardPage: React.FC = () => {
           </h2>
         </div>
         <div className="flex gap-4">
-          <button className="px-6 py-4 rounded-2xl bg-white border-2 border-slate-100 text-xs font-black text-slate-700 hover:border-orange-600 transition-all uppercase tracking-widest">Settings</button>
+          <button 
+            onClick={() => setIsProfileModalOpen(true)}
+            className="px-6 py-4 rounded-2xl bg-white border-2 border-slate-100 text-xs font-black text-slate-700 hover:border-orange-600 transition-all uppercase tracking-widest flex items-center gap-3"
+          >
+            <Cog6ToothIcon className="w-4 h-4" />
+            Settings
+          </button>
           <a 
             href="mailto:quickmart.apps@gmail.com"
             className="px-6 py-4 rounded-2xl bg-orange-600 text-white shadow-xl shadow-orange-600/30 text-xs font-black hover:bg-orange-700 transition-all active:scale-95 uppercase tracking-widest inline-block"
@@ -289,6 +298,13 @@ const VendorDashboardPage: React.FC = () => {
         onClose={() => setIsModalOpen(false)}
         product={selectedProduct}
         onSuccess={() => vendor && fetchProducts(vendor.id)}
+      />
+
+      <VendorProfileModal
+        isOpen={isProfileModalOpen}
+        onClose={() => setIsProfileModalOpen(false)}
+        vendor={vendor}
+        onSuccess={fetchData}
       />
     </div>
   );

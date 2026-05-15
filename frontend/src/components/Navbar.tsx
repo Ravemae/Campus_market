@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, NavLink } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
 import { useCartStore } from '../stores/cartStore';
 import NotificationCenter from './NotificationCenter';
@@ -39,29 +39,66 @@ export default function Navbar() {
 
           {/* Nav Links - Desktop */}
           <div className="hidden md:flex items-center gap-1 lg:gap-2">
-            <Link to={user ? "/dashboard" : "/"} className="px-3 lg:px-4 py-2 rounded-xl text-xs lg:text-sm font-black text-slate-600 hover:text-orange-600 hover:bg-orange-100 transition-all uppercase tracking-wider">
-              {user ? 'Dashboard' : 'Home'}
-            </Link>
-            <Link to="/products" className="px-3 lg:px-4 py-2 rounded-xl text-xs lg:text-sm font-black text-slate-600 hover:text-orange-600 hover:bg-orange-100 transition-all uppercase tracking-wider">
+            <NavLink 
+              to="/products" 
+              className={({ isActive }) => 
+                `px-3 lg:px-4 py-2 rounded-xl text-xs lg:text-sm font-black transition-all uppercase tracking-wider ${
+                  isActive ? 'text-orange-600 bg-orange-100' : 'text-slate-600 hover:text-orange-600 hover:bg-orange-50'
+                }`
+              }
+            >
               Items
-            </Link>
-            <Link to="/vendors" className="px-3 lg:px-4 py-2 rounded-xl text-xs lg:text-sm font-black text-slate-600 hover:text-orange-600 hover:bg-orange-100 transition-all uppercase tracking-wider">
+            </NavLink>
+            <NavLink 
+              to="/vendors" 
+              className={({ isActive }) => 
+                `px-3 lg:px-4 py-2 rounded-xl text-xs lg:text-sm font-black transition-all uppercase tracking-wider ${
+                  isActive ? 'text-orange-600 bg-orange-100' : 'text-slate-600 hover:text-orange-600 hover:bg-orange-50'
+                }`
+              }
+            >
               Vendors
-            </Link>
-            {user && (
-              <Link to="/orders" className="px-3 lg:px-4 py-2 rounded-xl text-xs lg:text-sm font-black text-slate-600 hover:text-orange-600 hover:bg-orange-100 transition-all uppercase tracking-wider">
+            </NavLink>
+            {user && user.role === 'user' && (
+              <NavLink 
+                to="/orders" 
+                className={({ isActive }) => 
+                  `px-3 lg:px-4 py-2 rounded-xl text-xs lg:text-sm font-black transition-all uppercase tracking-wider ${
+                    isActive ? 'text-orange-600 bg-orange-100' : 'text-slate-600 hover:text-orange-600 hover:bg-orange-50'
+                  }`
+                }
+              >
                 My Orders
-              </Link>
+              </NavLink>
             )}
             {user?.role === 'vendor' && (
-              <Link to="/vendor-dashboard" className="px-3 lg:px-4 py-2 rounded-xl text-xs lg:text-sm font-black text-slate-600 hover:text-orange-600 hover:bg-orange-100 transition-all uppercase tracking-wider">
-                Dashboard
-              </Link>
+              <NavLink 
+                to="/vendor-dashboard" 
+                className={({ isActive }) => 
+                  `ml-2 px-5 py-2.5 rounded-2xl text-[10px] lg:text-xs font-black transition-all active:scale-95 uppercase tracking-[0.15em] flex items-center gap-2 ${
+                    isActive 
+                      ? 'text-white bg-orange-700 shadow-xl shadow-orange-700/30' 
+                      : 'text-white bg-linear-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 shadow-xl shadow-orange-600/20'
+                  }`
+                }
+              >
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72" />
+                </svg>
+                Shop Console
+              </NavLink>
             )}
             {user?.role === 'admin' && (
-              <Link to="/admin" className="px-3 lg:px-4 py-2 rounded-xl text-xs lg:text-sm font-black text-slate-600 hover:text-orange-600 hover:bg-orange-100 transition-all uppercase tracking-wider">
-                Admin
-              </Link>
+              <NavLink 
+                to="/admin" 
+                className={({ isActive }) => 
+                  `ml-2 px-5 py-2.5 rounded-2xl text-[10px] lg:text-xs font-black transition-all active:scale-95 uppercase tracking-[0.15em] ${
+                    isActive ? 'text-white bg-slate-900 shadow-xl shadow-slate-900/30' : 'text-white bg-slate-800 hover:bg-slate-700 shadow-xl shadow-slate-800/20'
+                  }`
+                }
+              >
+                Admin Panel
+              </NavLink>
             )}
           </div>
 
@@ -125,37 +162,66 @@ export default function Navbar() {
         {/* Mobile Menu - Dropdown */}
         {isMobileMenuOpen && (
           <div className="md:hidden py-4 border-t-2 border-orange-100 space-y-1 bg-orange-50/50 -mx-6 sm:-mx-10 lg:-mx-16 px-6 sm:px-10 lg:px-16">
-            <Link to={user ? "/dashboard" : "/"} onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-white hover:text-orange-600">
-              {user ? 'Dashboard' : 'Home'}
-            </Link>
-            <Link to="/products" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-white hover:text-orange-600">
+            <NavLink 
+              to="/products" 
+              onClick={() => setIsMobileMenuOpen(false)} 
+              className={({ isActive }) => 
+                `block px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                  isActive ? 'text-orange-600 bg-white' : 'text-slate-600 hover:bg-white hover:text-orange-600'
+                }`
+              }
+            >
               Items
-            </Link>
-            <Link to="/vendors" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-white hover:text-orange-600">
+            </NavLink>
+            <NavLink 
+              to="/vendors" 
+              onClick={() => setIsMobileMenuOpen(false)} 
+              className={({ isActive }) => 
+                `block px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                  isActive ? 'text-orange-600 bg-white' : 'text-slate-600 hover:bg-white hover:text-orange-600'
+                }`
+              }
+            >
               Vendors
-            </Link>
-            {user && (
-              <>
-                <Link to="/orders" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-white hover:text-orange-600">
-                  My Orders
-                </Link>
-                <Link to="/cart" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-white hover:text-orange-600">
-                  Cart {itemCount > 0 && `(${itemCount})`}
-                </Link>
-                <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-white hover:text-orange-600">
-                  Profile
-                </Link>
-              </>
+            </NavLink>
+            {user?.role === 'user' && (
+              <NavLink 
+                to="/orders" 
+                onClick={() => setIsMobileMenuOpen(false)} 
+                className={({ isActive }) => 
+                  `block px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                    isActive ? 'text-orange-600 bg-white' : 'text-slate-600 hover:bg-white hover:text-orange-600'
+                  }`
+                }
+              >
+                My Orders
+              </NavLink>
             )}
             {user?.role === 'vendor' && (
-              <Link to="/vendor-dashboard" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-white hover:text-orange-600">
-                Dashboard
-              </Link>
+              <NavLink 
+                to="/vendor-dashboard" 
+                onClick={() => setIsMobileMenuOpen(false)} 
+                className={({ isActive }) => 
+                  `block px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                    isActive ? 'text-orange-600 bg-white shadow-sm' : 'text-orange-600 bg-orange-100/50'
+                  }`
+                }
+              >
+                Shop Console
+              </NavLink>
             )}
             {user?.role === 'admin' && (
-              <Link to="/admin" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-white hover:text-orange-600">
-                Admin
-              </Link>
+              <NavLink 
+                to="/admin" 
+                onClick={() => setIsMobileMenuOpen(false)} 
+                className={({ isActive }) => 
+                  `block px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                    isActive ? 'text-slate-900 bg-white shadow-sm' : 'text-slate-900 bg-slate-100'
+                  }`
+                }
+              >
+                Admin Panel
+              </NavLink>
             )}
             {user && (
               <button onClick={() => { setIsMobileMenuOpen(false); handleLogout(); }} className="block w-full text-left px-4 py-2.5 rounded-xl text-sm font-bold text-red-500 hover:bg-red-50">

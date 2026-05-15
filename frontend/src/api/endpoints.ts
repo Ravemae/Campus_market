@@ -76,6 +76,9 @@ export const getMyVendor = () =>
 export const getVendor = (id: string) =>
   apiClient.get<Vendor>(`/vendors/${id}`);
 
+export const updateVendor = (vendorId: string, data: Partial<Vendor>) =>
+  apiClient.patch<Vendor>(`/vendors/${vendorId}`, data);
+
 export const getAllVendorsAdmin = () =>
   apiClient.get<Vendor[]>('/admin/vendors');
 

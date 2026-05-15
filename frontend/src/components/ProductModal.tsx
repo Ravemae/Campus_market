@@ -81,9 +81,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSuccess,
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-xl animate-in fade-in duration-300">
-      <div className="bg-white rounded-[2.5rem] w-full max-w-lg overflow-hidden shadow-2xl transition-all border-2 border-slate-50 animate-in zoom-in-95 duration-500">
-        <div className="px-8 py-6 border-b-2 border-slate-50 flex justify-between items-center bg-slate-50/20">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-xl animate-in fade-in duration-300">
+      <div className="bg-white rounded-[2.5rem] w-full max-w-lg max-h-[90vh] flex flex-col overflow-hidden shadow-2xl transition-all border-2 border-slate-50 animate-in zoom-in-95 duration-500">
+        <div className="px-8 py-6 border-b-2 border-slate-50 flex justify-between items-center bg-slate-50/20 shrink-0">
           <div>
             <h2 className="text-2xl font-black text-slate-900 tracking-tight">
               {product ? 'Refine Product' : 'New Listing'}
@@ -98,7 +98,8 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSuccess,
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-8 space-y-8">
+        <form onSubmit={handleSubmit} className="flex-1 flex flex-col overflow-hidden">
+          <div className="flex-1 overflow-y-auto p-8 space-y-8 custom-scrollbar">
           {/* Image Upload */}
           <div className="group relative">
              <label className="block text-[10px] font-black text-slate-700 uppercase tracking-widest mb-3 px-1">Product Visual</label>
@@ -202,8 +203,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSuccess,
               />
             </div>
           </div>
+          </div>
 
-          <div className="pt-8 flex gap-4">
+          <div className="p-8 pt-4 border-t-2 border-slate-50 flex gap-4 shrink-0">
             <button
               type="button"
               onClick={onClose}

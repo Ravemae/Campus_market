@@ -58,26 +58,30 @@ const VendorDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="pb-28 sm:pb-20 pt-4 sm:pt-8">
+    <div className="pb-28 sm:pb-20 pt-4 sm:pt-8 px-4 sm:px-0">
+      <button 
+        onClick={() => navigate(-1)} 
+        className="group flex items-center gap-3 text-slate-400 hover:text-orange-600 mb-6 transition-all font-black uppercase tracking-widest text-[10px]"
+      >
+        <div className="p-2.5 rounded-xl bg-white border-2 border-slate-50 group-hover:border-orange-100 group-hover:bg-orange-50 transition-all shadow-sm">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+        </div>
+        Back to listings
+      </button>
       {/* Vendor Header */}
       <div className="relative rounded-2xl sm:rounded-[2.5rem] overflow-hidden mb-8 sm:mb-16 bg-white border border-slate-100 shadow-xl">
         <div className="h-40 sm:h-64 md:h-80 relative overflow-hidden">
           <div className="absolute inset-0 bg-linear-to-br from-orange-600 via-orange-500 to-amber-500 z-10" />
-          {vendor.image_url && (
+          {vendor.cover_image_url ? (
+            <img src={resolveMediaUrl(vendor.cover_image_url)} alt={vendor.shop_name} className="w-full h-full object-cover" />
+          ) : vendor.image_url && (
             <img src={resolveMediaUrl(vendor.image_url)} alt={vendor.shop_name} className="w-full h-full object-cover scale-110 blur-sm opacity-40" />
           )}
           <motion.div animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
             className="absolute top-0 right-0 -mt-20 -mr-20 w-64 sm:w-96 h-64 sm:h-96 bg-white/20 rounded-full blur-[80px] z-20" />
           
-          <div className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 right-4 z-30">
-            <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-2">
-              <h1 className="text-2xl sm:text-4xl md:text-6xl font-black text-white tracking-tight drop-shadow-2xl">{vendor.shop_name}</h1>
-              <span className="px-3 py-1 rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.15em] bg-white/20 text-white backdrop-blur-xl border border-white/30 shadow-lg">
-                {vendor.category}
-              </span>
-            </div>
-            <p className="text-white/80 text-xs sm:text-base font-bold max-w-2xl leading-tight line-clamp-2">{vendor.description}</p>
-          </div>
         </div>
 
         <div className="px-4 sm:px-8 pb-6 sm:pb-8 relative z-30 -mt-8 sm:-mt-16">
@@ -90,6 +94,15 @@ const VendorDetailPage: React.FC = () => {
                   <span className="text-3xl sm:text-5xl font-black">{vendor.shop_name?.charAt(0)}</span>
                 </div>
               )}
+            </div>
+            <div className="flex-1 pb-2">
+              <div className="flex flex-wrap items-center gap-3 mb-2">
+                <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight">{vendor.shop_name}</h1>
+                <span className="px-3 py-1 rounded-xl text-[10px] font-black uppercase tracking-widest bg-orange-600 text-white shadow-lg shadow-orange-600/20">
+                  {vendor.category}
+                </span>
+              </div>
+              <p className="text-slate-500 text-xs sm:text-base font-bold max-w-2xl leading-tight mb-4">{vendor.description}</p>
             </div>
             <div className="flex flex-wrap items-center gap-2 sm:gap-4 pb-2">
               <div className="flex items-center gap-2 px-3 sm:px-5 py-2 rounded-xl bg-orange-50 text-orange-700 border border-orange-100 shadow-sm">

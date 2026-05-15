@@ -16,6 +16,7 @@ class VendorUpdate(BaseModel):
     location: Optional[str] = None
     category: Optional[str] = None
     image_url: Optional[str] = None
+    cover_image_url: Optional[str] = None
 
 
 @router.get("/")
