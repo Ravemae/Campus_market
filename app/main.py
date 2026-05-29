@@ -46,12 +46,12 @@ async def global_exception_handler(request: Request, exc: Exception):
 @app.on_event("startup")
 def on_startup():
     create_db()
-    import os
-    if not os.path.exists("seeded.txt"):
-        from seed import seed
-        seed()
-        with open("seeded.txt", "w") as f:
-            f.write("seeded")
+    # seeding disabled to prevent duplicate entries in supabase during development
+    # if not os.path.exists("seeded.txt"):
+    #     from seed import seed
+    #     seed()
+    #     with open("seeded.txt", "w") as f:
+    #         f.write("seeded")
 
 
 # Mount static files for uploaded images
