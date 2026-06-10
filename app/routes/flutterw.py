@@ -3,9 +3,7 @@ from sqlmodel import Session, select
 from app.database import get_session
 from app.models.order import Order
 from app.models.user import User
-from app.core.dependencies import get_optional_current_user
 from pydantic import BaseModel
-from typing import Optional
 from dotenv import load_dotenv
 import uuid as uuid_lib
 import httpx
@@ -18,16 +16,10 @@ router = APIRouter(prefix="/flutterwave", tags=["Flutterwave Payment"])
 FLW_SECRET = os.getenv("FLUTTERWAVE_SECRET_KEY")
 FLW_BASE = "https://api.flutterwave.com/v3"
 
-# Fallback values for anonymous tippers
-TIP_FALLBACK_EMAIL = "tip@quickmartapp.com.ng"
-TIP_FALLBACK_NAME = "QuickMart Supporter"
-
-
 class TipRequest(BaseModel):
     amount: float
-    email: Optional[str] = None
-    name: Optional[str] = None
-
+    email: str
+    name: str = "QuickMart Supporter"
 
 @router.post("/initialize/{order_id}")
 async def initialize_flutterwave_payment(
@@ -37,7 +29,7 @@ async def initialize_flutterwave_payment(
     order = session.get(Order, order_id)
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
-
+    
     user = session.get(User, order.user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -46,7 +38,7 @@ async def initialize_flutterwave_payment(
         "Authorization": f"Bearer {FLW_SECRET}",
         "Content-Type": "application/json"
     }
-
+    
     payload = {
         "tx_ref": f"quickmart_{order_id[:8]}",
         "amount": str(order.total_amount),
@@ -69,24 +61,18 @@ async def initialize_flutterwave_payment(
             json=payload,
             headers=headers
         )
-
+    
     data = res.json()
     print(f"Flutterwave response: {data}")
-
+    
     if data.get("status") == "success":
         order.payment_reference = payload["tx_ref"]
         session.commit()
-
         return {
             "payment_url": data["data"]["link"],
             "reference": payload["tx_ref"]
         }
-
-    raise HTTPException(
-        status_code=400,
-        detail=f"Payment failed: {data.get('message')}"
-    )
-
+    raise HTTPException(status_code=400, detail=f"Payment failed: {data.get('message')}")
 
 @router.get("/verify/{tx_ref}")
 async def verify_flutterwave_payment(
@@ -103,77 +89,43 @@ async def verify_flutterwave_payment(
             f"{FLW_BASE}/transactions/verify_by_reference?tx_ref={tx_ref}",
             headers=headers
         )
-
+    
     data = res.json()
     print(f"Flutterwave verify response: {data}")
-
-    if (
-        data.get("status") == "success"
-        and data["data"]["status"] == "successful"
-    ):
+    
+    if data.get("status") == "success" and data["data"]["status"] == "successful":
         order = session.exec(
             select(Order).where(Order.payment_reference == tx_ref)
         ).first()
-
         if order:
             order.is_paid = True
             order.status = "confirmed"
             session.commit()
-
         return {
             "message": "Payment successful",
             "amount": data["data"]["amount"],
             "currency": data["data"]["currency"],
             "customer": data["data"]["customer"]
         }
-
-    raise HTTPException(
-        status_code=400,
-        detail="Payment verification failed"
-    )
-
+    raise HTTPException(status_code=400, detail="Payment verification failed")
 
 @router.post("/tip")
-async def tip_flutterwave(
-    tip: TipRequest,
-    current_user: Optional[User] = Depends(get_optional_current_user)
-):
-    if tip.amount < 100:
-        raise HTTPException(
-            status_code=400,
-            detail="Minimum tip amount is ₦100"
-        )
-
-    # Priority:
-    # Logged-in user -> Request data -> Fallback values
-
-    email = (
-        (current_user.email if current_user else None)
-        or tip.email
-        or TIP_FALLBACK_EMAIL
-    )
-
-    name = (
-        (current_user.full_name if current_user else None)
-        or tip.name
-        or TIP_FALLBACK_NAME
-    )
-
+async def tip_flutterwave(data: TipRequest):
+    if data.amount < 100:
+        raise HTTPException(status_code=400, detail="Minimum tip amount is \u20A6100")
     headers = {
         "Authorization": f"Bearer {FLW_SECRET}",
         "Content-Type": "application/json"
     }
-
     tx_ref = f"tip_{str(uuid_lib.uuid4())[:8]}"
-
     payload = {
         "tx_ref": tx_ref,
-        "amount": str(tip.amount),
+        "amount": str(data.amount),
         "currency": "NGN",
         "redirect_url": "https://quickmartapp.com.ng/tip/success",
         "customer": {
-            "email": email,
-            "name": name
+            "email": data.email,
+            "name": data.name
         },
         "customizations": {
             "title": "Support QuickMart",
@@ -181,28 +133,20 @@ async def tip_flutterwave(
             "logo": "https://quickmartapp.com.ng/logo.png"
         }
     }
-
     async with httpx.AsyncClient() as client:
         res = await client.post(
             f"{FLW_BASE}/payments",
             json=payload,
             headers=headers
         )
-
     response = res.json()
     print(f"Tip Flutterwave response: {response}")
-
     if response.get("status") == "success":
         return {
             "payment_url": response["data"]["link"],
             "reference": tx_ref
         }
-
-    raise HTTPException(
-        status_code=400,
-        detail=f"Tip payment failed: {response.get('message')}"
-    )
-
+    raise HTTPException(status_code=400, detail="Tip payment initialization failed")
 
 @router.get("/tip/verify/{tx_ref}")
 async def verify_tip_flutterwave(tx_ref: str):
@@ -210,26 +154,16 @@ async def verify_tip_flutterwave(tx_ref: str):
         "Authorization": f"Bearer {FLW_SECRET}",
         "Content-Type": "application/json"
     }
-
     async with httpx.AsyncClient() as client:
         res = await client.get(
             f"{FLW_BASE}/transactions/verify_by_reference?tx_ref={tx_ref}",
             headers=headers
         )
-
     data = res.json()
-
-    if (
-        data.get("status") == "success"
-        and data["data"]["status"] == "successful"
-    ):
+    if data.get("status") == "success" and data["data"]["status"] == "successful":
         return {
             "message": "Thank you for supporting QuickMart!",
             "amount": data["data"]["amount"],
             "reference": tx_ref
         }
-
-    raise HTTPException(
-        status_code=400,
-        detail="Tip verification failed"
-    )
+    # raise HTTPException(status_code=400, detail="Tip verification failed")

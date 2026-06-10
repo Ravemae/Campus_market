@@ -3,7 +3,9 @@ from sqlmodel import Session, select
 from app.database import get_session
 from app.models.order import Order
 from app.models.user import User
+from app.core.dependencies import get_optional_current_user
 from pydantic import BaseModel
+from typing import Optional
 import httpx
 from dotenv import load_dotenv
 import uuid as uuid_lib
@@ -16,10 +18,19 @@ router = APIRouter(prefix="/payment", tags=["Paystack Payment"])
 PAYSTACK_SECRET = os.getenv("PAYSTACK_SECRET_KEY")
 PAYSTACK_BASE = "https://api.paystack.co"
 
+# Fallback email used when tipper is not logged in.
+# Paystack requires an email on every transaction — we use a placeholder
+# so anonymous users never need to provide one.
+TIP_FALLBACK_EMAIL = "tip@quickmartapp.com.ng"
+TIP_FALLBACK_NAME = "QuickMart Supporter"
+
+
 class TipRequest(BaseModel):
     amount: float
-    email: str
-    name: str = "QuickMart Supporter"
+    # email and name are now optional — backend fills them in automatically
+    email: Optional[str] = None
+    name: Optional[str] = None
+
 
 @router.post("/initialize/{order_id}")
 async def initialize_payment(order_id: str, session: Session = Depends(get_session)):
@@ -53,6 +64,7 @@ async def initialize_payment(order_id: str, session: Session = Depends(get_sessi
         }
     raise HTTPException(status_code=400, detail="Payment initialization failed")
 
+
 @router.get("/verify/{reference}")
 async def verify_payment(reference: str, session: Session = Depends(get_session)):
     headers = {"Authorization": f"Bearer {PAYSTACK_SECRET}"}
@@ -73,20 +85,37 @@ async def verify_payment(reference: str, session: Session = Depends(get_session)
         return {"message": "Payment successful", "data": data["data"]}
     raise HTTPException(status_code=400, detail="Payment verification failed")
 
+
 @router.post("/tip/paystack")
-async def tip_paystack(data: TipRequest):
-    if data.amount < 100:
-        raise HTTPException(status_code=400, detail="Minimum tip amount is \u20A6100")
+async def tip_paystack(
+    tip: TipRequest,
+    current_user: Optional[User] = Depends(get_optional_current_user)
+):
+    if tip.amount < 100:
+        raise HTTPException(status_code=400, detail="Minimum tip amount is ₦100")
+
+    # Priority: logged-in user email > manually provided email > fallback placeholder
+    email = (
+        (current_user.email if current_user else None)
+        or tip.email
+        or TIP_FALLBACK_EMAIL
+    )
+    name = (
+        (current_user.full_name if current_user else None)
+        or tip.name
+        or TIP_FALLBACK_NAME
+    )
+
     headers = {"Authorization": f"Bearer {PAYSTACK_SECRET}"}
     payload = {
-        "amount": int(data.amount * 100),
-        "email": data.email,
+        "amount": int(tip.amount * 100),  # convert naira to kobo
+        "email": email,
         "reference": f"tip_{str(uuid_lib.uuid4())[:8]}",
         "callback_url": "https://quickmartapp.com.ng/tip/success",
         "metadata": {
             "custom_fields": [
                 {"display_name": "Payment Type", "variable_name": "payment_type", "value": "tip"},
-                {"display_name": "Supporter Name", "variable_name": "name", "value": data.name}
+                {"display_name": "Supporter Name", "variable_name": "name", "value": name}
             ]
         }
     }
@@ -103,7 +132,8 @@ async def tip_paystack(data: TipRequest):
             "payment_url": response["data"]["authorization_url"],
             "reference": response["data"]["reference"]
         }
-    raise HTTPException(status_code=400, detail="Tip payment initialization failed")
+    raise HTTPException(status_code=400, detail=f"Tip payment failed: {response.get('message')}")
+
 
 @router.get("/tip/paystack/verify/{reference}")
 async def verify_tip_paystack(reference: str):
