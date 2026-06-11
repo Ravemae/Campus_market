@@ -20,6 +20,9 @@ export interface Vendor {
   image_url?: string;
   is_active: boolean;
   is_approved: boolean;
+  is_featured?: boolean;
+  featured_tier?: string;
+  featured_until?: string;
 }
 
 export interface Product {

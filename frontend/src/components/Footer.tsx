@@ -14,19 +14,19 @@ function DonationModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => vo
   const user = useAuthStore((s) => s.user);
   const [amount, setAmount] = useState<number>(1000);
   const [customAmount, setCustomAmount] = useState('');
-  const [gateway, setGateway] = useState<'paystack' | 'flutterwave'>('paystack');
+  const [gateway, setGateway] = useState<'paystack' | 'flutterwave'>('flutterwave');
 
   const finalAmount = customAmount ? parseInt(customAmount) : amount;
 
   // Paystack Config
-  const paystackConfig = {
-    reference: (new Date()).getTime().toString(),
-    email: user?.email || 'donor@example.com',
-    amount: finalAmount * 100, // kobo
-    publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || 'pk_test_placeholder',
-  };
+  // const paystackConfig = {
+  //   reference: (new Date()).getTime().toString(),
+  //   email: user?.email || 'donor@example.com',
+  //   amount: finalAmount * 100, // kobo
+  //   publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || 'pk_test_placeholder',
+  // };
 
-  const initializePaystack = usePaystackPayment(paystackConfig);
+  // const initializePaystack = usePaystackPayment(paystackConfig);
 
   // Flutterwave Config
   const fwConfig = {
@@ -55,12 +55,13 @@ function DonationModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => vo
       return;
     }
 
-    if (gateway === 'paystack') {
-      initializePaystack({
-        onSuccess: () => { alert('Thank you for your donation!'); onClose(); },
-        onClose: () => alert('Payment cancelled.'),
-      });
-    } else {
+    // if (gateway === 'paystack') {
+    //   initializePaystack({
+    //     onSuccess: () => { alert('Thank you for your donation!'); onClose(); },
+    //     onClose: () => alert('Payment cancelled.'),
+    //   });
+    // } else {
+      
       handleFlutterwavePayment({
         callback: (response: any) => {
           console.log(response);
@@ -70,7 +71,7 @@ function DonationModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => vo
         },
         onClose: () => {},
       });
-    }
+
   };
 
   return (
@@ -130,15 +131,15 @@ function DonationModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => vo
             </div>
 
             {/* Gateway Selection */}
-            <div className="flex gap-4 mb-8">
-              <button 
+            <div className="flex gap-2 mb-8">
+              {/* <button 
                 onClick={() => setGateway('paystack')}
                 className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest border-2 transition-all ${
                   gateway === 'paystack' ? 'border-orange-500 bg-orange-50 text-orange-600' : 'border-slate-100 text-slate-400'
                 }`}
               >
                 Paystack
-              </button>
+              </button> */}
               <button 
                 onClick={() => setGateway('flutterwave')}
                 className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest border-2 transition-all ${
