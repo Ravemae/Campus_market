@@ -23,14 +23,14 @@ function DonationModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => vo
     reference: (new Date()).getTime().toString(),
     email: user?.email || 'donor@example.com',
     amount: finalAmount * 100, // kobo
-    publicKey: 'pk_test_placeholder', // Should be in .env
+    publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || 'pk_test_placeholder',
   };
 
   const initializePaystack = usePaystackPayment(paystackConfig);
 
   // Flutterwave Config
   const fwConfig = {
-    public_key: 'FLWPUBK_TEST-placeholder',
+    public_key: import.meta.env.VITE_FLUTTERWAVE_PUBLIC_KEY || 'FLWPUBK_TEST-placeholder',
     tx_ref: Date.now().toString(),
     amount: finalAmount,
     currency: 'NGN',
