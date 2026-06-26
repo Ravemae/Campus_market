@@ -43,9 +43,9 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={"detail": str(exc)}
     )
 
-@app.get("/health")
-def health():
-    return {"status": "healthy"}
+# @app.get("/health")
+# def health():
+#     return {"status": "healthy"}
 
 @app.on_event("startup")
 def on_startup():
