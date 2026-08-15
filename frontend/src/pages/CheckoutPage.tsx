@@ -168,16 +168,16 @@ const CheckoutPage: React.FC = () => {
 
             <div className="mt-8 space-y-3">
               <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] text-center">Choose Payment</p>
-              <button type="button" onClick={() => handleCheckout('paystack')} disabled={isSubmitting}
+              {/* <button type="button" onClick={() => handleCheckout('paystack')} disabled={isSubmitting}
                 className="w-full bg-[#0BA4DB] hover:bg-[#0993C7] disabled:opacity-50 text-white font-black py-4 rounded-2xl shadow-lg shadow-[#0BA4DB]/25 transition-all active:scale-95 flex items-center justify-center gap-2 text-xs uppercase tracking-widest">
                 {isSubmitting && paymentMethod === 'paystack' ? (<><svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>Processing...</>) : (<>Pay with Paystack</>)}
-              </button>
+              </button> */}
               <button type="button" onClick={() => handleCheckout('flutterwave')} disabled={isSubmitting}
                 className="w-full bg-[#F5A623] hover:bg-[#E09B1D] disabled:opacity-50 text-white font-black py-4 rounded-2xl shadow-lg shadow-[#F5A623]/25 transition-all active:scale-95 flex items-center justify-center gap-2 text-xs uppercase tracking-widest">
                 {isSubmitting && paymentMethod === 'flutterwave' ? (<><svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>Processing...</>) : (<>Pay with Flutterwave</>)}
               </button>
             </div>
-            <p className="mt-6 text-[8px] font-bold text-slate-400 uppercase tracking-widest text-center">Secured by Paystack & Flutterwave</p>
+            <p className="mt-6 text-[8px] font-bold text-slate-400 uppercase tracking-widest text-center">Secured by Flutterwave</p>
           </div>
         </div>
       </div>
