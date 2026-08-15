@@ -43,7 +43,7 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={"detail": str(exc)}
     )
 
-@app.get("/health")
+@app.api_route("/health", methods=["GET", "HEAD"])
 def health():
     return {"status": "healthy"}
 
